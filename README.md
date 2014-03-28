@@ -9,7 +9,6 @@ Let's take a look at an example:
 
 1. Create a layout file(res/layout/page_main.xml) for the Page:
 
-````
     <?xml version="1.0" encoding="utf-8"?>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
@@ -24,11 +23,9 @@ Let's take a look at an example:
                 />
 
     </LinearLayout>
-````
 
 2. Create a `Page`:
 
-````
     @PageLayout(R.layout.page_main)
     public class MainPage extends Page {
         @InjectView(R.id.tv_text)
@@ -40,11 +37,9 @@ Let's take a look at an example:
             mTvText.setText("Hello Paginize!");
         }
     }
-````
 
 3. Create an Activity that extends `PageActivity`, and show the Page we just created above:
 
-````
     @InjectPageAnimationManager(SlidePageAnimationManager.class)
     public class MainActivity extends PageActivity {
         @Override
@@ -54,7 +49,6 @@ Let's take a look at an example:
             new MainPage(this).show();
         }
     }
-````
 
 That's all for using **Paginize** to make a one screen application. Here you may find that it is sort of more hassle than just use Activity, but **Paginize** is only useful when you use it to make more complicated applications, you see the advantages of it when you use it to structure a real application.
 
@@ -73,8 +67,7 @@ You may want to compare **Paginize** with Fragment, well I didn't mean to write 
 
 Under MIT license
 -----------------
-````
+
     Copyright (c) 2014 neevek <i at neevek.net>
 
     See the file license.txt for copying permission.
-````
