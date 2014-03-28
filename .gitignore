@@ -1,0 +1,13 @@
+bin/
+gen/
+obj/
+proguard/
+.classpath
+.project
+.DS_Store
+.settings
+local.properties
+Paginize.iml
+.idea/
+out
+*.out

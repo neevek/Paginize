@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="#ffff"
+              android:orientation="vertical" >
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Paginize helps encapsulate logically independent business units in a manageable way, so you can focus on the business logics itself."
+            android:gravity="center"
+            android:textSize="21dp"
+            android:padding="12dp"
+            android:textColor="#f000"
+            />
+
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            />
+
+
+</LinearLayout>
