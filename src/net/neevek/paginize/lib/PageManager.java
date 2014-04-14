@@ -25,6 +25,7 @@ public class PageManager {
 
     private LinkedList<Page> mPageStack = new LinkedList<Page>();
     private Page mCurPage;
+    private boolean mAnimating;
 
     private PageAnimationManager mPageAnimationManager;
 
@@ -41,6 +42,18 @@ public class PageManager {
         mPageAnimationManager = pageAnimationManager;
     }
 
+    public void pushPage(Page page) {
+        pushPage(page, null, false);
+    }
+
+    public void pushPage(Page page, Object arg, boolean animated) {
+        pushPage(page, arg, animated, false);
+    }
+
+    /**
+     * @param animated
+     * @param hint true=left, false=right
+     */
     public void pushPage(final Page page, final Object arg, boolean animated, boolean hint) {
         Page.TYPE pageType = page.getType();
         Page oldPage = mCurPage;
@@ -70,9 +83,11 @@ public class PageManager {
         mContainerView.addView(currentPageView);
 
         if (animated && mPageAnimationManager != null) {
+            mAnimating = true;
             mCurPage.getView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    mAnimating = false;
                     page.onShown(arg);
                 }
             }, mPageAnimationManager.getAnimationDuration());
@@ -81,58 +96,55 @@ public class PageManager {
         }
     }
 
+    public void popPage() {
+        popPage(false, false);
+    }
+
+    /**
+     * @param animated
+     * @param hint true=left, false=right
+     */
     public void popPage(boolean animated, boolean hint) {
         popTopNPages(1, animated, hint);
     }
 
     public void popTopNPages(int n, boolean animated, boolean hint) {
-        if (mPageStack.size() > 0) {
-            Page oldPage = mPageStack.removeLast();
-            --n;    // for mPageStack.removeLast() above
-
-            while (--n >= 0) {
-                Page page = mPageStack.removeLast();
-                page.onHidden();
-            }
-
-            popPageInternal(oldPage, animated, hint);
+        if (n <= 0 || mAnimating || mPageStack.size() <= 0) {
+            return;
         }
+
+        Page oldPage = mPageStack.removeLast();
+        --n;    // for mPageStack.removeLast() above
+
+        while (--n >= 0) {
+            Page page = mPageStack.removeLast();
+            page.onHidden();
+        }
+
+        popPageInternal(oldPage, animated, hint);
     }
 
     public void popPagesTillSpecifiedPage(Page destPage, boolean animated, boolean hint) {
-        if (mPageStack.size() > 0) {
-            if (mPageStack.peekLast() == destPage) {
-                return;
-            }
-
-            Page oldPage = mPageStack.removeLast();
-
-            while (mPageStack.size() > 1) {
-                if (mPageStack.peekLast() == destPage) {
-                    break;
-                }
-
-                Page page = mPageStack.removeLast();
-                page.onHidden();
-            }
-
-            popPageInternal(oldPage, animated, hint);
+        if (mAnimating || mPageStack.size() <= 0 || mPageStack.peekLast() == destPage) {
+            return;
         }
+
+        Page oldPage = mPageStack.removeLast();
+
+        while (mPageStack.size() > 1) {
+            Page page = mPageStack.removeLast();
+            page.onHidden();
+
+            if (mPageStack.peekLast() == destPage) {
+                break;
+            }
+        }
+
+        popPageInternal(oldPage, animated, hint);
     }
 
     private void popPageInternal(final Page oldPage, boolean animated, boolean hint) {
-        if (animated && mPageAnimationManager != null) {
-            oldPage.getView().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    oldPage.onHidden();
-                }
-            }, mPageAnimationManager.getAnimationDuration());
-        } else {
-            oldPage.onHidden();
-        }
-
-        if (mPageStack.size() > 0) {
+        if (mPageStack.size() > 0) {    // this check is always necessary
             mCurPage = mPageStack.getLast();
             View currentPageView = mCurPage.getView();
 
@@ -158,13 +170,32 @@ public class PageManager {
                 currentPageView.requestFocus();
             }
 
-            mCurPage.onUncovered(oldPage.getReturnData());
-
         } else {
             mCurPage = null;
 
             if (animated && mPageAnimationManager != null) {
                 mPageAnimationManager.onPopPageAnimation(oldPage.getView(), null, hint);
+            }
+        }
+
+        if (animated && mPageAnimationManager != null) {
+            mAnimating = true;
+            oldPage.getView().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mAnimating = false;
+                    oldPage.onHidden();
+
+                    if (mCurPage != null) {
+                        mCurPage.onUncovered(oldPage.getReturnData());
+                    }
+                }
+            }, mPageAnimationManager.getAnimationDuration());
+        } else {
+            oldPage.onHidden();
+
+            if (mCurPage != null) {
+                mCurPage.onUncovered(oldPage.getReturnData());
             }
         }
     }
@@ -228,5 +259,9 @@ public class PageManager {
 
     boolean isPageKeptInStack(Page page) {
         return mPageStack.indexOf(page) != -1;
+    }
+
+    public LinkedList<Page> getPageStack() {
+        return mPageStack;
     }
 }
