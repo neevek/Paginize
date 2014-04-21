@@ -23,21 +23,33 @@ public abstract class InnerPageContainer extends Page {
 
         Class clazz = getClass();
 
-        InnerPageContainerLayoutResId resIdAnnotation = (InnerPageContainerLayoutResId)clazz.getAnnotation(InnerPageContainerLayoutResId.class);
+        InnerPageContainerLayoutResId resIdAnnotation = null;
+
+        try {
+            do {
+                if (clazz.isAnnotationPresent(InnerPageContainerLayoutResId.class)) {
+                    resIdAnnotation = (InnerPageContainerLayoutResId)clazz.getAnnotation(InnerPageContainerLayoutResId.class);
+                    break;
+                }
+            } while ((clazz = clazz.getSuperclass()) != InnerPageContainer.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InjectFailedException(e);
+        }
+
         if (resIdAnnotation == null) {
             throw new IllegalStateException("Must specify a layout for InnerPageContainer with the @InnerPageContainerLayoutResId annotation.");
         }
 
-        if (resIdAnnotation != null) {
-            View container = getView().findViewById(resIdAnnotation.value());
-            if (container == null) {
-                throw new IllegalStateException("Can not find the layout with the specified resource ID: " + resIdAnnotation.value());
-            }
-            if (!(container instanceof ViewGroup)) {
-                throw new IllegalStateException("The specified layout for InnerPageContainer is not of type ViewGroup.");
-            }
-            mInnerPageManager = new InnerPageManager((ViewGroup)container);
+        View container = getView().findViewById(resIdAnnotation.value());
+        if (container == null) {
+            throw new IllegalStateException("Can not find the layout with the specified resource ID: " + resIdAnnotation.value());
         }
+        if (!(container instanceof ViewGroup)) {
+            throw new IllegalStateException("The specified layout for InnerPageContainer is not of type ViewGroup.");
+        }
+        mInnerPageManager = new InnerPageManager((ViewGroup)container);
     }
 
     public InnerPageManager getInnerPageManager() {
