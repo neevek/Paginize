@@ -32,7 +32,17 @@ public class AnnotationUtils {
 
             String methodName = sSetListenerMethodMap.get(listenerClass);
             if (methodName == null) {
-                methodName = "set" + listenerClass.getSimpleName();
+                methodName = listenerClass.getSimpleName();
+
+                // for interfaces from android.support.v4.**, Class.getSimpleName() may return names that contain the dollar sign
+                // I have no idea whether this is a bug, the following workaround fixes the problem
+                int index = methodName.lastIndexOf('$');
+                if (index != -1) {
+                    methodName = methodName.substring(index + 1);
+                }
+                methodName = "set" + methodName;
+
+                sSetListenerMethodMap.put(listenerClass, methodName);
             }
 
             try {
