@@ -23,11 +23,13 @@
 -renamesourcefileattribute ProGuard
 -keepattributes SourceFile,LineNumberTable
 
--keep class net.neevek.androidpage.page.PageActivity
--keep class net.neevek.androidpage.page.anim.*
+-keep interface android.support.v4.**
 
--keepclassmembers class net.neevek.androidpage.** {
+-keep class net.neevek.paginize.page.PageActivity
+-keep class net.neevek.paginize.page.anim.*
+
+-keepclassmembers class net.neevek.paginize.** {
      public <init>(android.view.ViewGroup);
-     public <init>(net.neevek.androidpage.page.PageActivity);
-     @net.neevek.androidpage.page.annotation.** <fields>;
+     public <init>(net.neevek.paginize.page.PageActivity);
+     @net.neevek.paginize.page.annotation.** <fields>;
 }
