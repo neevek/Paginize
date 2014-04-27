@@ -1,7 +1,6 @@
 package net.neevek.paginize.lib;
 
 import android.content.Intent;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.paginize.lib.anim.PageAnimationManager;
@@ -50,50 +49,45 @@ public class PageManager {
         pushPage(page, arg, animated, false);
     }
 
-    /**
-     * @param animated
-     * @param hint true=left, false=right
-     */
-    public void pushPage(final Page page, final Object arg, boolean animated, boolean hint) {
-        Page.TYPE pageType = page.getType();
+    public void pushPage(final Page newPage, final Object arg, boolean animated, boolean hint) {
         Page oldPage = mCurPage;
 
         if (oldPage != null) {
-            if (page.keepSingleInstance() && page.getClass() == oldPage.getClass()) {
-                mPageStack.removeLast().onHidden();
+            if (newPage.keepSingleInstance() && newPage.getClass() == oldPage.getClass()) {
+                oldPage.onHidden();
+                mContainerView.removeView(oldPage.getView());
 
             } else {
                 oldPage.onCovered();
+                if (newPage.getType() != Page.TYPE.TYPE_DIALOG) {
+                    oldPage.getView().setVisibility(View.GONE);
+                }
             }
         }
 
-        mCurPage = page;
-        mPageStack.addLast(mCurPage);
-        View currentPageView = mCurPage.getView();
+        View newPageView = newPage.getView();
 
         if (animated && mPageAnimationManager != null) {
-            mPageAnimationManager.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, currentPageView, hint);
+            mPageAnimationManager.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPageView, hint);
         }
 
-        int viewCount = mContainerView.getChildCount();
-
-        if (viewCount > 0 && pageType == Page.TYPE.TYPE_NORMAL)
-            mContainerView.removeViewAt(viewCount - 1);
-
-        mContainerView.addView(currentPageView);
+        mContainerView.addView(newPageView);
 
         if (animated && mPageAnimationManager != null) {
             mAnimating = true;
-            mCurPage.getView().postDelayed(new Runnable() {
+            newPage.getView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mAnimating = false;
-                    page.onShown(arg);
+                    newPage.onShown(arg);
                 }
             }, mPageAnimationManager.getAnimationDuration());
         } else {
-            page.onShown(arg);
+            newPage.onShown(arg);
         }
+
+        mCurPage = newPage;
+        mPageStack.addLast(newPage);
     }
 
     public void popPage() {
@@ -119,12 +113,17 @@ public class PageManager {
         while (--n >= 0) {
             Page page = mPageStack.removeLast();
             page.onHidden();
+            mContainerView.removeView(page.getView());
         }
 
         popPageInternal(oldPage, animated, hint);
     }
 
     public void popPagesTillSpecifiedPage(Page destPage, boolean animated, boolean hint) {
+        if (destPage == null) {
+            throw new IllegalArgumentException("cannot call popPagesTillSpecifiedPage() with null destPage.");
+        }
+
         if (mAnimating || mPageStack.size() <= 0 || mPageStack.peekLast() == destPage) {
             return;
         }
@@ -134,6 +133,7 @@ public class PageManager {
         while (mPageStack.size() > 1) {
             Page page = mPageStack.removeLast();
             page.onHidden();
+            mContainerView.removeView(page.getView());
 
             if (mPageStack.peekLast() == destPage) {
                 break;
@@ -143,61 +143,51 @@ public class PageManager {
         popPageInternal(oldPage, animated, hint);
     }
 
-    private void popPageInternal(final Page oldPage, boolean animated, boolean hint) {
+    private void popPageInternal(final Page removedPage, boolean animated, boolean hint) {
+        final Page prevPage;
         if (mPageStack.size() > 0) {    // this check is always necessary
-            mCurPage = mPageStack.getLast();
-            View currentPageView = mCurPage.getView();
+            prevPage = mPageStack.getLast();
+            View prevPageView = prevPage.getView();
 
             if (animated && mPageAnimationManager != null) {
-                mPageAnimationManager.onPopPageAnimation(oldPage.getView(), currentPageView, hint);
+                mPageAnimationManager.onPopPageAnimation(removedPage.getView(), prevPageView, hint);
             }
 
-            // remove the view of the top page
-            mContainerView.removeViewAt(mContainerView.getChildCount() - 1);
+            mContainerView.removeView(removedPage.getView());
 
-            // if the oldPage is of type TYPE_DIALOG, we don't need
-            // to add the current page view to mContainerView, because it
-            // was never removed, see pushPage.
-            if (oldPage.getType() != Page.TYPE.TYPE_DIALOG)
-                mContainerView.addView(currentPageView);
+            prevPageView.setVisibility(View.VISIBLE);
 
-            if (Build.VERSION.SDK_INT <= 15) {
-                // this is a hack that fixed a problem that on some 4.0.4 devices(Galaxy S3, MIUI 4.0.4)
-                // ListView items may not be clickable when the View is brought to the top
-                currentPageView.setVisibility(View.GONE);
-                currentPageView.setVisibility(View.VISIBLE);
-            } else {
-                currentPageView.requestFocus();
-            }
-
+            mCurPage = prevPage;
         } else {
-            mCurPage = null;
+            prevPage = null;
 
             if (animated && mPageAnimationManager != null) {
-                mPageAnimationManager.onPopPageAnimation(oldPage.getView(), null, hint);
+                mPageAnimationManager.onPopPageAnimation(removedPage.getView(), null, hint);
             }
         }
 
         if (animated && mPageAnimationManager != null) {
             mAnimating = true;
-            oldPage.getView().postDelayed(new Runnable() {
+            removedPage.getView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mAnimating = false;
-                    oldPage.onHidden();
+                    removedPage.onHidden();
 
-                    if (mCurPage != null) {
-                        mCurPage.onUncovered(oldPage.getReturnData());
+                    if (prevPage != null) {
+                        prevPage .onUncovered(removedPage.getReturnData());
                     }
                 }
             }, mPageAnimationManager.getAnimationDuration());
         } else {
-            oldPage.onHidden();
+            removedPage.onHidden();
 
-            if (mCurPage != null) {
-                mCurPage.onUncovered(oldPage.getReturnData());
+            if (prevPage != null) {
+                prevPage.onUncovered(removedPage.getReturnData());
             }
         }
+
+        mCurPage = prevPage;
     }
 
     public boolean onBackPressed() {

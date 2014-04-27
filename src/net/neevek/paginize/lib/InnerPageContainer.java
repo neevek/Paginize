@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.paginize.lib.annotation.InnerPageContainerLayoutResId;
+import net.neevek.paginize.lib.exception.InjectFailedException;
 
 /**
  * An InnerPageContainer is a Page that is used to contain & manage InnerPages

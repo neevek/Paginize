@@ -1,7 +1,6 @@
 package net.neevek.paginize.lib;
 
 import android.content.Intent;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,34 +25,35 @@ public class InnerPageManager {
         mContainerView = containerView;
     }
 
-    public void setPage(InnerPage page, Object data) {
-        if (page == mCurPage) {
+    public void setPage(InnerPage newPage, Object data) {
+        InnerPage oldPage = mCurPage;
+        if (newPage == oldPage) {
             return;
         }
 
-        if (mCurPage != null) {
-            mCurPage.onReplaced();
+        if (oldPage != null) {
+            oldPage.onReplaced();
+            oldPage.getView().setVisibility(View.GONE);
         }
 
-        if (mContainerView.getChildCount() > 0)
-            mContainerView.removeViewAt(0);
+        if (newPage != null) {
+            View newPageView = newPage.getView();
 
-        mCurPage = page;
-        if (mCurPage != null) {
-            mCurPage.getView().requestFocus();
-            if (Build.VERSION.SDK_INT <= 15) {
-                // this is a hack that fixed a problem that on some 4.0.4 devices(Galaxy S3, MIUI 4.0.4)
-                // ListView items may not be clickable when the View is brought to the top
-                mCurPage.getView().setVisibility(View.GONE);
-                mCurPage.getView().setVisibility(View.VISIBLE);
+            if (mContainerView.indexOfChild(newPageView) == -1) {
+                mContainerView.addView(newPageView);
             }
+
+            newPageView.bringToFront();
+            newPageView.setVisibility(View.VISIBLE);
+            newPage.onSet(data);
         }
 
-        if (page != null) {
-            View currentPageView = mCurPage.getView();
-            mContainerView.addView(currentPageView);
-            mCurPage.onSet(data);
-        }
+        mCurPage = newPage;
+    }
+
+    // this method is rarely needed
+    public void removePage(InnerPage page) {
+        mContainerView.removeView(page.getView());
     }
 
     public void unsetPage() {
