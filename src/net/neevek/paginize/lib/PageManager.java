@@ -153,11 +153,7 @@ public class PageManager {
                 mPageAnimationManager.onPopPageAnimation(removedPage.getView(), prevPageView, hint);
             }
 
-            mContainerView.removeView(removedPage.getView());
-
             prevPageView.setVisibility(View.VISIBLE);
-
-            mCurPage = prevPage;
         } else {
             prevPage = null;
 
@@ -165,6 +161,8 @@ public class PageManager {
                 mPageAnimationManager.onPopPageAnimation(removedPage.getView(), null, hint);
             }
         }
+
+        mContainerView.removeView(removedPage.getView());
 
         if (animated && mPageAnimationManager != null) {
             mAnimating = true;
