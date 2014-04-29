@@ -50,28 +50,34 @@ public class PageManager {
     }
 
     public void pushPage(final Page newPage, final Object arg, boolean animated, boolean hint) {
+        if (newPage == mCurPage) {
+            return;
+        }
+
         Page oldPage = mCurPage;
+
+        mCurPage = newPage;
+        mPageStack.addLast(newPage);
+        mContainerView.addView(newPage.getView());
 
         if (oldPage != null) {
             if (newPage.keepSingleInstance() && newPage.getClass() == oldPage.getClass()) {
-                oldPage.onHidden();
+                mPageStack.removeLastOccurrence(oldPage);
                 mContainerView.removeView(oldPage.getView());
 
+                oldPage.onHidden();
             } else {
-                oldPage.onCovered();
                 if (newPage.getType() != Page.TYPE.TYPE_DIALOG) {
                     oldPage.getView().setVisibility(View.GONE);
                 }
+
+                oldPage.onCovered();
             }
         }
 
-        View newPageView = newPage.getView();
-
         if (animated && mPageAnimationManager != null) {
-            mPageAnimationManager.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPageView, hint);
+            mPageAnimationManager.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), hint);
         }
-
-        mContainerView.addView(newPageView);
 
         if (animated && mPageAnimationManager != null) {
             mAnimating = true;
@@ -85,9 +91,6 @@ public class PageManager {
         } else {
             newPage.onShown(arg);
         }
-
-        mCurPage = newPage;
-        mPageStack.addLast(newPage);
     }
 
     public void popPage() {
@@ -112,8 +115,8 @@ public class PageManager {
 
         while (--n >= 0) {
             Page page = mPageStack.removeLast();
-            page.onHidden();
             mContainerView.removeView(page.getView());
+            page.onHidden();
         }
 
         popPageInternal(oldPage, animated, hint);
@@ -132,8 +135,8 @@ public class PageManager {
 
         while (mPageStack.size() > 1) {
             Page page = mPageStack.removeLast();
-            page.onHidden();
             mContainerView.removeView(page.getView());
+            page.onHidden();
 
             if (mPageStack.peekLast() == destPage) {
                 break;
@@ -164,6 +167,8 @@ public class PageManager {
 
         mContainerView.removeView(removedPage.getView());
 
+        mCurPage = prevPage;
+
         if (animated && mPageAnimationManager != null) {
             mAnimating = true;
             removedPage.getView().postDelayed(new Runnable() {
@@ -184,8 +189,6 @@ public class PageManager {
                 prevPage.onUncovered(removedPage.getReturnData());
             }
         }
-
-        mCurPage = prevPage;
     }
 
     public boolean onBackPressed() {
@@ -251,5 +254,13 @@ public class PageManager {
 
     public LinkedList<Page> getPageStack() {
         return mPageStack;
+    }
+
+    public Page getPage(int index) {
+        if (index < 0 || index >= mPageStack.size()) {
+            return null;
+        }
+
+        return mPageStack.get(index);
     }
 }

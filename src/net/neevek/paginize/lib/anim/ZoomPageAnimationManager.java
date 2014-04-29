@@ -13,7 +13,7 @@ import android.view.animation.ScaleAnimation;
  * Time: 11:06 AM
  */
 public class ZoomPageAnimationManager implements PageAnimationManager {
-    private final static int ANIMATION_DURATION = 250;
+    private final static int ANIMATION_DURATION = 200;
     private Animation mInAnimation;
     private Animation mOutAnimation;
 
@@ -24,15 +24,15 @@ public class ZoomPageAnimationManager implements PageAnimationManager {
     }
 
     private void initAnimations() {
-        Animation inScaleAnimation = new ScaleAnimation(1.2f, 1, 1.2f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        Animation inAlphaAnimation = new AlphaAnimation(0.8f, 1f);
+        Animation inScaleAnimation = new ScaleAnimation(1.1f, 1, 1.1f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        Animation inAlphaAnimation = new AlphaAnimation(0.3f, 1f);
         AnimationSet inAnimationSet = new AnimationSet(true);
         inAnimationSet.setDuration(ANIMATION_DURATION);
         inAnimationSet.addAnimation(inScaleAnimation);
         inAnimationSet.addAnimation(inAlphaAnimation);
         mInAnimation = inAnimationSet;
 
-        Animation outScaleAnimation = new ScaleAnimation(1, 1.3f, 1, 1.3f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        Animation outScaleAnimation = new ScaleAnimation(1, 1.4f, 1, 1.4f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         Animation outAlphaAnimation = new AlphaAnimation(1f, 0f);
         AnimationSet outAnimationSet = new AnimationSet(true);
         outAnimationSet.setDuration(ANIMATION_DURATION);
