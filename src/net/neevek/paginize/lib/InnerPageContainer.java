@@ -57,6 +57,19 @@ public abstract class InnerPageContainer extends Page {
         return mInnerPageManager;
     }
 
+
+    public void setInnerPage(InnerPage newPage, Object data) {
+        mInnerPageManager.setPage(newPage, data);
+    }
+
+    public void unsetInnerPage() {
+        mInnerPageManager.unsetPage();
+    }
+
+    public InnerPage getCurrentInnerPage() {
+        return mInnerPageManager.getCurrentPage();
+    }
+
     @Override
     public void onResume() {
         mInnerPageManager.onResume();

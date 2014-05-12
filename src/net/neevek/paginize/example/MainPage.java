@@ -30,17 +30,17 @@ public class MainPage extends InnerPageContainer implements View.OnClickListener
         super(pageActivity);
 
         mRbNavBtn1.setChecked(true);
-        getInnerPageManager().setPage(mTabPage1, null);
+        setInnerPage(mTabPage1, null);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rb_nav_btn1:
-                getInnerPageManager().setPage(mTabPage1, null);
+                setInnerPage(mTabPage1, null);
                 break;
             case R.id.rb_nav_btn2:
-                getInnerPageManager().setPage(mTabPage2, null);
+                setInnerPage(mTabPage2, null);
                 break;
         }
     }
