@@ -3,7 +3,8 @@ Paginize
 
 Introduction
 ------------
-**Paginize** is a library that eases development of Android applications with unified user interfaces. It abstracts each user interface or screen as a `Page`, which is simply a wrapper of a `View`.
+**Paginize** is a **light-weight** application framework for Android, which eases development of Android applications with complex UI structures.
+It is more than easy to develop an Android application with Paginize to gain unified user interfaces and modular design for free, Paginize abstracts each user interface or screen as a `Page`, which is simply a wrapper of a `View`. Also it is easy to reuse the layout with the `@InheritPageLayout` annotation, it is like the `frameset` tag in HTML.
 
 Let's take a look at an example:
 
