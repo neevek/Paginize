@@ -1,21 +1,23 @@
-package net.neevek.paginize.demo;
+package net.neevek.paginize.demo.pages.other;
 
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import net.neevek.lib.android.paginize.Page;
+import android.widget.Toast;
 import net.neevek.lib.android.paginize.PageActivity;
+import net.neevek.lib.android.paginize.annotation.InheritPageLayout;
 import net.neevek.lib.android.paginize.annotation.InjectPage;
 import net.neevek.lib.android.paginize.annotation.InjectView;
-import net.neevek.lib.android.paginize.annotation.PageLayout;
+import net.neevek.paginize.demo.R;
+import net.neevek.paginize.demo.pages.general.FramePage;
 
 /**
  * Created by neevek on 3/16/14.
  */
 
-@PageLayout(R.layout.page_list)
-public class ListPage extends Page implements AdapterView.OnItemClickListener {
+@InheritPageLayout(R.layout.page_list)
+public class ListPage extends FramePage implements AdapterView.OnItemClickListener {
 
     @InjectView(value = android.R.id.list, listeners = {AdapterView.OnItemClickListener.class})
     private ListView mLvData;
@@ -26,6 +28,8 @@ public class ListPage extends Page implements AdapterView.OnItemClickListener {
 
     public ListPage(PageActivity pageActivity) {
         super(pageActivity);
+
+        setTitle("List Page!");
 
         String[] data = new String[100];
         for (int i = 0; i < 100; ++i) {
@@ -41,5 +45,10 @@ public class ListPage extends Page implements AdapterView.OnItemClickListener {
         mListItemPage.show(parent.getItemAtPosition(position), true);
         // you can also create a new page when you need one
 //        new ListItemPage(mContext).show(arg, true);
+    }
+
+    @Override
+    protected void onNextButtonClicked() {
+        Toast.makeText(mContext, "Next button in ListPage was clicked", Toast.LENGTH_SHORT).show();
     }
 }

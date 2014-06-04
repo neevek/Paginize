@@ -46,26 +46,6 @@
             android:padding="12dp"
             />
 
-    <Button
-            android:id="@+id/btn_sub_page1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="SubPage1"
-            android:gravity="center"
-            android:textSize="21dp"
-            android:padding="12dp"
-            />
-
-    <Button
-            android:id="@+id/btn_sub_page2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="SubPage2"
-            android:gravity="center"
-            android:textSize="21dp"
-            android:padding="12dp"
-            />
-
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

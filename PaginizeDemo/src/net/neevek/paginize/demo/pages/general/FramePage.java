@@ -1,4 +1,4 @@
-package net.neevek.paginize.demo;
+package net.neevek.paginize.demo.pages.general;
 
 import android.view.View;
 import android.widget.TextView;
@@ -6,6 +6,7 @@ import net.neevek.lib.android.paginize.Page;
 import net.neevek.lib.android.paginize.PageActivity;
 import net.neevek.lib.android.paginize.annotation.InjectView;
 import net.neevek.lib.android.paginize.annotation.PageLayout;
+import net.neevek.paginize.demo.R;
 
 /**
  * Created by xiejm on 6/4/14.
@@ -13,7 +14,7 @@ import net.neevek.lib.android.paginize.annotation.PageLayout;
 @PageLayout(R.layout.page_frame)
 public abstract class FramePage extends Page implements View.OnClickListener {
     @InjectView(value = R.id.tv_back, listeners = View.OnClickListener.class) TextView mTvBack;
-    @InjectView(value = R.id.tv_title, listeners = View.OnClickListener.class) TextView mTvTitle;
+    @InjectView(value = R.id.tv_title) TextView mTvTitle;
     @InjectView(value = R.id.tv_next, listeners = View.OnClickListener.class) TextView mTvNext;
 
 
@@ -41,5 +42,7 @@ public abstract class FramePage extends Page implements View.OnClickListener {
         hideWithAnimation(true);
     }
 
-    protected abstract void onNextButtonClicked();
+    protected void onNextButtonClicked() {
+
+    }
 }

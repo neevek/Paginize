@@ -1,20 +1,21 @@
-package net.neevek.paginize.demo;
+package net.neevek.paginize.demo.pages.main;
 
 import android.view.View;
 import android.widget.RadioButton;
-import net.neevek.lib.android.paginize.InnerPageContainer;
 import net.neevek.lib.android.paginize.PageActivity;
+import net.neevek.lib.android.paginize.annotation.InheritPageLayout;
 import net.neevek.lib.android.paginize.annotation.InjectInnerPage;
 import net.neevek.lib.android.paginize.annotation.InjectView;
 import net.neevek.lib.android.paginize.annotation.InnerPageContainerLayoutResId;
-import net.neevek.lib.android.paginize.annotation.PageLayout;
+import net.neevek.paginize.demo.R;
+import net.neevek.paginize.demo.pages.general.FrameInnerPage;
 
 /**
  * Created by neevek on 3/16/14.
  */
-@PageLayout(R.layout.page_main)
+@InheritPageLayout(R.layout.page_main)
 @InnerPageContainerLayoutResId(R.id.layout_container)
-public class MainPage extends InnerPageContainer implements View.OnClickListener {
+public class MainPage extends FrameInnerPage implements View.OnClickListener {
     @InjectView(value = R.id.rb_nav_btn1, listeners = {View.OnClickListener.class})
     private RadioButton mRbNavBtn1;
     @InjectView(value = R.id.rb_nav_btn2, listeners = {View.OnClickListener.class})
@@ -27,6 +28,8 @@ public class MainPage extends InnerPageContainer implements View.OnClickListener
 
     public MainPage(PageActivity pageActivity) {
         super(pageActivity);
+
+        setTitle("Home!");
 
         mRbNavBtn1.setChecked(true);
         setInnerPage(mTabPage1, null);

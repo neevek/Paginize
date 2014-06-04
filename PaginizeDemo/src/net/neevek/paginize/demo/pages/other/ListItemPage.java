@@ -1,4 +1,4 @@
-package net.neevek.paginize.demo;
+package net.neevek.paginize.demo.pages.other;
 
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +7,7 @@ import net.neevek.lib.android.paginize.Page;
 import net.neevek.lib.android.paginize.PageActivity;
 import net.neevek.lib.android.paginize.annotation.InjectView;
 import net.neevek.lib.android.paginize.annotation.PageLayout;
+import net.neevek.paginize.demo.R;
 
 /**
  * Created by neevek on 3/16/14.
