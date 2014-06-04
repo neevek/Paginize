@@ -16,13 +16,12 @@ public class SubPage1 extends FramePage {
     }
 
     @Override
-    protected void onBackButtonOnClicked() {
-        hideWithAnimation(true);
+    protected void onBackButtonClicked() {
         Toast.makeText(mContext, "Back button clicked on SubPage1", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    protected void onNextButtonOnClicked() {
+    protected void onNextButtonClicked() {
         Toast.makeText(mContext, "Next button clicked on SubPage1", Toast.LENGTH_SHORT).show();
     }
 }

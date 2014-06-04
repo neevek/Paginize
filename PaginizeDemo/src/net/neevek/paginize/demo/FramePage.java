@@ -25,10 +25,10 @@ public abstract class FramePage extends Page implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_back:
-                onBackButtonOnClicked();
+                onBackButtonClicked();
                 break;
             case R.id.tv_next:
-                onNextButtonOnClicked();
+                onNextButtonClicked();
                 break;
         }
     }
@@ -37,6 +37,9 @@ public abstract class FramePage extends Page implements View.OnClickListener {
         mTvTitle.setText(title);
     }
 
-    protected abstract void onBackButtonOnClicked();
-    protected abstract void onNextButtonOnClicked();
+    protected void onBackButtonClicked() {
+        hideWithAnimation(true);
+    }
+
+    protected abstract void onNextButtonClicked();
 }
