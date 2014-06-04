@@ -74,7 +74,11 @@ public class Page {
                 if (clazz.isAnnotationPresent(InheritPageLayout.class)) {
                     InheritPageLayout inheritPageLayoutAnno = (InheritPageLayout)clazz.getAnnotation(InheritPageLayout.class);
                     if (inheritPageLayoutAnno.root() != -1) {
-                        mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)mView.findViewById(inheritPageLayoutAnno.root()), true);
+                        ViewGroup root = (ViewGroup)mView.findViewById(inheritPageLayoutAnno.root());
+                        if (root == null) {
+                            throw new IllegalArgumentException("The root specified in @InheritPageLayout is not found.");
+                        }
+                        mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), root, true);
                     } else {
                         mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)mView, true);
                     }
