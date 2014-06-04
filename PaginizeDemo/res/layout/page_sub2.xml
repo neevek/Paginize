@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+
+
+    <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="This is the content for SubPage2\nThis page is used to demonstrate use of @InheritPageLayout"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="#f000"
+            />
+
+
+</merge>

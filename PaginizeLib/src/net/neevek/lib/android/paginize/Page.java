@@ -2,10 +2,8 @@ package net.neevek.lib.android.paginize;
 
 import android.content.Intent;
 import android.view.View;
-import net.neevek.lib.android.paginize.annotation.InjectInnerPage;
-import net.neevek.lib.android.paginize.annotation.InjectPage;
-import net.neevek.lib.android.paginize.annotation.InjectView;
-import net.neevek.lib.android.paginize.annotation.PageLayout;
+import android.view.ViewGroup;
+import net.neevek.lib.android.paginize.annotation.*;
 import net.neevek.lib.android.paginize.exception.InjectFailedException;
 import net.neevek.lib.android.paginize.util.AnnotationUtils;
 
@@ -58,10 +56,10 @@ public class Page {
                 initAnnotatedFields(clazz);
 
             } else {
-                List<Class> lists = new ArrayList<Class>();
+                List<Class> list = new ArrayList<Class>();
 
                 do {
-                    lists.add(clazz);
+                    list.add(clazz);
 
                     if (mView == null && clazz.isAnnotationPresent(PageLayout.class)) {
                         mView = mContext.getLayoutInflater().inflate(((PageLayout)clazz.getAnnotation(PageLayout.class)).value(), null);
@@ -72,8 +70,18 @@ public class Page {
                     throw new IllegalArgumentException("Must specify a layout resource with the @PageLayout annotation on " + clazz.getName());
                 }
 
-                for (int i = lists.size() - 1; i >= 0; --i) {
-                    initAnnotatedFields(lists.get(i));
+                clazz = getClass();
+                if (clazz.isAnnotationPresent(InheritPageLayout.class)) {
+                    InheritPageLayout inheritPageLayoutAnno = (InheritPageLayout)clazz.getAnnotation(InheritPageLayout.class);
+                    if (inheritPageLayoutAnno.root() != -1) {
+                        mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)mView.findViewById(inheritPageLayoutAnno.root()), true);
+                    } else {
+                        mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)mView, true);
+                    }
+                }
+
+                for (int i = list.size() - 1; i >= 0; --i) {
+                    initAnnotatedFields(list.get(i));
                 }
             }
 
