@@ -127,20 +127,22 @@ public class PageManager {
             throw new IllegalArgumentException("cannot call popPagesTillSpecifiedPage() with null destPage.");
         }
 
-        if (mAnimating || mPageStack.size() <= 0 || mPageStack.peekLast() == destPage) {
+        if (mAnimating || mPageStack.size() <= 0
+                || mPageStack.lastIndexOf(destPage) == -1 || mPageStack.peekLast() == destPage) {
             return;
         }
+
 
         Page oldPage = mPageStack.removeLast();
 
         while (mPageStack.size() > 1) {
-            Page page = mPageStack.removeLast();
-            mContainerView.removeView(page.getView());
-            page.onHidden();
-
             if (mPageStack.peekLast() == destPage) {
                 break;
             }
+
+            Page page = mPageStack.removeLast();
+            mContainerView.removeView(page.getView());
+            page.onHidden();
         }
 
         popPageInternal(oldPage, animated, hint);
