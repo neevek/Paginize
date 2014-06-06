@@ -41,6 +41,10 @@ public class PageManager {
         mPageAnimationManager = pageAnimationManager;
     }
 
+    public PageAnimationManager getPageAnimationManager() {
+        return mPageAnimationManager;
+    }
+
     public void pushPage(Page page) {
         pushPage(page, null, false);
     }

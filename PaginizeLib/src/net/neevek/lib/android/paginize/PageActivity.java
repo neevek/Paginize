@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import net.neevek.lib.android.paginize.anim.PageAnimationManager;
+import net.neevek.lib.android.paginize.annotation.InjectInnerPage;
 import net.neevek.lib.android.paginize.annotation.InjectPage;
 import net.neevek.lib.android.paginize.annotation.InjectPageAnimationManager;
 import net.neevek.lib.android.paginize.annotation.InjectView;
@@ -15,6 +15,8 @@ import net.neevek.lib.android.paginize.util.AnnotationUtils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by neevek on 12/26/13.
@@ -36,17 +38,29 @@ public class PageActivity extends Activity {
         }
     }
 
-    private void initAnnotatedFields() throws InvocationTargetException
-        , IllegalAccessException, NoSuchMethodException, InstantiationException {
+    private void initAnnotatedFields() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
         Class clazz = getClass();
 
-        InjectPageAnimationManager pamAnnotation = (InjectPageAnimationManager)clazz.getAnnotation(InjectPageAnimationManager.class);
-        if (pamAnnotation != null) {
-            Class<? extends PageAnimationManager> pamClass = pamAnnotation.value();
-            mPageManager.setPageAnimationManager(pamClass.newInstance());
-        }
+        List<Class> lists = new ArrayList<Class>();
+        do {
+            lists.add(clazz);
 
+            if (mPageManager.getPageAnimationManager() == null) {
+                InjectPageAnimationManager pamAnnotation = (InjectPageAnimationManager)clazz.getAnnotation(InjectPageAnimationManager.class);
+                if (pamAnnotation != null) {
+                    mPageManager.setPageAnimationManager(pamAnnotation.value().newInstance());
+                }
+            }
+        } while ((clazz = clazz.getSuperclass()) != PageActivity.class);
+
+        for (int i = lists.size() - 1; i >= 0; --i) {
+            initAnnotatedFields(lists.get(i));
+        }
+    }
+
+    private void initAnnotatedFields(Class clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
         Field fields[] = clazz.getDeclaredFields();
+
         for (int i = 0; i < fields.length; ++i) {
             Field field = fields[i];
             Annotation[] annotations = field.getAnnotations();
@@ -78,11 +92,19 @@ public class PageActivity extends Activity {
                     field.setAccessible(true);
                     field.set(this, type.getConstructor(PageActivity.class).newInstance(this));
 
+                } else if (InjectInnerPage.class.isAssignableFrom(anno.getClass())) {
+                    Class type = field.getType();
+
+                    if (!InnerPage.class.isAssignableFrom(type)) {
+                        throw new InjectFailedException(type.getName() + " is not type of InnerPage");
+                    }
+
+                    field.setAccessible(true);
+                    field.set(this, type.getConstructor(PageActivity.class).newInstance(this));
                 }
             }
         }
     }
-
     public PageManager getPageManager() {
         return mPageManager;
     }
