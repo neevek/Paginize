@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import net.neevek.lib.android.paginize.annotation.InjectInnerPage;
 import net.neevek.lib.android.paginize.annotation.InjectPage;
 import net.neevek.lib.android.paginize.annotation.InjectPageAnimationManager;
 import net.neevek.lib.android.paginize.annotation.InjectView;
@@ -92,15 +91,6 @@ public class PageActivity extends Activity {
                     field.setAccessible(true);
                     field.set(this, type.getConstructor(PageActivity.class).newInstance(this));
 
-                } else if (InjectInnerPage.class.isAssignableFrom(anno.getClass())) {
-                    Class type = field.getType();
-
-                    if (!InnerPage.class.isAssignableFrom(type)) {
-                        throw new InjectFailedException(type.getName() + " is not type of InnerPage");
-                    }
-
-                    field.setAccessible(true);
-                    field.set(this, type.getConstructor(PageActivity.class).newInstance(this));
                 }
             }
         }
