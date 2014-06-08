@@ -9,6 +9,8 @@ proguard/
 local.properties
 PaginizeLib/PaginizeLib.iml
 PaginizeDemo/PaginizeDemo.iml
+PaginizeLib/ant.properties
+PaginizeDemo/ant.properties
 .idea/
 out
 *.out
