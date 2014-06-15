@@ -45,6 +45,15 @@
             android:textSize="21dp"
             android:padding="12dp"
             />
+    <Button
+            android:id="@+id/btn_show_view_pager_page"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Show ViewPagerPage"
+            android:gravity="center"
+            android:textSize="21dp"
+            android:padding="12dp"
+            />
 
     <EditText
             android:layout_width="fill_parent"

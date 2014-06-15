@@ -6,6 +6,7 @@ import net.neevek.android.demo.paginize.R;
 import net.neevek.android.demo.paginize.pages.other.AlertPage;
 import net.neevek.android.demo.paginize.pages.other.ListPage;
 import net.neevek.android.demo.paginize.pages.other.TestPage;
+import net.neevek.android.demo.paginize.pages.viewpager.MyViewPagerPage;
 import net.neevek.android.lib.paginize.InnerPage;
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.annotation.InjectView;
@@ -23,6 +24,8 @@ public class TabPage1 extends InnerPage implements View.OnClickListener {
     private Button mBtnListPage;
     @InjectView(value = R.id.btn_show_alert, listeners = {View.OnClickListener.class})
     private Button mBtnShowAnAlertPage;
+    @InjectView(value = R.id.btn_show_view_pager_page, listeners = {View.OnClickListener.class})
+    private Button mBtnShowViewPagerPage;
 
     public TabPage1(PageActivity context) {
         super(context);
@@ -39,6 +42,9 @@ public class TabPage1 extends InnerPage implements View.OnClickListener {
                 break;
             case R.id.btn_show_alert:
                 new AlertPage(mContext).show();
+                break;
+            case R.id.btn_show_view_pager_page:
+                new MyViewPagerPage(mContext).show(null, true);
                 break;
         }
     }
