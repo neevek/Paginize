@@ -1,18 +1,5 @@
 package net.neevek.android.lib.paginize;
 
-import android.content.Intent;
-import android.view.View;
-import android.view.ViewGroup;
-import net.neevek.android.lib.paginize.annotation.*;
-import net.neevek.android.lib.paginize.exception.InjectFailedException;
-import net.neevek.android.lib.paginize.util.AnnotationUtils;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * A Page encapsulates a View(usually a layout with complex UIs),
  * which is to be put into a ViewGroup and finally be shown on screen.
@@ -28,14 +15,10 @@ import java.util.List;
  * @since 1.0.0
  */
 
-public class Page {
-    private View mView;
+public class Page extends ViewWrapper {
     // default page type should be normal here.
     private TYPE mType = TYPE.TYPE_NORMAL;
     private Object mReturnData;
-
-    // protected variables to be accessed in subclasses.
-    protected PageActivity mContext;
 
     public static enum TYPE {
         TYPE_NORMAL,
@@ -43,137 +26,7 @@ public class Page {
     }
 
     public Page(PageActivity pageActivity) {
-        mContext = pageActivity;
-        Class clazz = getClass();
-
-        try {
-            if (clazz.getSuperclass() == Page.class) {
-                if (!clazz.isAnnotationPresent(PageLayout.class)) {
-                    throw new IllegalArgumentException("Must specify a layout resource with the @PageLayout annotation on " + clazz.getName());
-                }
-
-                mView = mContext.getLayoutInflater().inflate(((PageLayout)clazz.getAnnotation(PageLayout.class)).value(), null);
-                initAnnotatedFields(clazz);
-
-            } else {
-                List<Class> list = new ArrayList<Class>();
-
-                do {
-                    list.add(clazz);
-
-                    if (mView == null && clazz.isAnnotationPresent(PageLayout.class)) {
-                        mView = mContext.getLayoutInflater().inflate(((PageLayout)clazz.getAnnotation(PageLayout.class)).value(), null);
-                    }
-                } while ((clazz = clazz.getSuperclass()) != Page.class);
-
-                if (mView == null) {
-                    throw new IllegalArgumentException("Must specify a layout resource with the @PageLayout annotation on " + clazz.getName());
-                }
-
-                clazz = getClass();
-                if (clazz.isAnnotationPresent(InheritPageLayout.class)) {
-                    InheritPageLayout inheritPageLayoutAnno = (InheritPageLayout)clazz.getAnnotation(InheritPageLayout.class);
-                    if (inheritPageLayoutAnno.root() != -1) {
-                        ViewGroup root = (ViewGroup)mView.findViewById(inheritPageLayoutAnno.root());
-                        if (root == null) {
-                            throw new IllegalArgumentException("The root specified in @InheritPageLayout is not found.");
-                        }
-                        mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), root, true);
-                    } else {
-                        mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)mView, true);
-                    }
-                }
-
-                for (int i = list.size() - 1; i >= 0; --i) {
-                    initAnnotatedFields(list.get(i));
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new InjectFailedException(e);
-        }
-    }
-
-    private void initAnnotatedFields(Class clazz) throws InvocationTargetException
-        , IllegalAccessException, NoSuchMethodException, InstantiationException {
-        Field fields[] = clazz.getDeclaredFields();
-
-        for (int i = 0; i < fields.length; ++i) {
-            Field field = fields[i];
-            Annotation[] annotations = field.getAnnotations();
-
-            if (annotations == null || annotations.length == 0) {
-                continue;
-            }
-
-            for (int j = 0; j < annotations.length; ++j) {
-                Annotation anno = annotations[j];
-
-                if (InjectView.class.isAssignableFrom(anno.getClass())) {
-                    InjectView annotation = (InjectView)anno;
-                    View view = findViewById(annotation.value());
-                    field.setAccessible(true);
-                    field.set(this, view);
-
-                    if (annotation.listeners().length > 0) {
-                        AnnotationUtils.setListenersForView(clazz, annotation, view, this);
-                    }
-
-                } else if (InjectPage.class.isAssignableFrom(anno.getClass())) {
-                    Class type = field.getType();
-
-                    if (!Page.class.isAssignableFrom(type)) {
-                        throw new InjectFailedException(type.getName() + " is not type of Page");
-                    }
-
-                    field.setAccessible(true);
-                    field.set(this, type.getConstructor(PageActivity.class).newInstance(mContext));
-
-                } else if (InjectInnerPage.class.isAssignableFrom(anno.getClass())) {
-                    Class type = field.getType();
-
-                    if (!InnerPage.class.isAssignableFrom(type)) {
-                        throw new InjectFailedException(type.getName() + " is not type of InnerPage");
-                    }
-
-                    field.setAccessible(true);
-                    field.set(this, type.getConstructor(PageActivity.class).newInstance(mContext));
-                }
-            }
-        }
-    }
-
-    /** onBackPressed mirrors Activity.onBackPressed, only the current page(page on the top of the stack) receives this call **/
-    public boolean onBackPressed() { return false; }
-
-    /** onActivityResult mirrors Activity.onActivityResult, only the current page(page on the top of the stack) receives this call **/
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {  }
-
-    /** onPause mirrors Activity.onPause, only the current page(page on the top of the stack) receives this call **/
-    public void onPause() { }
-
-    /** onResume mirrors Activity.onResume, only the current page(page on the top of the stack) receives this call **/
-    public void onResume() { }
-
-    /** onShown is called after the page is pushed on the page stack **/
-    public void onShown(Object arg) { }
-
-    /** onHidden is called after the page is popped out of the page stack **/
-    public void onHidden() { }
-
-    /** onCovered is called for the current page when a new page is pushed on the page stack **/
-    public void onCovered() { }
-
-    /** onUncovered is called for the previous page when the current page is popped out of the page stack **/
-    public void onUncovered(Object arg) { }
-
-    public View findViewById(int id) {
-        return mView.findViewById(id);
-    }
-
-    public View getView() {
-        return mView;
+        super(pageActivity);
     }
 
     public void setType(TYPE type) {
@@ -235,21 +88,6 @@ public class Page {
                     getPageManager().popPage(true, hint);
                 }
             }, 500);
-        }
-    }
-
-    protected void hideTopPage() {
-        getPageManager().popPage(false, false);
-    }
-
-    //**************** methods to show a new page ****************//
-    public void showPage(Class <? extends Page > pageClass, Object arg, boolean animated) {
-        try {
-            Page page = pageClass.getConstructor(PageActivity.class).newInstance(mContext);
-            page.show(arg, animated);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
