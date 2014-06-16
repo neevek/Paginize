@@ -6,6 +6,6 @@ package net.neevek.android.lib.paginize;
  * Date: 12/7/13
  * Time: 3:58 PM
  */
-public interface PageDataCallback {
-    void onPageDataReturned(Object data);
+public interface PageDataCallback<T> {
+    void onPageDataReturned(T data);
 }
