@@ -5,6 +5,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import net.neevek.android.demo.paginize.R;
 import net.neevek.android.lib.paginize.PageActivity;
+import net.neevek.android.lib.paginize.PagePagerAdapter;
 import net.neevek.android.lib.paginize.ViewPagerPage;
 import net.neevek.android.lib.paginize.ViewWrapper;
 import net.neevek.android.lib.paginize.annotation.InjectView;
@@ -21,12 +22,18 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
     @InjectView(value = R.id.tv_title) TextView mTvTitle;
     @InjectView(value = R.id.tv_next, listeners = View.OnClickListener.class) TextView mTvNext;
 
-    private ViewWrapper mViewWrappers[] = {new ViewPageSubPage1(mContext), new ViewPageSubPage2(mContext)};
+    private ViewWrapper mViewWrappers[] = {
+            new ViewPageSubPage1(mContext), new ViewPageSubPage2(mContext)
+            ,new ViewPageSubPage1(mContext), new ViewPageSubPage2(mContext)
+            ,new ViewPageSubPage1(mContext), new ViewPageSubPage2(mContext)
+    };
 
     public MyViewPagerPage(PageActivity pageActivity) {
         super(pageActivity);
 
         mTvTitle.setText("Test ViewPagerPage");
+
+        getViewPager().setAdapter(new MyPagePagerAdapter());
     }
 
     @Override
@@ -41,18 +48,15 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
         }
     }
 
-    @Override
-    protected ViewPagerPage.PagePagerAdapter getPagePagerAdapter() {
-        return new PagePagerAdapter() {
-            @Override
-            public ViewWrapper getItem(int position) {
-                return mViewWrappers[position];
-            }
+    class MyPagePagerAdapter extends PagePagerAdapter {
+        @Override
+        public ViewWrapper getItem(int position) {
+            return mViewWrappers[position];
+        }
 
-            @Override
-            public int getCount() {
-                return 2;
-            }
-        };
+        @Override
+        public int getCount() {
+            return mViewWrappers.length;
+        }
     }
 }

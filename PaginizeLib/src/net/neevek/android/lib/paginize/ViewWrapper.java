@@ -29,51 +29,41 @@ public abstract class ViewWrapper {
         Class clazz = getClass();
 
         try {
-            if (clazz.isAnnotationPresent(PageLayout.class)) {
-                setView(mContext.getLayoutInflater().inflate(((PageLayout)clazz.getAnnotation(PageLayout.class)).value(), null));
-                AnnotationUtils.initAnnotatedFields(clazz, this, new ViewFinder() {
-                    public View findViewById(int id) {
-                        return ViewWrapper.this.findViewById(id);
-                    }
-                });
+            List<Class> list = new ArrayList<Class>(4);
 
-            } else {
-                List<Class> list = new ArrayList<Class>();
+            View view = null;
+            do {
+                list.add(clazz);
 
-                View view = null;
-                do {
-                    list.add(clazz);
-
-                    if (view == null && clazz.isAnnotationPresent(PageLayout.class)) {
-                        view = mContext.getLayoutInflater().inflate(((PageLayout)clazz.getAnnotation(PageLayout.class)).value(), null);
-                        setView(view);
-                    }
-                } while ((clazz = clazz.getSuperclass()) != ViewWrapper.class);
-
-                if (view == null) {
-                    throw new IllegalArgumentException("Must specify a layout resource with the @PageLayout annotation on " + clazz.getName());
+                if (view == null && clazz.isAnnotationPresent(PageLayout.class)) {
+                    view = mContext.getLayoutInflater().inflate(((PageLayout)clazz.getAnnotation(PageLayout.class)).value(), null);
+                    setView(view);
                 }
+            } while ((clazz = clazz.getSuperclass()) != ViewWrapper.class);
 
-                clazz = getClass();
-                if (clazz.isAnnotationPresent(InheritPageLayout.class)) {
-                    InheritPageLayout inheritPageLayoutAnno = (InheritPageLayout)clazz.getAnnotation(InheritPageLayout.class);
-                    if (inheritPageLayoutAnno.root() != -1) {
-                        ViewGroup root = (ViewGroup)view.findViewById(inheritPageLayoutAnno.root());
-                        if (root == null) {
-                            throw new IllegalArgumentException("The root specified in @InheritPageLayout is not found.");
-                        }
-                        mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), root, true);
-                    } else {
-                        mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)view, true);
+            if (view == null) {
+                throw new IllegalArgumentException("Must specify a layout resource with the @PageLayout annotation on " + clazz.getName());
+            }
+
+            clazz = getClass();
+            if (clazz.isAnnotationPresent(InheritPageLayout.class)) {
+                InheritPageLayout inheritPageLayoutAnno = (InheritPageLayout)clazz.getAnnotation(InheritPageLayout.class);
+                if (inheritPageLayoutAnno.root() != -1) {
+                    ViewGroup root = (ViewGroup)view.findViewById(inheritPageLayoutAnno.root());
+                    if (root == null) {
+                        throw new IllegalArgumentException("The root specified in @InheritPageLayout is not found.");
                     }
+                    mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), root, true);
+                } else {
+                    mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)view, true);
                 }
+            }
 
-                ViewFinder viewFinder = new ViewFinder() {
-                    public View findViewById(int id) { return ViewWrapper.this.findViewById(id); }
-                };
-                for (int i = list.size() - 1; i >= 0; --i) {
-                    AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder);
-                }
+            ViewFinder viewFinder = new ViewFinder() {
+                public View findViewById(int id) { return ViewWrapper.this.findViewById(id); }
+            };
+            for (int i = list.size() - 1; i >= 0; --i) {
+                AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder);
             }
 
         } catch (Exception e) {

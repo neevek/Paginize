@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.annotation.ViewPagerResId;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 
@@ -49,10 +48,19 @@ public abstract class ViewPagerPage extends Page {
         }
 
         mViewPager = (ViewPager)view;
-        mViewPager.setAdapter(getPagePagerAdapter());
     }
 
-    protected abstract PagePagerAdapter getPagePagerAdapter();
+    protected ViewPager getViewPager() {
+        return mViewPager;
+    }
+
+    private PagePagerAdapter getPagePagerAdapter() {
+        PagerAdapter adapter = mViewPager.getAdapter();
+        if (adapter instanceof PagePagerAdapter) {
+            return (PagePagerAdapter)adapter;
+        }
+        return null;
+    }
 
     public boolean onBackPressed() {
         PagePagerAdapter adapter = getPagePagerAdapter();
@@ -111,27 +119,4 @@ public abstract class ViewPagerPage extends Page {
             adapter.getItem(mViewPager.getCurrentItem()).onUncovered(arg);
         }
     }
-
-    public static abstract class PagePagerAdapter extends PagerAdapter {
-        public abstract ViewWrapper getItem(int position);
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ViewWrapper viewWrapper = getItem(position);
-            container.addView(viewWrapper.getView());
-            return viewWrapper.getView();
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return object == view;
-        }
-    }
-
-
 }
