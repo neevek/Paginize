@@ -15,7 +15,7 @@ package net.neevek.android.lib.paginize;
  * @since 1.0.0
  */
 
-public class Page extends ViewWrapper {
+public abstract class Page extends ViewWrapper {
     // default page type should be normal here.
     private TYPE mType = TYPE.TYPE_NORMAL;
     private Object mReturnData;

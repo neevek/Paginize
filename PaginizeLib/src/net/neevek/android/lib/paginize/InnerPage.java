@@ -17,7 +17,7 @@ package net.neevek.android.lib.paginize;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class InnerPage extends ViewWrapper {
+public abstract class InnerPage extends ViewWrapper {
     public InnerPage(PageActivity pageActivity) {
         super(pageActivity);
     }
