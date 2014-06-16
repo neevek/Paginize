@@ -17,10 +17,6 @@ import net.neevek.android.lib.paginize.annotation.ViewPagerResId;
 @PageLayout(R.layout.page_view_pager_container)
 @ViewPagerResId(R.id.vp_main)
 public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListener {
-//    @InjectViewWrapper
-//    private ViewPageSubPage1 p1;
-//    @InjectViewWrapper
-//    private ViewPageSubPage2 p2;
     @InjectView(value = R.id.tv_back, listeners = View.OnClickListener.class) TextView mTvBack;
     @InjectView(value = R.id.tv_title) TextView mTvTitle;
     @InjectView(value = R.id.tv_next, listeners = View.OnClickListener.class) TextView mTvNext;

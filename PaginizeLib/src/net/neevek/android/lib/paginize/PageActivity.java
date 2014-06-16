@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import net.neevek.android.lib.paginize.annotation.InjectPage;
 import net.neevek.android.lib.paginize.annotation.InjectPageAnimationManager;
-import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 import net.neevek.android.lib.paginize.util.AnnotationUtils;
+import net.neevek.android.lib.paginize.util.ViewFinder;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +37,9 @@ public class PageActivity extends Activity {
     private void initAnnotatedFields() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
         Class clazz = getClass();
 
-        List<Class> lists = new ArrayList<Class>();
+        List<Class> list = new ArrayList<Class>();
         do {
-            lists.add(clazz);
+            list.add(clazz);
 
             if (mPageManager.getPageAnimationManager() == null) {
                 InjectPageAnimationManager pamAnnotation = (InjectPageAnimationManager)clazz.getAnnotation(InjectPageAnimationManager.class);
@@ -52,49 +49,14 @@ public class PageActivity extends Activity {
             }
         } while ((clazz = clazz.getSuperclass()) != PageActivity.class);
 
-        for (int i = lists.size() - 1; i >= 0; --i) {
-            initAnnotatedFields(lists.get(i));
+        ViewFinder viewFinder = new ViewFinder() {
+            public View findViewById(int id) { return PageActivity.this.findViewById(id); }
+        };
+        for (int i = list.size() - 1; i >= 0; --i) {
+            AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder);
         }
     }
 
-    private void initAnnotatedFields(Class clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
-        Field fields[] = clazz.getDeclaredFields();
-
-        for (int i = 0; i < fields.length; ++i) {
-            Field field = fields[i];
-            Annotation[] annotations = field.getAnnotations();
-
-            if (annotations == null || annotations.length == 0) {
-                continue;
-            }
-
-            for (int j = 0; j < annotations.length; ++j) {
-                Annotation anno = annotations[j];
-
-                if (InjectView.class.isAssignableFrom(anno.getClass())) {
-                    InjectView annotation = (InjectView)anno;
-                    View view = findViewById(annotation.value());
-                    field.setAccessible(true);
-                    field.set(this, view);
-
-                    if (annotation.listeners().length > 0) {
-                        AnnotationUtils.setListenersForView(clazz, annotation, view, this);
-                    }
-
-                } else if (InjectPage.class.isAssignableFrom(anno.getClass())) {
-                    Class type = field.getType();
-
-                    if (!Page.class.isAssignableFrom(type)) {
-                        throw new InjectFailedException(type.getName() + " is not type of Page");
-                    }
-
-                    field.setAccessible(true);
-                    field.set(this, type.getConstructor(PageActivity.class).newInstance(this));
-
-                }
-            }
-        }
-    }
     public PageManager getPageManager() {
         return mPageManager;
     }
