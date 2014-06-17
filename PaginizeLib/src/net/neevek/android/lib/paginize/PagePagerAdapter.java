@@ -14,16 +14,20 @@ public abstract class PagePagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         ViewWrapper viewWrapper = getItem(position);
         container.addView(viewWrapper.getView());
-        return viewWrapper.getView();
+        viewWrapper.onAttach();
+        return viewWrapper;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
+        ViewWrapper viewWrapper = (ViewWrapper) object;
+        container.removeView(viewWrapper.getView());
+        viewWrapper.onDetach();
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return object == view;
+        ViewWrapper viewWrapper = (ViewWrapper) object;
+        return viewWrapper.getView() == view;
     }
 }

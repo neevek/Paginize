@@ -94,8 +94,4 @@ public abstract class Page extends ViewWrapper {
     public boolean isKeptInStack() {
         return mContext.getPageManager().isPageKeptInStack(this);
     }
-
-    public boolean isAttached() {
-        return getView().getParent() != null;
-    }
 }

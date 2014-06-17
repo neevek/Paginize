@@ -102,6 +102,16 @@ public abstract class ViewWrapper {
         }
     }
 
+    public boolean isAttached() {
+        return mView.getParent() != null;
+    }
+
+    /** called when added to the view hierarchy of the host activity **/
+    public void onAttach() {}
+
+    /** called when removed from the view hierarchy of the host activity **/
+    public void onDetach() {}
+
     /** onBackPressed mirrors Activity.onBackPressed, only the current page(page on the top of the stack) receives this call **/
     public boolean onBackPressed() { return false; }
 

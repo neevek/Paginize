@@ -63,12 +63,13 @@ public class PageManager {
         mCurPage = newPage;
         mPageStack.addLast(newPage);
         mContainerView.addView(newPage.getView());
+        newPage.onAttach();
 
         if (oldPage != null) {
             if (newPage.keepSingleInstance() && newPage.getClass() == oldPage.getClass()) {
                 mPageStack.removeLastOccurrence(oldPage);
                 mContainerView.removeView(oldPage.getView());
-
+                oldPage.onDetach();
                 oldPage.onHidden();
             } else {
                 if (newPage.getType() != Page.TYPE.TYPE_DIALOG) {
@@ -120,6 +121,7 @@ public class PageManager {
         while (--n >= 0) {
             Page page = mPageStack.removeLast();
             mContainerView.removeView(page.getView());
+            page.onDetach();
             page.onHidden();
         }
 
@@ -146,6 +148,7 @@ public class PageManager {
 
             Page page = mPageStack.removeLast();
             mContainerView.removeView(page.getView());
+            page.onDetach();
             page.onHidden();
         }
 
@@ -172,6 +175,7 @@ public class PageManager {
         }
 
         mContainerView.removeView(removedPage.getView());
+        removedPage.onDetach();
 
         mCurPage = prevPage;
 

@@ -62,6 +62,16 @@ public abstract class ViewPagerPage extends Page {
         return null;
     }
 
+    public void onAttach() {
+        // do nothing here, onAttach is called on the ViewWrapper when
+        // it is added to ViewPager
+    }
+
+    public void onDetach() {
+        // do nothing here, onAttach is called on the ViewWrapper when
+        // it is removed from ViewPager
+    }
+
     public boolean onBackPressed() {
         PagePagerAdapter adapter = getPagePagerAdapter();
         if (adapter != null && adapter.getCount() > 0) {

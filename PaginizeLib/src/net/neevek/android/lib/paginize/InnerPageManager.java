@@ -41,6 +41,7 @@ public class InnerPageManager {
 
             if (mContainerView.indexOfChild(newPageView) == -1) {
                 mContainerView.addView(newPageView);
+                newPage.onAttach();
             }
 
             newPageView.bringToFront();
@@ -54,6 +55,7 @@ public class InnerPageManager {
     // this method is rarely needed
     public void removePage(InnerPage page) {
         mContainerView.removeView(page.getView());
+        page.onDetach();
     }
 
     public void unsetPage() {
