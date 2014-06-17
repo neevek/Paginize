@@ -1,5 +1,6 @@
 package net.neevek.android.demo.paginize.pages.viewpager;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,8 @@ import net.neevek.android.lib.paginize.annotation.ViewPagerResId;
 @PageLayout(R.layout.page_view_pager_container)
 @ViewPagerResId(R.id.vp_main)
 public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListener {
+    private final static String TAG = MyViewPagerPage.class.getSimpleName();
+
     @InjectView(value = R.id.tv_back, listeners = View.OnClickListener.class) TextView mTvBack;
     @InjectView(value = R.id.tv_title) TextView mTvTitle;
     @InjectView(value = R.id.tv_next, listeners = View.OnClickListener.class) TextView mTvNext;
@@ -34,6 +37,16 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
         mTvTitle.setText("Test ViewPagerPage");
 
         getViewPager().setAdapter(new MyPagePagerAdapter());
+    }
+
+    @Override
+    public void onAttach() {
+        Log.d(TAG, "onAttach(): " + this);
+    }
+
+    @Override
+    public void onDetach() {
+        Log.d(TAG, "onDetach(): " + this);
     }
 
     @Override
