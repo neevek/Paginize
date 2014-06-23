@@ -21,7 +21,8 @@ public class ListPage extends FramePage implements AdapterView.OnItemClickListen
     @InjectView(value = android.R.id.list, listeners = {AdapterView.OnItemClickListener.class})
     private ListView mLvData;
 
-    private ListItemPage mListItemPage = new ListItemPage(mContext);
+    // reuse a page like this
+//    private ListItemPage mListItemPage = new ListItemPage(mContext);
 
     public ListPage(PageActivity pageActivity) {
         super(pageActivity);
@@ -39,8 +40,12 @@ public class ListPage extends FramePage implements AdapterView.OnItemClickListen
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         // reuse the page here
-        mListItemPage.show(parent.getItemAtPosition(position), true);
+//        mListItemPage.show(parent.getItemAtPosition(position), true);
+
         // you can also create a new page when you need one
+        new ListItemPage(mContext)
+                .setText((String)parent.getItemAtPosition(position))
+                .show(null, true);
 //        new ListItemPage(mContext).show(arg, true);
     }
 

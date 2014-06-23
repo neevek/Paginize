@@ -29,7 +29,12 @@ public class ListItemPage extends Page implements View.OnClickListener {
 
     @Override
     public void onShown(Object arg) {
-        mTvText.setText(arg.toString());
+//        mTvText.setText(arg.toString());
+    }
+
+    public ListItemPage setText(String text) {
+        mTvText.setText(text);
+        return this;
     }
 
     @Override
