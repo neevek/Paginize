@@ -31,17 +31,15 @@ public abstract class ViewWrapper {
         try {
             List<Class> list = new ArrayList<Class>(4);
 
-            View view = null;
             do {
                 list.add(clazz);
 
-                if (view == null && clazz.isAnnotationPresent(PageLayout.class)) {
-                    view = mContext.getLayoutInflater().inflate(((PageLayout)clazz.getAnnotation(PageLayout.class)).value(), null);
-                    setView(view);
+                if (mView == null && clazz.isAnnotationPresent(PageLayout.class)) {
+                    mView = mContext.getLayoutInflater().inflate(((PageLayout)clazz.getAnnotation(PageLayout.class)).value(), null);
                 }
             } while ((clazz = clazz.getSuperclass()) != ViewWrapper.class);
 
-            if (view == null) {
+            if (mView == null) {
                 throw new IllegalArgumentException("Must specify a layout resource with the @PageLayout annotation on " + clazz.getName());
             }
 
@@ -49,13 +47,13 @@ public abstract class ViewWrapper {
             if (clazz.isAnnotationPresent(InheritPageLayout.class)) {
                 InheritPageLayout inheritPageLayoutAnno = (InheritPageLayout)clazz.getAnnotation(InheritPageLayout.class);
                 if (inheritPageLayoutAnno.root() != -1) {
-                    ViewGroup root = (ViewGroup)view.findViewById(inheritPageLayoutAnno.root());
+                    ViewGroup root = (ViewGroup)mView.findViewById(inheritPageLayoutAnno.root());
                     if (root == null) {
                         throw new IllegalArgumentException("The root specified in @InheritPageLayout is not found.");
                     }
                     mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), root, true);
                 } else {
-                    mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)view, true);
+                    mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)mView, true);
                 }
             }
 
@@ -70,10 +68,6 @@ public abstract class ViewWrapper {
             e.printStackTrace();
             throw new InjectFailedException(e);
         }
-    }
-
-    public void setView(View view) {
-        mView = view;
     }
 
     public View getView() {
