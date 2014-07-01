@@ -133,8 +133,7 @@ public class PageManager {
             throw new IllegalArgumentException("cannot call popPagesTillSpecifiedPage() with null destPage.");
         }
 
-        if (mAnimating || mPageStack.size() <= 0
-                || mPageStack.lastIndexOf(destPage) == -1 || mPageStack.peekLast() == destPage) {
+        if (mPageStack.size() <= 0 || mPageStack.lastIndexOf(destPage) == -1 || mPageStack.peekLast() == destPage) {
             return;
         }
 
