@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.anim.PageAnimationManager;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -142,6 +143,44 @@ public class PageManager {
 
         while (mPageStack.size() > 1) {
             if (mPageStack.peekLast() == destPage) {
+                break;
+            }
+
+            Page page = mPageStack.removeLast();
+            mContainerView.removeView(page.getView());
+            page.onDetach();
+            page.onHidden();
+        }
+
+        popPageInternal(oldPage, animated, hint);
+    }
+
+    public void popPagesTillSpecifiedClass(Class<? extends Page> destClass, boolean animated, boolean hint) {
+        if (destClass == null) {
+            throw new IllegalArgumentException("cannot call popPagesTillSpecifiedClass() with null destClass.");
+        }
+
+        if (mPageStack.size() <= 0 || mPageStack.peekLast().getClass() == destClass) {
+            return;
+        }
+
+        boolean hasDestClass = false;
+        Iterator<Page> it = mPageStack.descendingIterator();
+        while (it.hasNext()) {
+            if (it.next().getClass() == destClass) {
+                hasDestClass = true;
+                break;
+            }
+        }
+
+        if (!hasDestClass) {
+            return;
+        }
+
+        Page oldPage = mPageStack.removeLast();
+
+        while (mPageStack.size() > 1) {
+            if (mPageStack.peekLast().getClass() == destClass) {
                 break;
             }
 
