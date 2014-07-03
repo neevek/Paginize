@@ -239,6 +239,24 @@ public class PageManager {
         }
     }
 
+    public int lastIndexOfPage(Class<? extends Page> pageClass) {
+        if (mPageStack.size() == 0) {
+            return -1;
+        }
+
+        int index = mPageStack.size();
+        Iterator<Page> it = mPageStack.descendingIterator();
+        while (it.hasNext()) {
+            --index;
+
+            if (it.next().getClass() == pageClass) {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
     public boolean onBackPressed() {
         if (mCurPage == null) {
             return false;
