@@ -155,19 +155,19 @@ public class PageManager {
         popPageInternal(oldPage, animated, hint);
     }
 
-    public void popPagesTillSpecifiedClass(Class<? extends Page> destClass, boolean animated, boolean hint) {
-        if (destClass == null) {
-            throw new IllegalArgumentException("cannot call popPagesTillSpecifiedClass() with null destClass.");
+    public void popPagesTillSpecifiedClass(Class<? extends Page> pageClass, boolean animated, boolean hint) {
+        if (pageClass == null) {
+            throw new IllegalArgumentException("cannot call popPagesTillSpecifiedClass() with null pageClass.");
         }
 
-        if (mPageStack.size() <= 0 || mPageStack.peekLast().getClass() == destClass) {
+        if (mPageStack.size() <= 0 || mPageStack.peekLast().getClass() == pageClass) {
             return;
         }
 
         boolean hasDestClass = false;
         Iterator<Page> it = mPageStack.descendingIterator();
         while (it.hasNext()) {
-            if (it.next().getClass() == destClass) {
+            if (it.next().getClass() == pageClass) {
                 hasDestClass = true;
                 break;
             }
@@ -180,7 +180,7 @@ public class PageManager {
         Page oldPage = mPageStack.removeLast();
 
         while (mPageStack.size() > 1) {
-            if (mPageStack.peekLast().getClass() == destClass) {
+            if (mPageStack.peekLast().getClass() == pageClass) {
                 break;
             }
 
