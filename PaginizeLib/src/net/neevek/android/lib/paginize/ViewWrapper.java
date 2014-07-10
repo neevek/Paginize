@@ -43,17 +43,22 @@ public abstract class ViewWrapper {
                 throw new IllegalArgumentException("Must specify a layout resource with the @PageLayout annotation on " + clazz.getName());
             }
 
-            clazz = getClass();
-            if (clazz.isAnnotationPresent(InheritPageLayout.class)) {
-                InheritPageLayout inheritPageLayoutAnno = (InheritPageLayout)clazz.getAnnotation(InheritPageLayout.class);
-                if (inheritPageLayoutAnno.root() != -1) {
-                    ViewGroup root = (ViewGroup)mView.findViewById(inheritPageLayoutAnno.root());
-                    if (root == null) {
-                        throw new IllegalArgumentException("The root specified in @InheritPageLayout is not found.");
+            if (list.size() > 1) {
+                // -2 because a Page with @PageLayout should not have @InheritPageLayout, which will be silently ignored.
+                for (int i = list.size() - 2; i >= 0; --i) {
+                    clazz = list.get(i);
+                    if (clazz.isAnnotationPresent(InheritPageLayout.class)) {
+                        InheritPageLayout inheritPageLayoutAnno = (InheritPageLayout)clazz.getAnnotation(InheritPageLayout.class);
+                        if (inheritPageLayoutAnno.root() != -1) {
+                            ViewGroup root = (ViewGroup)mView.findViewById(inheritPageLayoutAnno.root());
+                            if (root == null) {
+                                throw new IllegalArgumentException("The root specified in @InheritPageLayout is not found.");
+                            }
+                            mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), root, true);
+                        } else {
+                            mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)mView, true);
+                        }
                     }
-                    mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), root, true);
-                } else {
-                    mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup)mView, true);
                 }
             }
 
