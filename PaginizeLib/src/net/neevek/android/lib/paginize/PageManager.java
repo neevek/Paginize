@@ -129,9 +129,17 @@ public class PageManager {
         popPageInternal(oldPage, animated, hint);
     }
 
-    public void popPagesTillSpecifiedPage(Page destPage, boolean animated, boolean hint) {
+    /**
+     * "pop" operation ends if destPage is found,
+     * if destPage is not found, the method call is a no-op
+     *
+     * @param destPage page as the destination for this pop operation
+     * @param animated
+     * @param hint
+     */
+    public void popToPage(Page destPage, boolean animated, boolean hint) {
         if (destPage == null) {
-            throw new IllegalArgumentException("cannot call popPagesTillSpecifiedPage() with null destPage.");
+            throw new IllegalArgumentException("cannot call popToPage() with null destPage.");
         }
 
         if (mPageStack.size() <= 0 || mPageStack.lastIndexOf(destPage) == -1 || mPageStack.peekLast() == destPage) {
@@ -155,21 +163,47 @@ public class PageManager {
         popPageInternal(oldPage, animated, hint);
     }
 
-    public void popPagesTillSpecifiedClass(Class<? extends Page> pageClass, boolean animated, boolean hint) {
+    /**
+     * "pop" operation ends if the pageClass is found,
+     * if the class is not found, the method call is a no-op
+     *
+     * @param pageClass class of page as the destination for this pop operation
+     * @param animated
+     * @param hint
+     */
+    public void popToClass(Class<? extends Page> pageClass, boolean animated, boolean hint) {
         if (pageClass == null) {
-            throw new IllegalArgumentException("cannot call popPagesTillSpecifiedClass() with null pageClass.");
+            throw new IllegalArgumentException("cannot call popToClass() with null pageClass.");
         }
 
-        if (mPageStack.size() <= 0 || mPageStack.peekLast().getClass() == pageClass) {
+        popToClasses(new Class[]{ pageClass }, animated, hint);
+    }
+
+    /**
+     * "pop" operation ends when one of the classes specified by pageClasses is found,
+     * if none of the classes is found, the method call is a no-op
+     *
+     * @param pageClasses classes of pages as the destination for this pop operation
+     * @param animated true if the transition should be animated
+     * @param hint a hint for the PageAnimationManager
+     */
+    public void popToClasses(Class<? extends Page>[] pageClasses, boolean animated, boolean hint) {
+        if (pageClasses == null || pageClasses.length == 0) {
+            throw new IllegalArgumentException("cannot call popToClasses() with null or empty pageClasses.");
+        }
+
+        if (mPageStack.size() <= 0) {
             return;
         }
 
         boolean hasDestClass = false;
         Iterator<Page> it = mPageStack.descendingIterator();
         while (it.hasNext()) {
-            if (it.next().getClass() == pageClass) {
-                hasDestClass = true;
-                break;
+            for (Class pageClass : pageClasses) {
+                if (it.next().getClass() == pageClass) {
+                    hasDestClass = true;
+                    break;
+                }
             }
         }
 
@@ -180,8 +214,10 @@ public class PageManager {
         Page oldPage = mPageStack.removeLast();
 
         while (mPageStack.size() > 1) {
-            if (mPageStack.peekLast().getClass() == pageClass) {
-                break;
+            for (Class pageClass : pageClasses) {
+                if (mPageStack.peekLast().getClass() == pageClass) {
+                    break;
+                }
             }
 
             Page page = mPageStack.removeLast();
@@ -316,17 +352,5 @@ public class PageManager {
 
     boolean isPageKeptInStack(Page page) {
         return mPageStack.indexOf(page) != -1;
-    }
-
-    public LinkedList<Page> getPageStack() {
-        return mPageStack;
-    }
-
-    public Page getPage(int index) {
-        if (index < 0 || index >= mPageStack.size()) {
-            return null;
-        }
-
-        return mPageStack.get(index);
     }
 }
