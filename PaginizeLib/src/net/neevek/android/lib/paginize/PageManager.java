@@ -196,27 +196,42 @@ public class PageManager {
             return;
         }
 
-        boolean hasDestClass = false;
-        Iterator<Page> it = mPageStack.descendingIterator();
-        while (it.hasNext()) {
-            for (Class pageClass : pageClasses) {
-                if (it.next().getClass() == pageClass) {
-                    hasDestClass = true;
-                    break;
-                }
+        // is topPage the page we want to navigate to? if so, we do not need to do anything
+        Class topPageClass = mPageStack.peekLast().getClass();
+        for (Class pageClass : pageClasses) {
+            if (pageClass == topPageClass) {
+                return;
             }
         }
 
+        // the page we want to navigate to does not exist? if so, we do not need to do anything
+        boolean hasDestClass = false;
+        Iterator<Page> it = mPageStack.descendingIterator();
+
+        LOOP1:
+        while (it.hasNext()) {
+            Class destPageClass = it.next().getClass();
+
+            for (Class pageClass : pageClasses) {
+                if (destPageClass == pageClass) {
+                    hasDestClass = true;
+                    break LOOP1;
+                }
+            }
+        }
         if (!hasDestClass) {
             return;
         }
 
         Page oldPage = mPageStack.removeLast();
 
+        LOOP2:
         while (mPageStack.size() > 1) {
+            Class lastPageClass = mPageStack.peekLast().getClass();
+
             for (Class pageClass : pageClasses) {
-                if (mPageStack.peekLast().getClass() == pageClass) {
-                    break;
+                if (lastPageClass == pageClass) {
+                    break LOOP2;
                 }
             }
 
