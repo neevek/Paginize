@@ -25,7 +25,6 @@ public class PageManager {
 
     private LinkedList<Page> mPageStack = new LinkedList<Page>();
     private Page mCurPage;
-    private boolean mAnimating;
 
     private PageAnimationManager mPageAnimationManager;
 
@@ -86,11 +85,9 @@ public class PageManager {
         }
 
         if (animated && mPageAnimationManager != null) {
-            mAnimating = true;
             newPage.getView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mAnimating = false;
                     newPage.onShown(arg);
                 }
             }, mPageAnimationManager.getAnimationDuration());
@@ -112,7 +109,7 @@ public class PageManager {
     }
 
     public void popTopNPages(int n, boolean animated, boolean hint) {
-        if (n <= 0 || mAnimating || mPageStack.size() <= 0) {
+        if (n <= 0 || mPageStack.size() <= 0) {
             return;
         }
 
@@ -269,11 +266,9 @@ public class PageManager {
         mCurPage = prevPage;
 
         if (animated && mPageAnimationManager != null) {
-            mAnimating = true;
             removedPage.getView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mAnimating = false;
                     removedPage.onHidden();
 
                     if (prevPage != null) {
