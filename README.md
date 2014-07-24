@@ -10,12 +10,13 @@ After developing & using **Paginize** for some time, I learned that there was an
 1. Fragments have to be explicitly saved to the backstack. 
 2. Each Fragment supports creating its own option menus but no easy way to remove the menus. 
 3. No intuitive way to handle BACK press on a per-Fragment basis. 
-4. Too many life cycle methods, do we really need them ALL?
-5. I bet you can name quite a few more. 
+4. No global setting for Fragment transition animation
+5. Too many life cycle methods, do we really need them ALL?
+6. ...
 
-I know I can solve all the problems during the process of using Fragment, but I hate it when I have to keep looking for all kinds of workaround, that's not neat and the code would be ugly.
+You may argue that it is not difficult to solve all these problems, but I hate it when I have to keep looking for all kinds of workaround, that's not neat and the code would be ugly.
  
-For me it is not flexible at all and there are quite a few restrictions, and **Paginize** turned out to be a useful wheel for myself, and maybe hopefully for you. since this is the README for **Paginize**, I will not talk much about inflexibilties & restrictions of Fragment, but if you have ever used Fragment, I think you can feel it.
+Fragment is good and it is versatile, but for me it is too heavy, not flexible at all and there are quite a few restrictions. **Paginize** turned out to be a useful wheel for myself, and maybe hopefully for you. Since this is the README for **Paginize**, I will not talk much about inflexibilties & restrictions of Fragment, but if you have ever used Fragment, I believe you already have a collection of them.
 
 **Paginize** is a light-weight framework for Android, which eases development of Android applications with complex UI structures. **Paginize** makes use of Java annotations to inject layouts and views, layouts and Pages can be inherited, the layout inheritance feature is just like the `frameset` tag in HTML, and this makes code reuse much easier.
 
@@ -59,7 +60,7 @@ public abstract class HeaderPage extends Page {
     @InjectView(R.id.tv_back) private TextView mTvBack;
     @InjectView(R.id.tv_title) private TextView mTvTitle;
 
-    public onFramePage(PageActivity pageActivity) {
+    public HeaderPage(PageActivity pageActivity) {
         super(pageActivity);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -121,13 +122,16 @@ public class XXXDetailPage extends HeaderPage {
     @InjectView(R.id.tv_content)
     private TextView mTvContent;
 
-    public MainPage(PageActivity pageActivity) {
+    public XXXDetailPage(PageActivity pageActivity) {
         super(pageActivity);
 
-        mTvText.setText("Hello Paginize!");
+        mTvContent.setText("Hello Paginize!");
     }
 }
 ````
+
+After the steps above, XXXDetailPage is a page that contains a titlebar with a BACK button on the 
+top-left corner and a TextView as the content at the center.
 
 5. Create an Activity that extends PageActivity, and show the XXXDetailPage:
 
