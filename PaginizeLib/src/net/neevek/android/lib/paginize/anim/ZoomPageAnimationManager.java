@@ -1,10 +1,10 @@
 package net.neevek.android.lib.paginize.anim;
 
-import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import net.neevek.android.lib.paginize.Page;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,17 +45,17 @@ public class ZoomPageAnimationManager implements PageAnimationManager {
     }
 
     @Override
-    public void onPushPageAnimation(View oldPageView, View newPageView, boolean hint) {
-        if (oldPageView != null) {
-            oldPageView.startAnimation(mFadeOutAnimation);
+    public void onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+        if (oldPage != null) {
+            oldPage.getView().startAnimation(mFadeOutAnimation);
         }
 
-        newPageView.startAnimation(mInAnimation);
+        newPage.getView().startAnimation(mInAnimation);
     }
 
     @Override
-    public void onPopPageAnimation(View oldPageView, View newPageView, boolean hint) {
-        oldPageView.startAnimation(mOutAnimation);
+    public void onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
+        oldPage.getView().startAnimation(mOutAnimation);
     }
 
     @Override

@@ -81,7 +81,7 @@ public class PageManager {
         }
 
         if (animated && mPageAnimationManager != null) {
-            mPageAnimationManager.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), hint);
+            mPageAnimationManager.onPushPageAnimation(oldPage, newPage, hint);
         }
 
         if (animated && mPageAnimationManager != null) {
@@ -245,18 +245,17 @@ public class PageManager {
         final Page prevPage;
         if (mPageStack.size() > 0) {    // this check is always necessary
             prevPage = mPageStack.getLast();
-            View prevPageView = prevPage.getView();
 
             if (animated && mPageAnimationManager != null) {
-                mPageAnimationManager.onPopPageAnimation(removedPage.getView(), prevPageView, hint);
+                mPageAnimationManager.onPopPageAnimation(removedPage, prevPage, hint);
             }
 
-            prevPageView.setVisibility(View.VISIBLE);
+            prevPage.getView().setVisibility(View.VISIBLE);
         } else {
             prevPage = null;
 
             if (animated && mPageAnimationManager != null) {
-                mPageAnimationManager.onPopPageAnimation(removedPage.getView(), null, hint);
+                mPageAnimationManager.onPopPageAnimation(removedPage, null, hint);
             }
         }
 

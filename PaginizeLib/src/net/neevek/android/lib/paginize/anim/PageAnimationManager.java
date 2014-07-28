@@ -1,6 +1,6 @@
 package net.neevek.android.lib.paginize.anim;
 
-import android.view.View;
+import net.neevek.android.lib.paginize.Page;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,8 +9,7 @@ import android.view.View;
  * Time: 10:53 AM
  */
 public interface PageAnimationManager {
-    void onPushPageAnimation(View oldPageView, View newPageView, boolean hint);
-    // hint only applies to TranslateAnimation
-    void onPopPageAnimation(View oldPageView, View newPageView, boolean hint);
+    void onPushPageAnimation(Page oldPage, Page newPage, boolean hint);
+    void onPopPageAnimation(Page oldPage, Page newPage, boolean hint);
     int getAnimationDuration();
 }

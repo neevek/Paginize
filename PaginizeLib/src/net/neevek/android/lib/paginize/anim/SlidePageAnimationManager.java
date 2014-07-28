@@ -1,8 +1,8 @@
 package net.neevek.android.lib.paginize.anim;
 
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import net.neevek.android.lib.paginize.Page;
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,28 +38,28 @@ public class SlidePageAnimationManager implements PageAnimationManager {
     }
 
     @Override
-    public void onPushPageAnimation(View oldPageView, View newPageView, boolean hint) {
-        if (oldPageView != null) {
-            oldPageView.startAnimation(mPullOutFromRightAnimation);
+    public void onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+        if (oldPage != null) {
+            oldPage.getView().startAnimation(mPullOutFromRightAnimation);
         }
 
         if (hint) {
-            newPageView.startAnimation(mPushInFromLeftAnimation);
+            newPage.getView().startAnimation(mPushInFromLeftAnimation);
         } else {
-            newPageView.startAnimation(mPushInFromRightAnimation);
+            newPage.getView().startAnimation(mPushInFromRightAnimation);
         }
     }
 
     @Override
-    public void onPopPageAnimation(View oldPageView, View newPageView, boolean hint) {
+    public void onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
         if (hint) {
-            oldPageView.startAnimation(mPullOutFromLeftAnimation);
+            oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
         } else {
-            oldPageView.startAnimation(mPullOutFromRightAnimation);
+            oldPage.getView().startAnimation(mPullOutFromRightAnimation);
         }
 
-        if (newPageView != null) {
-            newPageView.startAnimation(mPushInFromLeftAnimation);
+        if (newPage != null) {
+            newPage.getView().startAnimation(mPushInFromLeftAnimation);
         }
     }
 
