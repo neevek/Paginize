@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 /**
  * PageManager manages the pages(of type Page), it swaps(push and pop) the pages
- * when requested, it uses PageAnimator to animate the transition when
+ * when requested, it uses PageAnimationManager to animate the transition when
  * swapping Pages.
  *
  * Date: 9/30/13
@@ -38,7 +38,7 @@ public class PageManager {
     }
 
     public void setPageAnimator(PageAnimator pageAnimator) {
-        mPageAnimator = pageAnimator;
+        mPageAnimator = pageAnimator ;
     }
 
     public PageAnimator getPageAnimator() {
@@ -80,17 +80,21 @@ public class PageManager {
             }
         }
 
-        if (animated && mPageAnimator != null) {
+        if (animated && mPageAnimator != null && !newPage.onPushPageAnimation(oldPage, newPage, hint)) {
             mPageAnimator.onPushPageAnimation(oldPage, newPage, hint);
         }
 
-        if (animated && mPageAnimator != null) {
+        int animationDuration = newPage.getAnimationDuration();
+        if (animationDuration == -1 && mPageAnimator != null) {
+            animationDuration = mPageAnimator.getAnimationDuration();
+        }
+        if (animated && animationDuration != -1) {
             newPage.getView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     newPage.onShown(arg);
                 }
-            }, mPageAnimator.getAnimationDuration());
+            }, animationDuration);
         } else {
             newPage.onShown(arg);
         }
@@ -182,7 +186,7 @@ public class PageManager {
      *
      * @param pageClasses classes of pages as the destination for this pop operation
      * @param animated true if the transition should be animated
-     * @param hint a hint for the PageAnimator
+     * @param hint a hint for the PageAnimationManager
      */
     public void popToClasses(Class<? extends Page>[] pageClasses, boolean animated, boolean hint) {
         if (pageClasses == null || pageClasses.length == 0) {
@@ -246,7 +250,7 @@ public class PageManager {
         if (mPageStack.size() > 0) {    // this check is always necessary
             prevPage = mPageStack.getLast();
 
-            if (animated && mPageAnimator != null) {
+            if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, prevPage, hint)) {
                 mPageAnimator.onPopPageAnimation(removedPage, prevPage, hint);
             }
 
@@ -254,7 +258,7 @@ public class PageManager {
         } else {
             prevPage = null;
 
-            if (animated && mPageAnimator != null) {
+            if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, null, hint)) {
                 mPageAnimator.onPopPageAnimation(removedPage, null, hint);
             }
         }
@@ -264,17 +268,21 @@ public class PageManager {
 
         mCurPage = prevPage;
 
-        if (animated && mPageAnimator != null) {
+        int animationDuration = removedPage.getAnimationDuration();
+        if (animationDuration == -1 && mPageAnimator != null) {
+            animationDuration = mPageAnimator.getAnimationDuration();
+        }
+        if (animated && animationDuration != -1) {
             removedPage.getView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     removedPage.onHidden();
 
                     if (prevPage != null) {
-                        prevPage .onUncovered(removedPage.getReturnData());
+                        prevPage.onUncovered(removedPage.getReturnData());
                     }
                 }
-            }, mPageAnimator.getAnimationDuration());
+            }, animationDuration);
         } else {
             removedPage.onHidden();
 

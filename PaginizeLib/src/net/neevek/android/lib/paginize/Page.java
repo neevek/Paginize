@@ -1,5 +1,7 @@
 package net.neevek.android.lib.paginize;
 
+import net.neevek.android.lib.paginize.anim.PageAnimator;
+
 /**
  * A Page encapsulates a View(usually a layout with complex UIs),
  * which is to be put into a ViewGroup and finally be shown on screen.
@@ -15,7 +17,7 @@ package net.neevek.android.lib.paginize;
  * @since 1.0.0
  */
 
-public abstract class Page extends ViewWrapper {
+public abstract class Page extends ViewWrapper implements PageAnimator {
     // default page type should be normal here.
     private TYPE mType = TYPE.TYPE_NORMAL;
     private Object mReturnData;
@@ -93,5 +95,20 @@ public abstract class Page extends ViewWrapper {
 
     public boolean isKeptInStack() {
         return mContext.getPageManager().isPageKeptInStack(this);
+    }
+
+    @Override
+    public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+        return false;
+    }
+
+    @Override
+    public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
+        return false;
+    }
+
+    @Override
+    public int getAnimationDuration() {
+        return -1;
     }
 }

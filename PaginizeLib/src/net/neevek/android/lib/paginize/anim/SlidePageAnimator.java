@@ -18,7 +18,7 @@ public class SlidePageAnimator implements PageAnimator {
     private Animation mPushInFromLeftAnimation;
     private Animation mPullOutFromLeftAnimation;
 
-    public SlidePageAnimator() {
+    public SlidePageAnimator () {
         initAnimations();
     }
 
@@ -38,7 +38,7 @@ public class SlidePageAnimator implements PageAnimator {
     }
 
     @Override
-    public void onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
         if (oldPage != null) {
             oldPage.getView().startAnimation(mPullOutFromRightAnimation);
         }
@@ -48,10 +48,12 @@ public class SlidePageAnimator implements PageAnimator {
         } else {
             newPage.getView().startAnimation(mPushInFromRightAnimation);
         }
+
+        return true;
     }
 
     @Override
-    public void onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
         if (hint) {
             oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
         } else {
@@ -61,6 +63,8 @@ public class SlidePageAnimator implements PageAnimator {
         if (newPage != null) {
             newPage.getView().startAnimation(mPushInFromLeftAnimation);
         }
+
+        return true;
     }
 
     @Override

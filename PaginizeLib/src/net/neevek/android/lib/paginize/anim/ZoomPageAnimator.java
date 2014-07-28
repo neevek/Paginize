@@ -19,7 +19,7 @@ public class ZoomPageAnimator implements PageAnimator {
 
     private Animation mFadeOutAnimation;
 
-    public ZoomPageAnimator() {
+    public ZoomPageAnimator () {
         initAnimations();
     }
 
@@ -45,17 +45,21 @@ public class ZoomPageAnimator implements PageAnimator {
     }
 
     @Override
-    public void onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
         if (oldPage != null) {
             oldPage.getView().startAnimation(mFadeOutAnimation);
         }
 
         newPage.getView().startAnimation(mInAnimation);
+
+        return true;
     }
 
     @Override
-    public void onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
         oldPage.getView().startAnimation(mOutAnimation);
+
+        return true;
     }
 
     @Override
