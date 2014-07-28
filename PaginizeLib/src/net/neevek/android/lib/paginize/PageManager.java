@@ -3,14 +3,14 @@ package net.neevek.android.lib.paginize;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import net.neevek.android.lib.paginize.anim.PageAnimationManager;
+import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  * PageManager manages the pages(of type Page), it swaps(push and pop) the pages
- * when requested, it uses PageAnimationManager to animate the transition when
+ * when requested, it uses PageAnimator to animate the transition when
  * swapping Pages.
  *
  * Date: 9/30/13
@@ -26,23 +26,23 @@ public class PageManager {
     private LinkedList<Page> mPageStack = new LinkedList<Page>();
     private Page mCurPage;
 
-    private PageAnimationManager mPageAnimationManager;
+    private PageAnimator mPageAnimator;
 
     public PageManager(ViewGroup containerView) {
         this(containerView, null);
     }
 
-    public PageManager(ViewGroup containerView, PageAnimationManager pageAnimationManager) {
+    public PageManager(ViewGroup containerView, PageAnimator pageAnimator) {
         mContainerView = containerView;
-        mPageAnimationManager = pageAnimationManager;
+        mPageAnimator = pageAnimator;
     }
 
-    public void setPageAnimationManager(PageAnimationManager pageAnimationManager) {
-        mPageAnimationManager = pageAnimationManager;
+    public void setPageAnimator(PageAnimator pageAnimator) {
+        mPageAnimator = pageAnimator;
     }
 
-    public PageAnimationManager getPageAnimationManager() {
-        return mPageAnimationManager;
+    public PageAnimator getPageAnimator() {
+        return mPageAnimator;
     }
 
     public void pushPage(Page page) {
@@ -80,17 +80,17 @@ public class PageManager {
             }
         }
 
-        if (animated && mPageAnimationManager != null) {
-            mPageAnimationManager.onPushPageAnimation(oldPage, newPage, hint);
+        if (animated && mPageAnimator != null) {
+            mPageAnimator.onPushPageAnimation(oldPage, newPage, hint);
         }
 
-        if (animated && mPageAnimationManager != null) {
+        if (animated && mPageAnimator != null) {
             newPage.getView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     newPage.onShown(arg);
                 }
-            }, mPageAnimationManager.getAnimationDuration());
+            }, mPageAnimator.getAnimationDuration());
         } else {
             newPage.onShown(arg);
         }
@@ -182,7 +182,7 @@ public class PageManager {
      *
      * @param pageClasses classes of pages as the destination for this pop operation
      * @param animated true if the transition should be animated
-     * @param hint a hint for the PageAnimationManager
+     * @param hint a hint for the PageAnimator
      */
     public void popToClasses(Class<? extends Page>[] pageClasses, boolean animated, boolean hint) {
         if (pageClasses == null || pageClasses.length == 0) {
@@ -246,16 +246,16 @@ public class PageManager {
         if (mPageStack.size() > 0) {    // this check is always necessary
             prevPage = mPageStack.getLast();
 
-            if (animated && mPageAnimationManager != null) {
-                mPageAnimationManager.onPopPageAnimation(removedPage, prevPage, hint);
+            if (animated && mPageAnimator != null) {
+                mPageAnimator.onPopPageAnimation(removedPage, prevPage, hint);
             }
 
             prevPage.getView().setVisibility(View.VISIBLE);
         } else {
             prevPage = null;
 
-            if (animated && mPageAnimationManager != null) {
-                mPageAnimationManager.onPopPageAnimation(removedPage, null, hint);
+            if (animated && mPageAnimator != null) {
+                mPageAnimator.onPopPageAnimation(removedPage, null, hint);
             }
         }
 
@@ -264,7 +264,7 @@ public class PageManager {
 
         mCurPage = prevPage;
 
-        if (animated && mPageAnimationManager != null) {
+        if (animated && mPageAnimator != null) {
             removedPage.getView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -274,7 +274,7 @@ public class PageManager {
                         prevPage .onUncovered(removedPage.getReturnData());
                     }
                 }
-            }, mPageAnimationManager.getAnimationDuration());
+            }, mPageAnimator.getAnimationDuration());
         } else {
             removedPage.onHidden();
 

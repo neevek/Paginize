@@ -31,8 +31,6 @@ public class TestPage extends FramePage implements View.OnClickListener {
             case R.id.btn_back:
                 hideWithAnimation(true);
                 break;
-            default:
-                super.onClick(v);
         }
     }
 

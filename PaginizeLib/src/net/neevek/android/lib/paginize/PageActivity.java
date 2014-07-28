@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import net.neevek.android.lib.paginize.annotation.InjectPageAnimationManager;
+import net.neevek.android.lib.paginize.annotation.InjectPageAnimator;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 import net.neevek.android.lib.paginize.util.AnnotationUtils;
 import net.neevek.android.lib.paginize.util.ViewFinder;
@@ -41,10 +41,10 @@ public class PageActivity extends Activity {
         do {
             list.add(clazz);
 
-            if (mPageManager.getPageAnimationManager() == null) {
-                InjectPageAnimationManager pamAnnotation = (InjectPageAnimationManager)clazz.getAnnotation(InjectPageAnimationManager.class);
+            if (mPageManager.getPageAnimator() == null) {
+                InjectPageAnimator pamAnnotation = (InjectPageAnimator)clazz.getAnnotation(InjectPageAnimator.class);
                 if (pamAnnotation != null) {
-                    mPageManager.setPageAnimationManager(pamAnnotation.value().newInstance());
+                    mPageManager.setPageAnimator(pamAnnotation.value().newInstance());
                 }
             }
         } while ((clazz = clazz.getSuperclass()) != PageActivity.class);

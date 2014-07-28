@@ -11,14 +11,14 @@ import net.neevek.android.lib.paginize.Page;
  * Time: 11:06 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SlidePageAnimationManager implements PageAnimationManager {
+public class SlidePageAnimator implements PageAnimator {
     private final static int ANIMATION_DURATION = 250;
     private Animation mPushInFromRightAnimation;
     private Animation mPullOutFromRightAnimation;
     private Animation mPushInFromLeftAnimation;
     private Animation mPullOutFromLeftAnimation;
 
-    public SlidePageAnimationManager() {
+    public SlidePageAnimator() {
         initAnimations();
     }
 

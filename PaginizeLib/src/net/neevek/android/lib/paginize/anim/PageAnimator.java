@@ -8,7 +8,7 @@ import net.neevek.android.lib.paginize.Page;
  * Date: 10/17/13
  * Time: 10:53 AM
  */
-public interface PageAnimationManager {
+public interface PageAnimator {
     void onPushPageAnimation(Page oldPage, Page newPage, boolean hint);
     void onPopPageAnimation(Page oldPage, Page newPage, boolean hint);
     int getAnimationDuration();

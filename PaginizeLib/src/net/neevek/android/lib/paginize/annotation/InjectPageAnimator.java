@@ -1,7 +1,7 @@
 package net.neevek.android.lib.paginize.annotation;
 
 
-import net.neevek.android.lib.paginize.anim.PageAnimationManager;
+import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface InjectPageAnimationManager {
-    Class<? extends PageAnimationManager> value();
+public @interface InjectPageAnimator {
+    Class<? extends PageAnimator> value();
 }

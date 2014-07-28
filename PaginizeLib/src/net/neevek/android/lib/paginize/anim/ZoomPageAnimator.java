@@ -12,14 +12,14 @@ import net.neevek.android.lib.paginize.Page;
  * Date: 10/17/13
  * Time: 11:06 AM
  */
-public class ZoomPageAnimationManager implements PageAnimationManager {
+public class ZoomPageAnimator implements PageAnimator {
     private final static int ANIMATION_DURATION = 200;
     private Animation mInAnimation;
     private Animation mOutAnimation;
 
     private Animation mFadeOutAnimation;
 
-    public ZoomPageAnimationManager() {
+    public ZoomPageAnimator() {
         initAnimations();
     }
 
