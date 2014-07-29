@@ -1,6 +1,7 @@
 package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.anim.PageAnimator;
@@ -21,6 +22,9 @@ import java.util.LinkedList;
  * @since 1.0.0
  */
 public class PageManager {
+    private final String TAG = PageManager.class.getSimpleName();
+    private final boolean DEBUG = true;
+
     private ViewGroup mContainerView;
 
     private LinkedList<Page> mPageStack = new LinkedList<Page>();
@@ -64,6 +68,10 @@ public class PageManager {
         mPageStack.addLast(newPage);
         mContainerView.addView(newPage.getView());
         newPage.onAttach();
+
+        if (DEBUG) {
+            Log.d(TAG, String.format(">>>> pushPage, pagestack=%d, %s, arg=%s", mPageStack.size(), newPage, arg));
+        }
 
         if (oldPage != null) {
             if (newPage.keepSingleInstance() && newPage.getClass() == oldPage.getClass()) {
@@ -125,6 +133,10 @@ public class PageManager {
             mContainerView.removeView(page.getView());
             page.onDetach();
             page.onHidden();
+
+            if (DEBUG) {
+                Log.d(TAG, String.format(">>>> popPage, pagestack=%d, %s", mPageStack.size(), page));
+            }
         }
 
         popPageInternal(oldPage, animated, hint);
@@ -147,8 +159,11 @@ public class PageManager {
             return;
         }
 
-
         Page oldPage = mPageStack.removeLast();
+
+        if (DEBUG) {
+            Log.d(TAG, String.format(">>>> popPage, pagestack=%d, %s", mPageStack.size(), oldPage));
+        }
 
         while (mPageStack.size() > 1) {
             if (mPageStack.peekLast() == destPage) {
