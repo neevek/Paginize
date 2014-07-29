@@ -136,7 +136,7 @@ top-left corner and a TextView as the content at the center.
 5. Create an Activity that extends PageActivity, and show the XXXDetailPage:
 
 ```java
-@InjectPageAnimationManager(SlidePageAnimationManager.class)
+@InjectPageAnimator(SlidePageAnimator.class)
 public class MainActivity extends PageActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
