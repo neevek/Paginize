@@ -65,8 +65,10 @@ public abstract class ViewWrapper {
             ViewFinder viewFinder = new ViewFinder() {
                 public View findViewById(int id) { return ViewWrapper.this.findViewById(id); }
             };
+
             for (int i = list.size() - 1; i >= 0; --i) {
                 AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder);
+                AnnotationUtils.handleAnnotatedPageConstructors(list.get(i), this, viewFinder);
             }
 
         } catch (Exception e) {

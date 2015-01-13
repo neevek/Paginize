@@ -2,13 +2,13 @@ package net.neevek.android.lib.paginize.util;
 
 import android.text.TextWatcher;
 import android.view.View;
+import net.neevek.android.lib.paginize.annotation.DecoratePageConstructor;
 import net.neevek.android.lib.paginize.annotation.InjectView;
+import net.neevek.android.lib.paginize.annotation.SetViewListeners;
 import net.neevek.android.lib.paginize.exception.NotImplementedInterfaceException;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,15 +21,14 @@ public class AnnotationUtils {
         sSetListenerMethodMap.put(TextWatcher.class, "addTextChangedListener");
     }
 
-    private static void setListenersForView(Class clazz, InjectView annotation, View view, Object listener) throws InvocationTargetException
+    private static void setListenersForView(Class[] listeners, View view, Object listener) throws InvocationTargetException
         , IllegalAccessException, NoSuchMethodException, InstantiationException {
-        Class[] listeners = annotation.listeners();
 
         for (int j = 0; j < listeners.length; ++j) {
             Class listenerClass = listeners[j];
 
-            if (!listenerClass.isAssignableFrom(clazz)) {
-                throw new NotImplementedInterfaceException(clazz.getName() + " does not implement " + listenerClass.getName());
+            if (!listenerClass.isAssignableFrom(listener.getClass())) {
+                throw new NotImplementedInterfaceException(listener.getClass().getName() + " does not implement " + listenerClass.getName());
             }
 
             String methodName = sSetListenerMethodMap.get(listenerClass);
@@ -57,6 +56,61 @@ public class AnnotationUtils {
         }
     }
 
+    public static void handleAnnotatedPageConstructors(Class clazz, Object object, ViewFinder viewFinder) throws InvocationTargetException
+            , IllegalAccessException, NoSuchMethodException, InstantiationException {
+
+        Constructor[] constructors = clazz.getConstructors();
+        for (int i = 0; i < constructors.length; ++i) {
+
+            Constructor constructor = constructors[i];
+            Annotation[] annotations = constructor.getAnnotations();
+            for (int j = 0; j < annotations.length; ++j) {
+
+                Annotation anno = annotations[j];
+                if (!(anno instanceof DecoratePageConstructor)) {
+                    continue;
+                }
+
+                DecoratePageConstructor annoContainer = (DecoratePageConstructor)anno;
+                if (annoContainer.viewListeners().length == 0) {
+                    continue;
+                }
+
+                Annotation[] listenerAnno = annoContainer.viewListeners();
+                for (int k = 0; k < listenerAnno.length; ++k) {
+                    SetViewListeners setViewListenersAnno = (SetViewListeners) listenerAnno[k];
+                    View view = viewFinder.findViewById(setViewListenersAnno.view());
+                    if (view == null) {
+                        throw new IllegalArgumentException("The view specified in @SetViewListeners is not found.");
+                    }
+
+                    Object targetListener = object;
+                    if (setViewListenersAnno.target() != null && setViewListenersAnno.target() != void.class) {
+                        Class targetListenerClass = setViewListenersAnno.target();
+                        try {
+                            boolean isStatic = Modifier.isStatic(targetListenerClass.getModifiers());
+                            if (isStatic) {
+                                Constructor ctor = targetListenerClass.getDeclaredConstructor();
+                                ctor.setAccessible(true);
+                                targetListener = ctor.newInstance();
+
+                            } else {
+                                Constructor ctor = targetListenerClass.getDeclaredConstructor(clazz);
+                                ctor.setAccessible(true);
+                                targetListener = ctor.newInstance(object);
+                            }
+                        } catch (NoSuchMethodException e) {
+                            throw new IllegalArgumentException("The 'target' field in @SetViewListeners must contain a default constructor without arguments.");
+                        }
+                    }
+
+                    AnnotationUtils.setListenersForView(setViewListenersAnno.listeners(), view, targetListener);
+                }
+
+            }
+        }
+    }
+
     public static void initAnnotatedFields(Class clazz, Object object, ViewFinder viewFinder) throws InvocationTargetException
             , IllegalAccessException, NoSuchMethodException, InstantiationException {
         Field fields[] = clazz.getDeclaredFields();
@@ -79,7 +133,7 @@ public class AnnotationUtils {
                     field.set(object, view);
 
                     if (annotation.listeners().length > 0) {
-                        AnnotationUtils.setListenersForView(clazz, annotation, view, object);
+                        AnnotationUtils.setListenersForView(annotation.listeners(), view, object);
                     }
 
                 }
