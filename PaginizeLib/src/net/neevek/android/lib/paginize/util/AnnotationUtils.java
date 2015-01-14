@@ -4,7 +4,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import net.neevek.android.lib.paginize.annotation.DecoratePageConstructor;
 import net.neevek.android.lib.paginize.annotation.InjectView;
-import net.neevek.android.lib.paginize.annotation.SetViewListeners;
+import net.neevek.android.lib.paginize.annotation.SetListeners;
 import net.neevek.android.lib.paginize.exception.NotImplementedInterfaceException;
 
 import java.lang.annotation.Annotation;
@@ -21,11 +21,11 @@ public class AnnotationUtils {
         sSetListenerMethodMap.put(TextWatcher.class, "addTextChangedListener");
     }
 
-    private static void setListenersForView(Class[] listeners, View view, Object listener) throws InvocationTargetException
+    private static void setListenersForView(View view, Class[] listenerTypes, Object listener) throws InvocationTargetException
         , IllegalAccessException, NoSuchMethodException, InstantiationException {
 
-        for (int j = 0; j < listeners.length; ++j) {
-            Class listenerClass = listeners[j];
+        for (int j = 0; j < listenerTypes.length; ++j) {
+            Class listenerClass = listenerTypes[j];
 
             if (!listenerClass.isAssignableFrom(listener.getClass())) {
                 throw new NotImplementedInterfaceException(listener.getClass().getName() + " does not implement " + listenerClass.getName());
@@ -78,15 +78,15 @@ public class AnnotationUtils {
 
                 Annotation[] listenerAnno = annoContainer.viewListeners();
                 for (int k = 0; k < listenerAnno.length; ++k) {
-                    SetViewListeners setViewListenersAnno = (SetViewListeners) listenerAnno[k];
-                    View view = viewFinder.findViewById(setViewListenersAnno.view());
+                    SetListeners setListenersAnno = (SetListeners) listenerAnno[k];
+                    View view = viewFinder.findViewById(setListenersAnno.view());
                     if (view == null) {
-                        throw new IllegalArgumentException("The view specified in @SetViewListeners is not found.");
+                        throw new IllegalArgumentException("The view specified in @SetListeners is not found.");
                     }
 
                     Object targetListener = object;
-                    if (setViewListenersAnno.target() != null && setViewListenersAnno.target() != void.class) {
-                        Class targetListenerClass = setViewListenersAnno.target();
+                    if (setListenersAnno.listener() != null && setListenersAnno.listener() != void.class) {
+                        Class targetListenerClass = setListenersAnno.listener();
                         try {
                             boolean isStatic = Modifier.isStatic(targetListenerClass.getModifiers());
                             if (isStatic) {
@@ -100,11 +100,11 @@ public class AnnotationUtils {
                                 targetListener = ctor.newInstance(object);
                             }
                         } catch (NoSuchMethodException e) {
-                            throw new IllegalArgumentException("The 'target' field in @SetViewListeners must contain a default constructor without arguments.");
+                            throw new IllegalArgumentException("The 'listener' field in @SetListeners must contain a default constructor without arguments.");
                         }
                     }
 
-                    AnnotationUtils.setListenersForView(setViewListenersAnno.listeners(), view, targetListener);
+                    AnnotationUtils.setListenersForView(view, setListenersAnno.listenerTypes(), targetListener);
                 }
 
             }
@@ -132,8 +132,8 @@ public class AnnotationUtils {
                     field.setAccessible(true);
                     field.set(object, view);
 
-                    if (annotation.listeners().length > 0) {
-                        AnnotationUtils.setListenersForView(annotation.listeners(), view, object);
+                    if (annotation.listenerTypes().length > 0) {
+                        AnnotationUtils.setListenersForView(view, annotation.listenerTypes(), object);
                     }
 
                 }

@@ -16,7 +16,7 @@ import net.neevek.android.lib.paginize.annotation.InjectView;
 @InheritPageLayout(R.layout.page_test)
 public class TestPage extends FramePage implements View.OnClickListener {
 
-    @InjectView(value = R.id.btn_back, listeners = {View.OnClickListener.class})
+    @InjectView(value = R.id.btn_back, listenerTypes = {View.OnClickListener.class})
     private Button mBtnBack;
 
     public TestPage(PageActivity pageActivity) {

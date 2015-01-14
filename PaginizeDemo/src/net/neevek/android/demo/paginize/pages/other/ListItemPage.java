@@ -16,7 +16,7 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
 @PageLayout(R.layout.page_list_item)
 public class ListItemPage extends Page implements View.OnClickListener {
 
-    @InjectView(value = R.id.btn_back, listeners = {View.OnClickListener.class})
+    @InjectView(value = R.id.btn_back, listenerTypes = {View.OnClickListener.class})
     private Button mBtnBack;
 
     @InjectView(R.id.tv_text)

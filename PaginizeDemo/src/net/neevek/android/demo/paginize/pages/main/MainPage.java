@@ -15,9 +15,9 @@ import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutResId;
 @InheritPageLayout(R.layout.page_main)
 @InnerPageContainerLayoutResId(R.id.layout_container)
 public class MainPage extends FrameInnerPage implements View.OnClickListener {
-    @InjectView(value = R.id.rb_nav_btn1, listeners = {View.OnClickListener.class})
+    @InjectView(value = R.id.rb_nav_btn1, listenerTypes = {View.OnClickListener.class})
     private RadioButton mRbNavBtn1;
-    @InjectView(value = R.id.rb_nav_btn2, listeners = {View.OnClickListener.class})
+    @InjectView(value = R.id.rb_nav_btn2, listenerTypes = {View.OnClickListener.class})
     private RadioButton mRbNavBtn2;
 
     private TabPage1 mTabPage1 = new TabPage1(mContext);

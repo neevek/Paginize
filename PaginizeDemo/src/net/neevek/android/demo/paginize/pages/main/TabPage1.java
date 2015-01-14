@@ -10,7 +10,7 @@ import net.neevek.android.lib.paginize.InnerPage;
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.annotation.DecoratePageConstructor;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
-import net.neevek.android.lib.paginize.annotation.SetViewListeners;
+import net.neevek.android.lib.paginize.annotation.SetListeners;
 
 /**
  * Created by neevek on 3/16/14.
@@ -19,20 +19,20 @@ import net.neevek.android.lib.paginize.annotation.SetViewListeners;
 public class TabPage1 extends InnerPage //implements View.OnClickListener
 {
 
-//    @InjectView(value = R.id.btn_next_page, listeners = {View.OnClickListener.class})
+//    @InjectView(value = R.id.btn_next_page, listenerTypes = {View.OnClickListener.class})
 //    private Button mBtnNextPage;
-//    @InjectView(value = R.id.btn_list_page, listeners = {View.OnClickListener.class})
+//    @InjectView(value = R.id.btn_list_page, listenerTypes = {View.OnClickListener.class})
 //    private Button mBtnListPage;
-//    @InjectView(value = R.id.btn_show_alert, listeners = {View.OnClickListener.class})
+//    @InjectView(value = R.id.btn_show_alert, listenerTypes = {View.OnClickListener.class})
 //    private Button mBtnShowAnAlertPage;
-//    @InjectView(value = R.id.btn_show_view_pager_page, listeners = {View.OnClickListener.class})
+//    @InjectView(value = R.id.btn_show_view_pager_page, listenerTypes = {View.OnClickListener.class})
 //    private Button mBtnShowViewPagerPage;
 
     @DecoratePageConstructor(viewListeners = {
-            @SetViewListeners(view = R.id.btn_next_page, listeners = {View.OnClickListener.class}, target = MyOnClickListener.class),
-            @SetViewListeners(view = R.id.btn_list_page, listeners = {View.OnClickListener.class}, target = MyOnClickListener.class),
-            @SetViewListeners(view = R.id.btn_show_alert, listeners = {View.OnClickListener.class}, target = MyOnClickListener.class),
-            @SetViewListeners(view = R.id.btn_show_view_pager_page, listeners = {View.OnClickListener.class}, target = MyOnClickListener.class)
+            @SetListeners(view = R.id.btn_next_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
+            @SetListeners(view = R.id.btn_list_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
+            @SetListeners(view = R.id.btn_show_alert, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
+            @SetListeners(view = R.id.btn_show_view_pager_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class)
     })
     public TabPage1(PageActivity context) {
         super(context);

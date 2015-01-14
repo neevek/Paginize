@@ -10,8 +10,8 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.CONSTRUCTOR)
-public @interface SetViewListeners {
+public @interface SetListeners {
     int view();
-    Class[] listeners() default {};
-    Class target() default void.class;
+    Class[] listenerTypes() default {};
+    Class listener() default void.class;
 }

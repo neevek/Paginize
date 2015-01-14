@@ -18,7 +18,7 @@ import net.neevek.android.lib.paginize.annotation.InjectView;
 @InheritPageLayout(R.layout.page_list)
 public class ListPage extends FramePage implements AdapterView.OnItemClickListener {
 
-    @InjectView(value = android.R.id.list, listeners = {AdapterView.OnItemClickListener.class})
+    @InjectView(value = android.R.id.list, listenerTypes = {AdapterView.OnItemClickListener.class})
     private ListView mLvData;
 
     // reuse a page like this

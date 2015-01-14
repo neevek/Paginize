@@ -13,7 +13,7 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
 @PageLayout(R.layout.page_alert)
 public class AlertPage extends Page implements View.OnClickListener {
 
-    @InjectView(value = R.id.btn_confirm, listeners = {View.OnClickListener.class})
+    @InjectView(value = R.id.btn_confirm, listenerTypes = {View.OnClickListener.class})
     private Button mBtnConfirm;
 
     public AlertPage(PageActivity pageActivity) {

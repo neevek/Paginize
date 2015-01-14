@@ -21,9 +21,9 @@ import net.neevek.android.lib.paginize.annotation.ViewPagerResId;
 public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListener {
     private final static String TAG = MyViewPagerPage.class.getSimpleName();
 
-    @InjectView(value = R.id.tv_back, listeners = View.OnClickListener.class) TextView mTvBack;
+    @InjectView(value = R.id.tv_back, listenerTypes = View.OnClickListener.class) TextView mTvBack;
     @InjectView(value = R.id.tv_title) TextView mTvTitle;
-    @InjectView(value = R.id.tv_next, listeners = View.OnClickListener.class) TextView mTvNext;
+    @InjectView(value = R.id.tv_next, listenerTypes = View.OnClickListener.class) TextView mTvNext;
 
     private ViewWrapper mViewWrappers[] = {
             new ViewPageSubPage1(mContext), new ViewPageSubPage2(mContext)
