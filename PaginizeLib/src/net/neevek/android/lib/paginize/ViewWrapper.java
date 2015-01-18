@@ -13,7 +13,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by neevek on 6/15/14.
+ * Copyright (c) 2015 neevek <i@neevek.net>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/**
+ * This class encapsulates a {@link android.view.View}, and declares a set of
+ * lifecycle methods.
+ *
+ * @see net.neevek.android.lib.paginize.Page
+ * @see net.neevek.android.lib.paginize.InnerPage
  */
 public abstract class ViewWrapper {
   /**
@@ -104,63 +129,80 @@ public abstract class ViewWrapper {
   }
 
   /**
-   * called when added to the view hierarchy of the host activity *
+   * called when added to the view hierarchy of the host activity
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onAttach() {
-  }
+  public void onAttach() { }
 
   /**
-   * called when removed from the view hierarchy of the host activity *
+   * called when removed from the view hierarchy of the host activity
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onDetach() {
-  }
+  public void onDetach() { }
 
   /**
-   * onBackPressed mirrors Activity.onBackPressed, only the current page(page on the top of the stack) receives this call *
+   * onBackPressed mirrors Activity.onBackPressed, only the current
+   * page(on top of the stack) receives this call
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
   public boolean onBackPressed() {
     return false;
   }
 
   /**
-   * onActivityResult mirrors Activity.onActivityResult, only the current page(page on the top of the stack) receives this call *
+   * onActivityResult mirrors Activity.onActivityResult, only the current
+   * page(on top of the stack) receives this call
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-  }
+  public void onActivityResult(int requestCode, int resultCode, Intent data) { }
 
   /**
-   * onPause mirrors Activity.onPause, only the current page(page on the top of the stack) receives this call *
+   * onPause mirrors Activity.onPause, only the current page
+   * (on top of the stack) receives this call
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onPause() {
-  }
+  public void onPause() { }
 
   /**
-   * onResume mirrors Activity.onResume, only the current page(page on the top of the stack) receives this call *
+   * onResume mirrors Activity.onResume, only the current page
+   * (on top of the stack) receives this call
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onResume() {
-  }
+  public void onResume() { }
 
   /**
-   * onShown is called after the page is pushed on the page stack *
+   * onShown is called after the page is pushed on the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onShown(Object arg) {
-  }
+  public void onShown(Object arg) { }
 
   /**
-   * onHidden is called after the page is popped out of the page stack *
+   * onHidden is called after the page is popped out of the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onHidden() {
-  }
+  public void onHidden() { }
 
   /**
-   * onCovered is called for the current page when a new page is pushed on the page stack *
+   * onCovered is called for the current ViewWrapper when a new
+   * ViewWrapper is pushed on the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onCovered() {
-  }
+  public void onCovered() { }
 
   /**
-   * onUncovered is called for the previous page when the current page is popped out of the page stack *
+   * onUncovered is called for the previous page when the current page
+   * is popped out of the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onUncovered(Object arg) {
-  }
+  public void onUncovered(Object arg) { }
 }

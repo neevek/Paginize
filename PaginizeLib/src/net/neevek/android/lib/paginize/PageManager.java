@@ -10,16 +10,33 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
+ * Copyright (c) 2015 neevek <i@neevek.net>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/**
  * PageManager manages the pages(of type Page), it swaps(push and pop) the pages
  * when requested, it uses PageAnimationManager to animate the transition when
  * swapping Pages.
- * <p/>
- * Date: 9/30/13
- * Time: 10:32 AM
  *
- * @author i@neevek.net
- * @version 1.0.0
- * @since 1.0.0
+ * @see net.neevek.android.lib.paginize.Page
+ * @see net.neevek.android.lib.paginize.anim.PageAnimator
  */
 public class PageManager {
   private final String TAG = PageManager.class.getSimpleName();
@@ -27,9 +44,13 @@ public class PageManager {
 
   private ViewGroup mContainerView;
 
+  // the stack to hold the pages
   private LinkedList<Page> mPageStack = new LinkedList<Page>();
+
+  // the page on top of the stack
   private Page mCurPage;
 
+  // the PageAnimator to use to animate transitions when swapping pages
   private PageAnimator mPageAnimator;
 
   public PageManager(ViewGroup containerView) {
@@ -113,7 +134,7 @@ public class PageManager {
   }
 
   /**
-   * @param animated
+   * @param animated true to animate the transition
    * @param hint     true=left, false=right
    */
   public void popPage(boolean animated, boolean hint) {
@@ -147,8 +168,8 @@ public class PageManager {
    * if destPage is not found, the method call is a no-op
    *
    * @param destPage page as the destination for this pop operation
-   * @param animated
-   * @param hint
+   * @param animated true to animate the transition
+   * @param hint used by the PageAnimator
    */
   public void popToPage(Page destPage, boolean animated, boolean hint) {
     if (destPage == null) {
@@ -184,8 +205,8 @@ public class PageManager {
    * if the class is not found, the method call is a no-op
    *
    * @param pageClass class of page as the destination for this pop operation
-   * @param animated
-   * @param hint
+   * @param animated true to animate the transition
+   * @param hint used by the PageAnimator
    */
   public void popToClass(Class<? extends Page> pageClass, boolean animated, boolean hint) {
     if (pageClass == null) {
@@ -200,8 +221,8 @@ public class PageManager {
    * if none of the classes is found, the method call is a no-op
    *
    * @param pageClasses classes of pages as the destination for this pop operation
-   * @param animated    true if the transition should be animated
-   * @param hint        a hint for the PageAnimationManager
+   * @param animated true to animate the transition
+   * @param hint used by the PageAnimator
    */
   public void popToClasses(Class<? extends Page>[] pageClasses, boolean animated, boolean hint) {
     if (pageClasses == null || pageClasses.length == 0) {

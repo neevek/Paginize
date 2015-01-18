@@ -1,10 +1,33 @@
 package net.neevek.android.lib.paginize;
 
 /**
- * Created with IntelliJ IDEA.
- * User: neevek
- * Date: 12/7/13
- * Time: 3:58 PM
+ * Copyright (c) 2015 neevek <i@neevek.net>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/**
+ * This interface is used to communicate between two pages.
+ * The use of this interface is not mandated, it is declared like so
+ * to make this things consistent.
+ *
+ * @see net.neevek.android.lib.paginize.Page
+ * @see net.neevek.android.lib.paginize.anim.PageAnimator
  */
 public interface PageDataCallback<T> {
   void onPageDataReturned(T data);
