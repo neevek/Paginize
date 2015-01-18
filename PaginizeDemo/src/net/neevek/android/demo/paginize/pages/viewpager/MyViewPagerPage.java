@@ -19,57 +19,60 @@ import net.neevek.android.lib.paginize.annotation.ViewPagerResId;
 @PageLayout(R.layout.page_view_pager_container)
 @ViewPagerResId(R.id.vp_main)
 public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListener {
-    private final static String TAG = MyViewPagerPage.class.getSimpleName();
+  private final static String TAG = MyViewPagerPage.class.getSimpleName();
 
-    @InjectView(value = R.id.tv_back, listenerTypes = View.OnClickListener.class) TextView mTvBack;
-    @InjectView(value = R.id.tv_title) TextView mTvTitle;
-    @InjectView(value = R.id.tv_next, listenerTypes = View.OnClickListener.class) TextView mTvNext;
+  @InjectView(value = R.id.tv_back, listenerTypes = View.OnClickListener.class)
+  TextView mTvBack;
+  @InjectView(value = R.id.tv_title)
+  TextView mTvTitle;
+  @InjectView(value = R.id.tv_next, listenerTypes = View.OnClickListener.class)
+  TextView mTvNext;
 
-    private ViewWrapper mViewWrappers[] = {
-            new ViewPageSubPage1(mContext), new ViewPageSubPage2(mContext)
-            ,new ViewPageSubPage1(mContext), new ViewPageSubPage2(mContext)
-            ,new ViewPageSubPage1(mContext), new ViewPageSubPage2(mContext)
-    };
+  private ViewWrapper mViewWrappers[] = {
+      new ViewPageSubPage1(getContext()), new ViewPageSubPage2(getContext())
+      , new ViewPageSubPage1(getContext()), new ViewPageSubPage2(getContext())
+      , new ViewPageSubPage1(getContext()), new ViewPageSubPage2(getContext())
+  };
 
-    public MyViewPagerPage(PageActivity pageActivity) {
-        super(pageActivity);
+  public MyViewPagerPage(PageActivity pageActivity) {
+    super(pageActivity);
 
-        mTvTitle.setText("Test ViewPagerPage");
+    mTvTitle.setText("Test ViewPagerPage");
 
-        getViewPager().setAdapter(new MyPagePagerAdapter());
+    getViewPager().setAdapter(new MyPagePagerAdapter());
+  }
+
+  @Override
+  public void onAttach() {
+    Log.d(TAG, "onAttach(): " + this);
+  }
+
+  @Override
+  public void onDetach() {
+    Log.d(TAG, "onDetach(): " + this);
+  }
+
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.tv_back:
+        hideWithAnimation(true);
+        break;
+      case R.id.tv_next:
+        Toast.makeText(getContext(), "Next button clicked!", Toast.LENGTH_SHORT).show();
+        break;
+    }
+  }
+
+  class MyPagePagerAdapter extends PagePagerAdapter {
+    @Override
+    public ViewWrapper getItem(int position) {
+      return mViewWrappers[position];
     }
 
     @Override
-    public void onAttach() {
-        Log.d(TAG, "onAttach(): " + this);
+    public int getCount() {
+      return mViewWrappers.length;
     }
-
-    @Override
-    public void onDetach() {
-        Log.d(TAG, "onDetach(): " + this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_back:
-                hideWithAnimation(true);
-                break;
-            case R.id.tv_next:
-                Toast.makeText(mContext, "Next button clicked!", Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
-
-    class MyPagePagerAdapter extends PagePagerAdapter {
-        @Override
-        public ViewWrapper getItem(int position) {
-            return mViewWrappers[position];
-        }
-
-        @Override
-        public int getCount() {
-            return mViewWrappers.length;
-        }
-    }
+  }
 }

@@ -12,14 +12,15 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
  */
 @PageLayout(R.layout.page_frame_inner)
 public abstract class FrameInnerPage extends InnerPageContainer {
-    @InjectView(value = R.id.tv_title) TextView mTvTitle;
+  @InjectView(value = R.id.tv_title)
+  TextView mTvTitle;
 
 
-    public FrameInnerPage(PageActivity pageActivity) {
-        super(pageActivity);
-    }
+  public FrameInnerPage(PageActivity pageActivity) {
+    super(pageActivity);
+  }
 
-    protected void setTitle(String title) {
-        mTvTitle.setText(title);
-    }
+  protected void setTitle(String title) {
+    mTvTitle.setText(title);
+  }
 }

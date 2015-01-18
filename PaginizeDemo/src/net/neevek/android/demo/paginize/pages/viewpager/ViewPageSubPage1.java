@@ -13,24 +13,24 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
  */
 @PageLayout(R.layout.page_simple_text)
 public class ViewPageSubPage1 extends ViewWrapper {
-    private final static String TAG = ViewPageSubPage1.class.getSimpleName();
+  private final static String TAG = ViewPageSubPage1.class.getSimpleName();
 
-    @InjectView(R.id.tv_text)
-    private TextView mTvSimpleText;
+  @InjectView(R.id.tv_text)
+  private TextView mTvSimpleText;
 
-    public ViewPageSubPage1(PageActivity pageActivity) {
-        super(pageActivity);
+  public ViewPageSubPage1(PageActivity pageActivity) {
+    super(pageActivity);
 
-        mTvSimpleText.setText("Try swiping from right to left");
-    }
+    mTvSimpleText.setText("Try swiping from right to left");
+  }
 
-    @Override
-    public void onAttach() {
-        Log.d(TAG, "onAttach() called: " + this);
-    }
+  @Override
+  public void onAttach() {
+    Log.d(TAG, "onAttach() called: " + this);
+  }
 
-    @Override
-    public void onDetach() {
-        Log.d(TAG, "onDetach() called: " + this);
-    }
+  @Override
+  public void onDetach() {
+    Log.d(TAG, "onDetach() called: " + this);
+  }
 }

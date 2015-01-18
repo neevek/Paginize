@@ -15,9 +15,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface InheritPageLayout {
-    int value();
+  int value();
 
-    // -1 if the specified layout is to be appended to root
-    // of the inherited layout
-    int root() default -1;
+  // -1 if the specified layout is to be appended to root
+  // of the inherited layout
+  int root() default -1;
 }

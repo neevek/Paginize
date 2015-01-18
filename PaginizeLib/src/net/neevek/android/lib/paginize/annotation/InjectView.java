@@ -11,6 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface InjectView {
-    int value();
-    Class[] listenerTypes() default {};
+  int value();
+
+  Class[] listenerTypes() default {};
 }

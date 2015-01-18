@@ -16,38 +16,38 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
 @PageLayout(R.layout.page_list_item)
 public class ListItemPage extends Page implements View.OnClickListener {
 
-    @InjectView(value = R.id.btn_back, listenerTypes = {View.OnClickListener.class})
-    private Button mBtnBack;
+  @InjectView(value = R.id.btn_back, listenerTypes = {View.OnClickListener.class})
+  private Button mBtnBack;
 
-    @InjectView(R.id.tv_text)
-    private TextView mTvText;
+  @InjectView(R.id.tv_text)
+  private TextView mTvText;
 
 
-    public ListItemPage(PageActivity pageActivity) {
-        super(pageActivity);
-    }
+  public ListItemPage(PageActivity pageActivity) {
+    super(pageActivity);
+  }
 
-    @Override
-    public void onShown(Object arg) {
+  @Override
+  public void onShown(Object arg) {
 //        mTvText.setText(arg.toString());
-    }
+  }
 
-    public ListItemPage setText(String text) {
-        mTvText.setText(text);
-        return this;
-    }
+  public ListItemPage setText(String text) {
+    mTvText.setText(text);
+    return this;
+  }
 
-    @Override
-    public void onHidden() {
-        mTvText.setText("");
-    }
+  @Override
+  public void onHidden() {
+    mTvText.setText("");
+  }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_back:
-                hideWithAnimation(true);
-                break;
-        }
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.btn_back:
+        hideWithAnimation(true);
+        break;
     }
+  }
 }

@@ -5,10 +5,10 @@ import net.neevek.android.lib.paginize.anim.PageAnimator;
 /**
  * A Page encapsulates a View(usually a layout with complex UIs),
  * which is to be put into a ViewGroup and finally be shown on screen.
- *
+ * <p/>
  * Page is managed by PageManager, we call variants of the PageManager.pushPage()
  * method to put a Page in a stack, which is maintained by PageManager
- *
+ * <p/>
  * Date: 2/28/13
  * Time: 3:06 PM
  *
@@ -18,97 +18,97 @@ import net.neevek.android.lib.paginize.anim.PageAnimator;
  */
 
 public abstract class Page extends ViewWrapper implements PageAnimator {
-    // default page type should be normal here.
-    private TYPE mType = TYPE.TYPE_NORMAL;
-    private Object mReturnData;
+  // default page type should be normal here.
+  private TYPE mType = TYPE.TYPE_NORMAL;
+  private Object mReturnData;
 
-    public static enum TYPE {
-        TYPE_NORMAL,
-        TYPE_DIALOG,
+  public static enum TYPE {
+    TYPE_NORMAL,
+    TYPE_DIALOG,
+  }
+
+  public Page(PageActivity pageActivity) {
+    super(pageActivity);
+  }
+
+  public void setType(TYPE type) {
+    mType = type;
+  }
+
+  public TYPE getType() {
+    return mType;
+  }
+
+  // returns true so PageManager will keep only one instance of a certain type of Page
+  // when multiple instances of that type of Page are pushed continuously onto the page stack.
+  public boolean keepSingleInstance() {
+    return false;
+  }
+
+  public Object getReturnData() {
+    return mReturnData;
+  }
+
+  public void setReturnData(Object data) {
+    mReturnData = data;
+  }
+
+  public PageManager getPageManager() {
+    return getContext().getPageManager();
+  }
+
+  //**************** methods to show & hide current page ****************//
+  public void show() {
+    show(null, false);
+  }
+
+  public void show(Object arg, boolean animated) {
+    show(arg, animated, false);
+  }
+
+  public void show(Object arg, boolean animated, boolean hint) {
+    getPageManager().pushPage(this, arg, animated, hint);
+  }
+
+  protected void hide() {
+    if (getPageManager().getTopPage() == this) {
+      getPageManager().popPage(false, false);
     }
+  }
 
-    public Page(PageActivity pageActivity) {
-        super(pageActivity);
+  protected void hideWithAnimation(final boolean hint) {
+    if (getPageManager().getTopPage() == this) {
+      getPageManager().popPage(true, hint);
     }
+  }
 
-    public void setType(TYPE type) {
-        mType = type;
-    }
-
-    public TYPE getType() {
-        return mType;
-    }
-
-    // returns true so PageManager will keep only one instance of a certain type of Page
-    // when multiple instances of that type of Page are pushed continuously onto the page stack.
-    public boolean keepSingleInstance() {
-        return false;
-    }
-
-    public Object getReturnData() {
-        return mReturnData;
-    }
-
-    public void setReturnData(Object data) {
-        mReturnData = data;
-    }
-
-    public PageManager getPageManager() {
-        return mContext.getPageManager();
-    }
-
-    //**************** methods to show & hide current page ****************//
-    public void show() {
-        show(null, false);
-    }
-
-    public void show(Object arg, boolean animated) {
-        show(arg, animated, false);
-    }
-
-    public void show(Object arg, boolean animated, boolean hint) {
-        getPageManager().pushPage(this, arg, animated, hint);
-    }
-
-    protected void hide() {
-        if (getPageManager().getTopPage() == this) {
-            getPageManager().popPage(false, false);
+  protected void hideWithAnimationDelayed(final boolean hint) {
+    if (getPageManager().getTopPage() == this) {
+      getView().postDelayed(new Runnable() {
+        @Override
+        public void run() {
+          getPageManager().popPage(true, hint);
         }
+      }, 500);
     }
+  }
 
-    protected void hideWithAnimation(final boolean hint) {
-        if (getPageManager().getTopPage() == this) {
-            getPageManager().popPage(true, hint);
-        }
-    }
+  public boolean isKeptInStack() {
+    return getContext().getPageManager().isPageKeptInStack(this);
+  }
 
-    protected void hideWithAnimationDelayed(final boolean hint) {
-        if (getPageManager().getTopPage() == this) {
-            getView().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    getPageManager().popPage(true, hint);
-                }
-            }, 500);
-        }
-    }
+  @Override
+  public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    return false;
+  }
 
-    public boolean isKeptInStack() {
-        return mContext.getPageManager().isPageKeptInStack(this);
-    }
+  @Override
+  public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    return false;
+  }
 
-    @Override
-    public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
-        return false;
-    }
-
-    @Override
-    public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
-        return false;
-    }
-
-    @Override
-    public int getAnimationDuration() {
-        return -1;
-    }
+  @Override
+  public int getAnimationDuration() {
+    return -1;
+  }
 }

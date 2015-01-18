@@ -4,61 +4,61 @@
               android:layout_height="fill_parent"
               android:background="#ffff"
               android:orientation="vertical"
-        >
+    >
 
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Paginize is a library that eases development of Android applications, it is simple yet powerful!\nThis is a demo that shows how to easily create *Pages* and use features of the library."
-            android:gravity="center"
-            android:textSize="18dp"
-            android:padding="12dp"
-            android:textColor="#f000"
-            />
+  <TextView
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="Paginize is a library that eases development of Android applications, it is simple yet powerful!\nThis is a demo that shows how to easily create *Pages* and use features of the library."
+      android:gravity="center"
+      android:textSize="18dp"
+      android:padding="12dp"
+      android:textColor="#f000"
+      />
 
-    <Button
-            android:id="@+id/btn_next_page"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Navigate To Next Page"
-            android:gravity="center"
-            android:textSize="21dp"
-            android:padding="12dp"
-            />
+  <Button
+      android:id="@+id/btn_next_page"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="Navigate To Next Page"
+      android:gravity="center"
+      android:textSize="21dp"
+      android:padding="12dp"
+      />
 
-    <Button
-            android:id="@+id/btn_list_page"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Navigate To ListPage"
-            android:gravity="center"
-            android:textSize="21dp"
-            android:padding="12dp"
-            />
+  <Button
+      android:id="@+id/btn_list_page"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="Navigate To ListPage"
+      android:gravity="center"
+      android:textSize="21dp"
+      android:padding="12dp"
+      />
 
-    <Button
-            android:id="@+id/btn_show_alert"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Show An Alert Page"
-            android:gravity="center"
-            android:textSize="21dp"
-            android:padding="12dp"
-            />
-    <Button
-            android:id="@+id/btn_show_view_pager_page"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Show ViewPagerPage"
-            android:gravity="center"
-            android:textSize="21dp"
-            android:padding="12dp"
-            />
+  <Button
+      android:id="@+id/btn_show_alert"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="Show An Alert Page"
+      android:gravity="center"
+      android:textSize="21dp"
+      android:padding="12dp"
+      />
+  <Button
+      android:id="@+id/btn_show_view_pager_page"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="Show ViewPagerPage"
+      android:gravity="center"
+      android:textSize="21dp"
+      android:padding="12dp"
+      />
 
-    <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            />
+  <EditText
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      />
 
 </LinearLayout>

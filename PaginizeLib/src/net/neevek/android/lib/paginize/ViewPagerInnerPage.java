@@ -9,114 +9,114 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
 
 /**
  * An InnerPage that is used to hold a ViewPager
- *
+ * <p/>
  * Created by neevek on 6/15/14.
  */
 public abstract class ViewPagerInnerPage extends InnerPage {
-    private ViewPager mViewPager;
+  private ViewPager mViewPager;
 
-    public ViewPagerInnerPage(PageActivity pageActivity) {
-        super(pageActivity);
+  public ViewPagerInnerPage(PageActivity pageActivity) {
+    super(pageActivity);
 
-        Class clazz = getClass();
+    Class clazz = getClass();
 
-        ViewPagerResId resIdAnnotation = null;
+    ViewPagerResId resIdAnnotation = null;
 
-        try {
-            do {
-                if (clazz.isAnnotationPresent(ViewPagerResId.class)) {
-                    resIdAnnotation = (ViewPagerResId)clazz.getAnnotation(ViewPagerResId.class);
-                    break;
-                }
-            } while ((clazz = clazz.getSuperclass()) != ViewPagerInnerPage.class);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new InjectFailedException(e);
+    try {
+      do {
+        if (clazz.isAnnotationPresent(ViewPagerResId.class)) {
+          resIdAnnotation = (ViewPagerResId) clazz.getAnnotation(ViewPagerResId.class);
+          break;
         }
+      } while ((clazz = clazz.getSuperclass()) != ViewPagerInnerPage.class);
 
-        if (resIdAnnotation == null) {
-            throw new IllegalStateException("Must specify a ViewPager resource Id for "+ clazz.getSimpleName() +" with the @ViewPagerResId annotation.");
-        }
-
-        View view = getView().findViewById(resIdAnnotation.value());
-        if (view == null) {
-            throw new IllegalStateException("Can not find the View with the specified resource ID: " + resIdAnnotation.value());
-        }
-        if (!(view instanceof ViewPager)) {
-            throw new IllegalStateException("The specified View with @ViewPagerResId is not of type ViewPager.");
-        }
-
-        mViewPager = (ViewPager)view;
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new InjectFailedException(e);
     }
 
-    protected ViewPager getViewPager() {
-        return mViewPager;
+    if (resIdAnnotation == null) {
+      throw new IllegalStateException("Must specify a ViewPager resource Id for " + clazz.getSimpleName() + " with the @ViewPagerResId annotation.");
     }
 
-    private PagePagerAdapter getPagePagerAdapter() {
-        PagerAdapter adapter = mViewPager.getAdapter();
-        if (adapter instanceof PagePagerAdapter) {
-            return (PagePagerAdapter)adapter;
-        }
-        return null;
+    View view = getView().findViewById(resIdAnnotation.value());
+    if (view == null) {
+      throw new IllegalStateException("Can not find the View with the specified resource ID: " + resIdAnnotation.value());
+    }
+    if (!(view instanceof ViewPager)) {
+      throw new IllegalStateException("The specified View with @ViewPagerResId is not of type ViewPager.");
     }
 
-    public boolean onBackPressed() {
-        PagePagerAdapter adapter = getPagePagerAdapter();
-        if (adapter != null && adapter.getCount() > 0) {
-            return adapter.getItem(mViewPager.getCurrentItem()).onBackPressed();
-        }
+    mViewPager = (ViewPager) view;
+  }
 
-        return false;
+  protected ViewPager getViewPager() {
+    return mViewPager;
+  }
+
+  private PagePagerAdapter getPagePagerAdapter() {
+    PagerAdapter adapter = mViewPager.getAdapter();
+    if (adapter instanceof PagePagerAdapter) {
+      return (PagePagerAdapter) adapter;
+    }
+    return null;
+  }
+
+  public boolean onBackPressed() {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      return adapter.getItem(mViewPager.getCurrentItem()).onBackPressed();
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        PagePagerAdapter adapter = getPagePagerAdapter();
-        if (adapter != null && adapter.getCount() > 0) {
-            adapter.getItem(mViewPager.getCurrentItem()).onActivityResult(requestCode, resultCode, data);
-        }
-    }
+    return false;
+  }
 
-    public void onPause() {
-        PagePagerAdapter adapter = getPagePagerAdapter();
-        if (adapter != null && adapter.getCount() > 0) {
-            adapter.getItem(mViewPager.getCurrentItem()).onPause();
-        }
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onActivityResult(requestCode, resultCode, data);
     }
+  }
 
-    public void onResume() {
-        PagePagerAdapter adapter = getPagePagerAdapter();
-        if (adapter != null && adapter.getCount() > 0) {
-            adapter.getItem(mViewPager.getCurrentItem()).onResume();
-        }
+  public void onPause() {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onPause();
     }
+  }
 
-    public void onShown(Object arg) {
-        PagePagerAdapter adapter = getPagePagerAdapter();
-        if (adapter != null && adapter.getCount() > 0) {
-            adapter.getItem(mViewPager.getCurrentItem()).onShown(arg);
-        }
+  public void onResume() {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onResume();
     }
+  }
 
-    public void onHidden() {
-        PagePagerAdapter adapter = getPagePagerAdapter();
-        if (adapter != null && adapter.getCount() > 0) {
-            adapter.getItem(mViewPager.getCurrentItem()).onHidden();
-        }
+  public void onShown(Object arg) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onShown(arg);
     }
+  }
 
-    public void onCovered() {
-        PagePagerAdapter adapter = getPagePagerAdapter();
-        if (adapter != null && adapter.getCount() > 0) {
-            adapter.getItem(mViewPager.getCurrentItem()).onCovered();
-        }
+  public void onHidden() {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onHidden();
     }
+  }
 
-    public void onUncovered(Object arg) {
-        PagePagerAdapter adapter = getPagePagerAdapter();
-        if (adapter != null && adapter.getCount() > 0) {
-            adapter.getItem(mViewPager.getCurrentItem()).onUncovered(arg);
-        }
+  public void onCovered() {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onCovered();
     }
+  }
+
+  public void onUncovered(Object arg) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onUncovered(arg);
+    }
+  }
 }

@@ -3,18 +3,18 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:background="#ffff"
-              android:orientation="vertical" >
+              android:orientation="vertical">
 
-    <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="fill_parent"
-            android:layout_height="44dp"
-            android:text="Title"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textColor="#f000"
-            android:background="#ffefefef"
-            />
+  <TextView
+      android:id="@+id/tv_title"
+      android:layout_width="fill_parent"
+      android:layout_height="44dp"
+      android:text="Title"
+      android:gravity="center"
+      android:padding="8dp"
+      android:textColor="#f000"
+      android:background="#ffefefef"
+      />
 
 
 </LinearLayout>

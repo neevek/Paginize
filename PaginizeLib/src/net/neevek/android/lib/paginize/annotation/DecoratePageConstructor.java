@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.CONSTRUCTOR)
 public @interface DecoratePageConstructor {
-    SetListeners[] viewListeners() default {};
+  SetListeners[] viewListeners() default {};
 }

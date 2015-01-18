@@ -15,32 +15,32 @@ import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutResId;
 @InheritPageLayout(R.layout.page_main)
 @InnerPageContainerLayoutResId(R.id.layout_container)
 public class MainPage extends FrameInnerPage implements View.OnClickListener {
-    @InjectView(value = R.id.rb_nav_btn1, listenerTypes = {View.OnClickListener.class})
-    private RadioButton mRbNavBtn1;
-    @InjectView(value = R.id.rb_nav_btn2, listenerTypes = {View.OnClickListener.class})
-    private RadioButton mRbNavBtn2;
+  @InjectView(value = R.id.rb_nav_btn1, listenerTypes = {View.OnClickListener.class})
+  private RadioButton mRbNavBtn1;
+  @InjectView(value = R.id.rb_nav_btn2, listenerTypes = {View.OnClickListener.class})
+  private RadioButton mRbNavBtn2;
 
-    private TabPage1 mTabPage1 = new TabPage1(mContext);
-    private TabPage2 mTabPage2 = new TabPage2(mContext);
+  private TabPage1 mTabPage1 = new TabPage1(getContext());
+  private TabPage2 mTabPage2 = new TabPage2(getContext());
 
-    public MainPage(PageActivity pageActivity) {
-        super(pageActivity);
+  public MainPage(PageActivity pageActivity) {
+    super(pageActivity);
 
-        setTitle("Home!");
+    setTitle("Home!");
 
-        mRbNavBtn1.setChecked(true);
+    mRbNavBtn1.setChecked(true);
+    setInnerPage(mTabPage1, null);
+  }
+
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.rb_nav_btn1:
         setInnerPage(mTabPage1, null);
+        break;
+      case R.id.rb_nav_btn2:
+        setInnerPage(mTabPage2, null);
+        break;
     }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.rb_nav_btn1:
-                setInnerPage(mTabPage1, null);
-                break;
-            case R.id.rb_nav_btn2:
-                setInnerPage(mTabPage2, null);
-                break;
-        }
-    }
+  }
 }

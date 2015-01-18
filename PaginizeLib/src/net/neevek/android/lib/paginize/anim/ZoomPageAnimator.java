@@ -13,57 +13,57 @@ import net.neevek.android.lib.paginize.Page;
  * Time: 11:06 AM
  */
 public class ZoomPageAnimator implements PageAnimator {
-    private final static int ANIMATION_DURATION = 200;
-    private Animation mInAnimation;
-    private Animation mOutAnimation;
+  private final static int ANIMATION_DURATION = 200;
+  private Animation mInAnimation;
+  private Animation mOutAnimation;
 
-    private Animation mFadeOutAnimation;
+  private Animation mFadeOutAnimation;
 
-    public ZoomPageAnimator () {
-        initAnimations();
+  public ZoomPageAnimator() {
+    initAnimations();
+  }
+
+  private void initAnimations() {
+    Animation inScaleAnimation = new ScaleAnimation(1.1f, 1, 1.1f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    Animation inAlphaAnimation = new AlphaAnimation(0.3f, 1f);
+    AnimationSet inAnimationSet = new AnimationSet(true);
+    inAnimationSet.setDuration(ANIMATION_DURATION);
+    inAnimationSet.addAnimation(inScaleAnimation);
+    inAnimationSet.addAnimation(inAlphaAnimation);
+    mInAnimation = inAnimationSet;
+
+    Animation outScaleAnimation = new ScaleAnimation(1, 1.4f, 1, 1.4f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    Animation outAlphaAnimation = new AlphaAnimation(1f, 0f);
+    AnimationSet outAnimationSet = new AnimationSet(true);
+    outAnimationSet.setDuration(ANIMATION_DURATION);
+    outAnimationSet.addAnimation(outScaleAnimation);
+    outAnimationSet.addAnimation(outAlphaAnimation);
+    mOutAnimation = outAnimationSet;
+
+    mFadeOutAnimation = new AlphaAnimation(0.8f, 0.0f);
+    mFadeOutAnimation.setDuration(ANIMATION_DURATION);
+  }
+
+  @Override
+  public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    if (oldPage != null) {
+      oldPage.getView().startAnimation(mFadeOutAnimation);
     }
 
-    private void initAnimations() {
-        Animation inScaleAnimation = new ScaleAnimation(1.1f, 1, 1.1f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        Animation inAlphaAnimation = new AlphaAnimation(0.3f, 1f);
-        AnimationSet inAnimationSet = new AnimationSet(true);
-        inAnimationSet.setDuration(ANIMATION_DURATION);
-        inAnimationSet.addAnimation(inScaleAnimation);
-        inAnimationSet.addAnimation(inAlphaAnimation);
-        mInAnimation = inAnimationSet;
+    newPage.getView().startAnimation(mInAnimation);
 
-        Animation outScaleAnimation = new ScaleAnimation(1, 1.4f, 1, 1.4f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        Animation outAlphaAnimation = new AlphaAnimation(1f, 0f);
-        AnimationSet outAnimationSet = new AnimationSet(true);
-        outAnimationSet.setDuration(ANIMATION_DURATION);
-        outAnimationSet.addAnimation(outScaleAnimation);
-        outAnimationSet.addAnimation(outAlphaAnimation);
-        mOutAnimation = outAnimationSet;
+    return true;
+  }
 
-        mFadeOutAnimation = new AlphaAnimation(0.8f, 0.0f);
-        mFadeOutAnimation.setDuration(ANIMATION_DURATION);
-    }
+  @Override
+  public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    oldPage.getView().startAnimation(mOutAnimation);
 
-    @Override
-    public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
-        if (oldPage != null) {
-            oldPage.getView().startAnimation(mFadeOutAnimation);
-        }
+    return true;
+  }
 
-        newPage.getView().startAnimation(mInAnimation);
-
-        return true;
-    }
-
-    @Override
-    public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
-        oldPage.getView().startAnimation(mOutAnimation);
-
-        return true;
-    }
-
-    @Override
-    public int getAnimationDuration() {
-        return ANIMATION_DURATION;
-    }
+  @Override
+  public int getAnimationDuration() {
+    return ANIMATION_DURATION;
+  }
 }

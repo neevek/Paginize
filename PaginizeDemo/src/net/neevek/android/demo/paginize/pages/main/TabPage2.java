@@ -11,7 +11,7 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
  */
 @PageLayout(R.layout.inner_page_tab2)
 public class TabPage2 extends InnerPage {
-    public TabPage2(PageActivity context) {
-        super(context);
-    }
+  public TabPage2(PageActivity context) {
+    super(context);
+  }
 }

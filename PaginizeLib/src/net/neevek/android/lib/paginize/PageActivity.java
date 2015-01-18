@@ -18,101 +18,103 @@ import java.util.List;
  * Created by neevek on 12/26/13.
  */
 public class PageActivity extends Activity {
-    private PageManager mPageManager;
+  private PageManager mPageManager;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPageManager = new PageManager((ViewGroup)findViewById(android.R.id.content));
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mPageManager = new PageManager((ViewGroup) findViewById(android.R.id.content));
 
-        try {
-            initAnnotatedFields();
+    try {
+      initAnnotatedFields();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new InjectFailedException(e);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new InjectFailedException(e);
+    }
+  }
+
+  private void initAnnotatedFields() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
+    Class clazz = getClass();
+
+    List<Class> list = new ArrayList<Class>();
+    do {
+      list.add(clazz);
+
+      if (mPageManager.getPageAnimator() == null) {
+        InjectPageAnimator pamAnnotation = (InjectPageAnimator) clazz.getAnnotation(InjectPageAnimator.class);
+        if (pamAnnotation != null) {
+          mPageManager.setPageAnimator(pamAnnotation.value().newInstance());
         }
+      }
+    } while ((clazz = clazz.getSuperclass()) != PageActivity.class);
+
+    ViewFinder viewFinder = new ViewFinder() {
+      public View findViewById(int id) {
+        return PageActivity.this.findViewById(id);
+      }
+    };
+    for (int i = list.size() - 1; i >= 0; --i) {
+      AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder);
     }
+  }
 
-    private void initAnnotatedFields() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
-        Class clazz = getClass();
+  public PageManager getPageManager() {
+    return mPageManager;
+  }
 
-        List<Class> list = new ArrayList<Class>();
-        do {
-            list.add(clazz);
+  //**************** methods to show a new page ****************//
+  public void showPage(Class<? extends Page> pageClass, boolean animated) {
+    showPage(pageClass, animated, null);
+  }
 
-            if (mPageManager.getPageAnimator() == null) {
-                InjectPageAnimator pamAnnotation = (InjectPageAnimator)clazz.getAnnotation(InjectPageAnimator.class);
-                if (pamAnnotation != null) {
-                    mPageManager.setPageAnimator(pamAnnotation.value().newInstance());
-                }
-            }
-        } while ((clazz = clazz.getSuperclass()) != PageActivity.class);
+  public void showPage(Class<? extends Page> pageClass, boolean animated, Object arg) {
+    try {
+      Page page = pageClass.getConstructor(PageActivity.class).newInstance(this);
+      page.show(arg, animated);
 
-        ViewFinder viewFinder = new ViewFinder() {
-            public View findViewById(int id) { return PageActivity.this.findViewById(id); }
-        };
-        for (int i = list.size() - 1; i >= 0; --i) {
-            AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder);
-        }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-    public PageManager getPageManager() {
-        return mPageManager;
+  public void hideTopPage() {
+    getPageManager().popPage(false, false);
+  }
+
+  public int getPageCount() {
+    return mPageManager.getPageCount();
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (!mPageManager.onBackPressed()) {
+      finish();
     }
+  }
 
-    //**************** methods to show a new page ****************//
-    public void showPage(Class <? extends Page > pageClass, boolean animated) {
-        showPage(pageClass, animated, null);
-    }
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    mPageManager.onActivityResult(requestCode, resultCode, data);
+  }
 
-    public void showPage(Class <? extends Page > pageClass, boolean animated, Object arg) {
-        try {
-            Page page = pageClass.getConstructor(PageActivity.class).newInstance(this);
-            page.show(arg, animated);
+  @Override
+  protected void onResume() {
+    super.onResume();
+    mPageManager.onResume();
+  }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+  @Override
+  protected void onPause() {
+    super.onPause();
+    mPageManager.onPause();
+  }
 
-    public void hideTopPage() {
-        getPageManager().popPage(false, false);
-    }
-
-    public int getPageCount() {
-        return mPageManager.getPageCount();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!mPageManager.onBackPressed()) {
-            finish();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPageManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mPageManager.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPageManager.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPageManager.onDestroy();
-    }
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    mPageManager.onDestroy();
+  }
 
 
 }

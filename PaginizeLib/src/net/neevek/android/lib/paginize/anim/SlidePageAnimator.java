@@ -12,63 +12,63 @@ import net.neevek.android.lib.paginize.Page;
  * To change this template use File | Settings | File Templates.
  */
 public class SlidePageAnimator implements PageAnimator {
-    private final static int ANIMATION_DURATION = 250;
-    private Animation mPushInFromRightAnimation;
-    private Animation mPullOutFromRightAnimation;
-    private Animation mPushInFromLeftAnimation;
-    private Animation mPullOutFromLeftAnimation;
+  private final static int ANIMATION_DURATION = 250;
+  private Animation mPushInFromRightAnimation;
+  private Animation mPullOutFromRightAnimation;
+  private Animation mPushInFromLeftAnimation;
+  private Animation mPullOutFromLeftAnimation;
 
-    public SlidePageAnimator () {
-        initAnimations();
+  public SlidePageAnimator() {
+    initAnimations();
+  }
+
+  private void initAnimations() {
+    mPushInFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0
+        , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPushInFromRightAnimation.setDuration(ANIMATION_DURATION);
+    mPullOutFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1
+        , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPullOutFromLeftAnimation.setDuration(ANIMATION_DURATION);
+    mPushInFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0
+        , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPushInFromLeftAnimation.setDuration(ANIMATION_DURATION);
+    mPullOutFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1
+        , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPullOutFromRightAnimation.setDuration(ANIMATION_DURATION);
+  }
+
+  @Override
+  public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    if (oldPage != null) {
+      oldPage.getView().startAnimation(mPullOutFromRightAnimation);
     }
 
-    private void initAnimations() {
-        mPushInFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0
-                , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
-        mPushInFromRightAnimation.setDuration(ANIMATION_DURATION);
-        mPullOutFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1
-                , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
-        mPullOutFromLeftAnimation.setDuration(ANIMATION_DURATION);
-        mPushInFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0
-                , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
-        mPushInFromLeftAnimation.setDuration(ANIMATION_DURATION);
-        mPullOutFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1
-                , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
-        mPullOutFromRightAnimation.setDuration(ANIMATION_DURATION);
+    if (hint) {
+      newPage.getView().startAnimation(mPushInFromLeftAnimation);
+    } else {
+      newPage.getView().startAnimation(mPushInFromRightAnimation);
     }
 
-    @Override
-    public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
-        if (oldPage != null) {
-            oldPage.getView().startAnimation(mPullOutFromRightAnimation);
-        }
+    return true;
+  }
 
-        if (hint) {
-            newPage.getView().startAnimation(mPushInFromLeftAnimation);
-        } else {
-            newPage.getView().startAnimation(mPushInFromRightAnimation);
-        }
-
-        return true;
+  @Override
+  public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
+    if (hint) {
+      oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
+    } else {
+      oldPage.getView().startAnimation(mPullOutFromRightAnimation);
     }
 
-    @Override
-    public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
-        if (hint) {
-            oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
-        } else {
-            oldPage.getView().startAnimation(mPullOutFromRightAnimation);
-        }
-
-        if (newPage != null) {
-            newPage.getView().startAnimation(mPushInFromLeftAnimation);
-        }
-
-        return true;
+    if (newPage != null) {
+      newPage.getView().startAnimation(mPushInFromLeftAnimation);
     }
 
-    @Override
-    public int getAnimationDuration() {
-        return ANIMATION_DURATION;
-    }
+    return true;
+  }
+
+  @Override
+  public int getAnimationDuration() {
+    return ANIMATION_DURATION;
+  }
 }

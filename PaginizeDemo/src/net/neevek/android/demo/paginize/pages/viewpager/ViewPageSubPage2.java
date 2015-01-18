@@ -12,12 +12,12 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
  */
 @PageLayout(R.layout.page_simple_text)
 public class ViewPageSubPage2 extends ViewWrapper {
-    @InjectView(R.id.tv_text)
-    private TextView mTvSimpleText;
+  @InjectView(R.id.tv_text)
+  private TextView mTvSimpleText;
 
-    public ViewPageSubPage2(PageActivity pageActivity) {
-        super(pageActivity);
+  public ViewPageSubPage2(PageActivity pageActivity) {
+    super(pageActivity);
 
-        mTvSimpleText.setText("Try swiping from left to right");
-    }
+    mTvSimpleText.setText("Try swiping from left to right");
+  }
 }

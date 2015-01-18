@@ -8,7 +8,7 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
 
 /**
  * An InnerPageContainer is a Page that is used to contain & manage InnerPages
- *
+ * <p/>
  * Date: 1/1/14
  * Time: 11:06 AM
  *
@@ -17,96 +17,96 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
  * @since 1.0.0
  */
 public abstract class InnerPageContainer extends Page {
-    private InnerPageManager mInnerPageManager;
+  private InnerPageManager mInnerPageManager;
 
-    public InnerPageContainer(PageActivity pageActivity) {
-        super(pageActivity);
+  public InnerPageContainer(PageActivity pageActivity) {
+    super(pageActivity);
 
-        Class clazz = getClass();
+    Class clazz = getClass();
 
-        InnerPageContainerLayoutResId resIdAnnotation = null;
+    InnerPageContainerLayoutResId resIdAnnotation = null;
 
-        try {
-            do {
-                if (clazz.isAnnotationPresent(InnerPageContainerLayoutResId.class)) {
-                    resIdAnnotation = (InnerPageContainerLayoutResId)clazz.getAnnotation(InnerPageContainerLayoutResId.class);
-                    break;
-                }
-            } while ((clazz = clazz.getSuperclass()) != InnerPageContainer.class);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new InjectFailedException(e);
+    try {
+      do {
+        if (clazz.isAnnotationPresent(InnerPageContainerLayoutResId.class)) {
+          resIdAnnotation = (InnerPageContainerLayoutResId) clazz.getAnnotation(InnerPageContainerLayoutResId.class);
+          break;
         }
+      } while ((clazz = clazz.getSuperclass()) != InnerPageContainer.class);
 
-        if (resIdAnnotation == null) {
-            throw new IllegalStateException("Must specify a layout for InnerPageContainer with the @InnerPageContainerLayoutResId annotation.");
-        }
-
-        View container = getView().findViewById(resIdAnnotation.value());
-        if (container == null) {
-            throw new IllegalStateException("Can not find the layout with the specified resource ID: " + resIdAnnotation.value());
-        }
-        if (!(container instanceof ViewGroup)) {
-            throw new IllegalStateException("The specified layout for InnerPageContainer is not of type ViewGroup.");
-        }
-        mInnerPageManager = new InnerPageManager((ViewGroup)container);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new InjectFailedException(e);
     }
 
-    public InnerPageManager getInnerPageManager() {
-        return mInnerPageManager;
+    if (resIdAnnotation == null) {
+      throw new IllegalStateException("Must specify a layout for InnerPageContainer with the @InnerPageContainerLayoutResId annotation.");
     }
 
-
-    public void setInnerPage(InnerPage newPage, Object data) {
-        mInnerPageManager.setPage(newPage, data);
+    View container = getView().findViewById(resIdAnnotation.value());
+    if (container == null) {
+      throw new IllegalStateException("Can not find the layout with the specified resource ID: " + resIdAnnotation.value());
     }
-
-    public void unsetInnerPage() {
-        mInnerPageManager.unsetPage();
+    if (!(container instanceof ViewGroup)) {
+      throw new IllegalStateException("The specified layout for InnerPageContainer is not of type ViewGroup.");
     }
+    mInnerPageManager = new InnerPageManager((ViewGroup) container);
+  }
 
-    public InnerPage getCurrentInnerPage() {
-        return mInnerPageManager.getCurrentPage();
-    }
+  public InnerPageManager getInnerPageManager() {
+    return mInnerPageManager;
+  }
 
-    @Override
-    public void onResume() {
-        mInnerPageManager.onResume();
-    }
 
-    @Override
-    public void onPause() {
-        mInnerPageManager.onPause();
-    }
+  public void setInnerPage(InnerPage newPage, Object data) {
+    mInnerPageManager.setPage(newPage, data);
+  }
 
-    @Override
-    public boolean onBackPressed() {
-        return mInnerPageManager.onBackPressed();
-    }
+  public void unsetInnerPage() {
+    mInnerPageManager.unsetPage();
+  }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mInnerPageManager.onActivityResult(requestCode, resultCode, data);
-    }
+  public InnerPage getCurrentInnerPage() {
+    return mInnerPageManager.getCurrentPage();
+  }
 
-    @Override
-    public void onShown(Object arg) {
-        mInnerPageManager.onShown(arg);
-    }
+  @Override
+  public void onResume() {
+    mInnerPageManager.onResume();
+  }
 
-    @Override
-    public void onHidden() {
-        mInnerPageManager.onHidden();
-    }
+  @Override
+  public void onPause() {
+    mInnerPageManager.onPause();
+  }
 
-    @Override
-    public void onCovered() {
-        mInnerPageManager.onCovered();
-    }
+  @Override
+  public boolean onBackPressed() {
+    return mInnerPageManager.onBackPressed();
+  }
 
-    @Override
-    public void onUncovered(Object arg) {
-        mInnerPageManager.onUncovered(arg);
-    }
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    mInnerPageManager.onActivityResult(requestCode, resultCode, data);
+  }
+
+  @Override
+  public void onShown(Object arg) {
+    mInnerPageManager.onShown(arg);
+  }
+
+  @Override
+  public void onHidden() {
+    mInnerPageManager.onHidden();
+  }
+
+  @Override
+  public void onCovered() {
+    mInnerPageManager.onCovered();
+  }
+
+  @Override
+  public void onUncovered(Object arg) {
+    mInnerPageManager.onUncovered(arg);
+  }
 }

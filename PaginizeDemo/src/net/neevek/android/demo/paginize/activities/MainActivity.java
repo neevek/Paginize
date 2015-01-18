@@ -9,11 +9,11 @@ import net.neevek.android.lib.paginize.annotation.InjectPageAnimator;
 //@InjectPageAnimator(ZoomPageAnimator.class)
 @InjectPageAnimator(SlidePageAnimator.class)
 public class MainActivity extends PageActivity {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-        new MainPage(this).show(null, false);
+    new MainPage(this).show(null, false);
 //        showPage(MainPage.class, true);
-    }
+  }
 }
