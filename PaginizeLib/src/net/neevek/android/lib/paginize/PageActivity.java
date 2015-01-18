@@ -63,21 +63,6 @@ public class PageActivity extends Activity {
     return mPageManager;
   }
 
-  //**************** methods to show a new page ****************//
-  public void showPage(Class<? extends Page> pageClass, boolean animated) {
-    showPage(pageClass, animated, null);
-  }
-
-  public void showPage(Class<? extends Page> pageClass, boolean animated, Object arg) {
-    try {
-      Page page = pageClass.getConstructor(PageActivity.class).newInstance(this);
-      page.show(arg, animated);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   public void hideTopPage() {
     getPageManager().popPage(false, false);
   }

@@ -99,20 +99,6 @@ public abstract class ViewWrapper {
     mContext.hideTopPage();
   }
 
-  public void showPage(Class<? extends Page> pageClass, boolean animated) {
-    showPage(pageClass, animated, null);
-  }
-
-  public void showPage(Class<? extends Page> pageClass, boolean animated, Object arg) {
-    try {
-      Page page = pageClass.getConstructor(PageActivity.class).newInstance(mContext);
-      page.show(arg, animated);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   public boolean isAttached() {
     return mView.getParent() != null;
   }
