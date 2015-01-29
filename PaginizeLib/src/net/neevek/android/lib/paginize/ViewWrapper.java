@@ -1,6 +1,7 @@
 package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.annotation.InheritPageLayout;
@@ -118,6 +119,18 @@ public abstract class ViewWrapper {
 
   public View findViewById(int id) {
     return mView.findViewById(id);
+  }
+
+  public String getString(int resId) {
+    return mContext.getString(resId);
+  }
+
+  public String getString(int resId, Object... args) {
+    return mContext.getString(resId, args);
+  }
+
+  public Resources getResources() {
+    return mContext.getResources();
   }
 
   protected void hideTopPage() {
