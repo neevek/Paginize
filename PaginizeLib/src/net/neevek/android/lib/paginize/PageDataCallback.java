@@ -24,7 +24,7 @@ package net.neevek.android.lib.paginize;
 /**
  * This interface is used to communicate between two pages.
  * The use of this interface is not mandated, it is declared like so
- * to make this things consistent.
+ * to make things consistent.
  *
  * @see net.neevek.android.lib.paginize.Page
  * @see net.neevek.android.lib.paginize.anim.PageAnimator

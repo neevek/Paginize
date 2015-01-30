@@ -26,9 +26,8 @@ import android.view.ViewGroup;
  */
 
 /**
- * InnerPageManager manages the InnerPages, it swaps(setPage) the pages
- * when requested. It is usually used in a Page that is designed to hold
- * multiple InnerPages.
+ * InnerPageManager manages InnerPages, it swaps(setPage) the pages
+ * when requested. It is used to manage InnerPages in an InnerPageContainer.
  *
  * @see net.neevek.android.lib.paginize.InnerPage
  */
