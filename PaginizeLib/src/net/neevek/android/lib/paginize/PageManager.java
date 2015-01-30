@@ -1,7 +1,11 @@
 package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.anim.PageAnimator;
@@ -399,6 +403,45 @@ public class PageManager {
     if (mCurPage != null) {
       // we do not pop the top page, we simply call onHidden on it
       mCurPage.onHidden();
+    }
+  }
+
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (mCurPage != null) {
+      return mCurPage.onKeyDown(keyCode, event);
+    }
+    return false;
+  }
+
+  public boolean onKeyUp(int keyCode, KeyEvent event) {
+    if (mCurPage != null) {
+      return mCurPage.onKeyUp(keyCode, event);
+    }
+    return false;
+  }
+
+  public boolean onTouchEvent(MotionEvent event) {
+    if (mCurPage != null) {
+      return mCurPage.onTouchEvent(event);
+    }
+    return false;
+  }
+
+  public void onConfigurationChanged(Configuration newConfig) {
+    if (mCurPage != null) {
+      mCurPage.onConfigurationChanged(newConfig);
+    }
+  }
+
+  public void onSaveInstanceState(Bundle outState) {
+    if (mCurPage != null) {
+      mCurPage.onSaveInstanceState(outState);
+    }
+  }
+
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
+    if (mCurPage != null) {
+      mCurPage.onRestoreInstanceState(savedInstanceState);
     }
   }
 

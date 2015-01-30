@@ -1,7 +1,11 @@
 package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.annotation.InheritPageLayout;
@@ -156,6 +160,36 @@ public abstract class ViewWrapper {
   public void onDetach() { }
 
   /**
+   * onShown is called after the page is pushed on the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onShown(Object arg) { }
+
+  /**
+   * onHidden is called after the page is popped out of the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onHidden() { }
+
+  /**
+   * onCovered is called for the current ViewWrapper when a new
+   * ViewWrapper is pushed on the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onCovered() { }
+
+  /**
+   * onUncovered is called for the previous page when the current page
+   * is popped out of the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onUncovered(Object arg) { }
+
+  /**
    * onBackPressed mirrors Activity.onBackPressed, only the current
    * page(on top of the stack) receives this call
    *
@@ -190,32 +224,44 @@ public abstract class ViewWrapper {
   public void onResume() { }
 
   /**
-   * onShown is called after the page is pushed on the page stack
+   * onResume mirrors Activity.onKeyDown
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onShown(Object arg) { }
+  public boolean onKeyDown(int keyCode, KeyEvent event) { return false; }
 
   /**
-   * onHidden is called after the page is popped out of the page stack
+   * onResume mirrors Activity.onKeyUp
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onHidden() { }
+  public boolean onKeyUp(int keyCode, KeyEvent event) { return false; }
 
   /**
-   * onCovered is called for the current ViewWrapper when a new
-   * ViewWrapper is pushed on the page stack
+   * onResume mirrors Activity.onTouchEvent
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onCovered() { }
+  public boolean onTouchEvent(MotionEvent event) { return false; }
 
   /**
-   * onUncovered is called for the previous page when the current page
-   * is popped out of the page stack
+   * onResume mirrors Activity.onConfigurationChanged
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onUncovered(Object arg) { }
+  public void onConfigurationChanged(Configuration newConfig) { }
+
+  /**
+   * onResume mirrors Activity.onSaveInstanceState
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onSaveInstanceState(Bundle outState) { }
+
+  /**
+   * onResume mirrors Activity.onRestoreInstanceState
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onRestoreInstanceState(Bundle savedInstanceState) { }
 }

@@ -2,7 +2,10 @@ package net.neevek.android.lib.paginize;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.annotation.InjectPageAnimator;
@@ -109,21 +112,61 @@ public class PageActivity extends Activity {
 
   @Override
   protected void onResume() {
-    super.onResume();
     mPageManager.onResume();
+    super.onResume();
   }
 
   @Override
   protected void onPause() {
-    super.onPause();
     mPageManager.onPause();
+    super.onPause();
   }
 
   @Override
   protected void onDestroy() {
-    super.onDestroy();
     mPageManager.onDestroy();
+    super.onDestroy();
   }
 
+  @Override
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (mPageManager.onKeyDown(keyCode, event)) {
+      return true;
+    }
+    return super.onKeyDown(keyCode, event);
+  }
 
+  @Override
+  public boolean onKeyUp(int keyCode, KeyEvent event) {
+    if (mPageManager.onKeyUp(keyCode, event)) {
+      return true;
+    }
+    return super.onKeyUp(keyCode, event);
+  }
+
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    if (mPageManager.onTouchEvent(event)) {
+      return true;
+    }
+    return super.onTouchEvent(event);
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    mPageManager.onConfigurationChanged(newConfig);
+    super.onConfigurationChanged(newConfig);
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    mPageManager.onSaveInstanceState(outState);
+    super.onSaveInstanceState(outState);
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    mPageManager.onRestoreInstanceState(savedInstanceState);
+    super.onRestoreInstanceState(savedInstanceState);
+  }
 }
