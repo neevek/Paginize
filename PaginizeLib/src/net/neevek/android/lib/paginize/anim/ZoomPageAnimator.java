@@ -32,15 +32,13 @@ public class ZoomPageAnimator implements PageAnimator {
   private Animation mInAnimation;
   private Animation mOutAnimation;
 
-  private Animation mFadeOutAnimation;
-
   public ZoomPageAnimator() {
     initAnimations();
   }
 
   private void initAnimations() {
-    Animation inScaleAnimation = new ScaleAnimation(1.1f, 1, 1.1f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-    Animation inAlphaAnimation = new AlphaAnimation(0.3f, 1f);
+    Animation inScaleAnimation = new ScaleAnimation(1.2f, 1, 1.2f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    Animation inAlphaAnimation = new AlphaAnimation(0.0f, 1f);
     AnimationSet inAnimationSet = new AnimationSet(true);
     inAnimationSet.setDuration(ANIMATION_DURATION);
     inAnimationSet.addAnimation(inScaleAnimation);
@@ -54,17 +52,10 @@ public class ZoomPageAnimator implements PageAnimator {
     outAnimationSet.addAnimation(outScaleAnimation);
     outAnimationSet.addAnimation(outAlphaAnimation);
     mOutAnimation = outAnimationSet;
-
-    mFadeOutAnimation = new AlphaAnimation(0.8f, 0.0f);
-    mFadeOutAnimation.setDuration(ANIMATION_DURATION);
   }
 
   @Override
   public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
-    if (oldPage != null) {
-      oldPage.getView().startAnimation(mFadeOutAnimation);
-    }
-
     newPage.getView().startAnimation(mInAnimation);
 
     return true;

@@ -83,7 +83,7 @@ public class PageManager {
       return;
     }
 
-    Page oldPage = mCurPage;
+    final Page oldPage = mCurPage;
 
     mCurPage = newPage;
     mPageStack.addLast(newPage);
@@ -100,11 +100,8 @@ public class PageManager {
         mContainerView.removeView(oldPage.getView());
         oldPage.onDetach();
         oldPage.onHidden();
-      } else {
-        if (newPage.getType() != Page.TYPE.TYPE_DIALOG) {
-          oldPage.getView().setVisibility(View.GONE);
-        }
 
+      } else {
         oldPage.onCovered();
       }
     }
@@ -121,11 +118,21 @@ public class PageManager {
       newPage.getView().postDelayed(new Runnable() {
         @Override
         public void run() {
+          hideOldPageIfNeeded(oldPage, newPage);
+
           newPage.onShown(arg);
         }
       }, animationDuration);
     } else {
+      hideOldPageIfNeeded(oldPage, newPage);
+
       newPage.onShown(arg);
+    }
+  }
+
+  private void hideOldPageIfNeeded(Page oldPage, Page newPage) {
+    if (oldPage != null && newPage.getType() != Page.TYPE.TYPE_DIALOG) {
+      oldPage.getView().setVisibility(View.GONE);
     }
   }
 
