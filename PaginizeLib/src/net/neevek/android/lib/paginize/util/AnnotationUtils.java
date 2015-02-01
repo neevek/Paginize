@@ -103,39 +103,18 @@ public class AnnotationUtils {
 
         Map<Class, Object> targetListenerCache = new HashMap<Class, Object>();
 
-        Annotation[] listenerAnno = annoContainer.viewListeners();
-        for (int k = 0; k < listenerAnno.length; ++k) {
-          SetListeners setListenersAnno = (SetListeners) listenerAnno[k];
+        Annotation[] setListenerAnnoArray = annoContainer.viewListeners();
+        for (int k = 0; k < setListenerAnnoArray.length; ++k) {
+          SetListeners setListenersAnno = (SetListeners) setListenerAnnoArray[k];
           View view = viewFinder.findViewById(setListenersAnno.view());
           if (view == null) {
             throw new IllegalArgumentException("The view specified in @SetListeners is not found.");
           }
 
-          Object targetListener = object;
-          if (setListenersAnno.listener() != null && setListenersAnno.listener() != void.class) {
-            Class targetListenerClass = setListenersAnno.listener();
+          Object targetListener = getTargetListener(clazz, object, targetListenerCache, setListenersAnno.listener(), "@SetListeners");
 
-            targetListener = targetListenerCache.get(targetListenerClass);
-
-            if (targetListener == null) {
-              try {
-                boolean isStatic = Modifier.isStatic(targetListenerClass.getModifiers());
-                if (isStatic) {
-                  Constructor ctor = targetListenerClass.getDeclaredConstructor();
-                  ctor.setAccessible(true);
-                  targetListener = ctor.newInstance();
-
-                } else {
-                  Constructor ctor = targetListenerClass.getDeclaredConstructor(clazz);
-                  ctor.setAccessible(true);
-                  targetListener = ctor.newInstance(object);
-                }
-
-                targetListenerCache.put(targetListenerClass, targetListener);
-              } catch (NoSuchMethodException e) {
-                throw new IllegalArgumentException("The 'listener' field in @SetListeners must contain a default constructor without arguments.");
-              }
-            }
+          if (targetListener == null) {
+            targetListener = object;
           }
 
           AnnotationUtils.setListenersForView(view, setListenersAnno.listenerTypes(), targetListener);
@@ -149,6 +128,8 @@ public class AnnotationUtils {
       , IllegalAccessException, NoSuchMethodException, InstantiationException {
     Field fields[] = clazz.getDeclaredFields();
 
+    Map<Class, Object> targetListenerCache = new HashMap<Class, Object>();
+
     for (int i = 0; i < fields.length; ++i) {
       Field field = fields[i];
       Annotation[] annotations = field.getAnnotations();
@@ -160,18 +141,63 @@ public class AnnotationUtils {
       for (int j = 0; j < annotations.length; ++j) {
         Annotation anno = annotations[j];
 
-        if (InjectView.class.isAssignableFrom(anno.getClass())) {
-          InjectView annotation = (InjectView) anno;
-          View view = viewFinder.findViewById(annotation.value());
-          field.setAccessible(true);
-          field.set(object, view);
-
-          if (annotation.listenerTypes().length > 0) {
-            AnnotationUtils.setListenersForView(view, annotation.listenerTypes(), object);
-          }
-
+        if (!InjectView.class.isAssignableFrom(anno.getClass())) {
+          continue;
         }
+
+        InjectView annotation = (InjectView) anno;
+        View view = viewFinder.findViewById(annotation.value());
+        field.setAccessible(true);
+        field.set(object, view);
+
+        Class[] listenerTypes = annotation.listenerTypes();
+        if (listenerTypes == null || listenerTypes.length == 0) {
+          continue;
+        }
+
+        Object targetListener = getTargetListener(clazz, object, targetListenerCache, annotation.listener(), "@InjectView");
+        if (targetListener == null) {
+          targetListener = object;
+        }
+        AnnotationUtils.setListenersForView(view, annotation.listenerTypes(), targetListener);
+
       }
     }
+  }
+
+  private static Object getTargetListener(Class clazz,
+                                          Object object,
+                                          Map<Class, Object> targetListenerCache,
+                                          Class targetListenerClass,
+                                          String tag)
+      throws InstantiationException, IllegalAccessException, InvocationTargetException {
+
+    if (targetListenerClass == null || targetListenerClass == void.class) {
+      return null;
+    }
+
+    Object targetListener = targetListenerCache.get(targetListenerClass);
+
+    if (targetListener == null) {
+      try {
+        boolean isStatic = Modifier.isStatic(targetListenerClass.getModifiers());
+        if (isStatic) {
+          Constructor ctor = targetListenerClass.getDeclaredConstructor();
+          ctor.setAccessible(true);
+          targetListener = ctor.newInstance();
+
+        } else {
+          Constructor ctor = targetListenerClass.getDeclaredConstructor(clazz);
+          ctor.setAccessible(true);
+          targetListener = ctor.newInstance(object);
+        }
+
+        targetListenerCache.put(targetListenerClass, targetListener);
+      } catch (NoSuchMethodException e) {
+        throw new IllegalArgumentException("The 'listener' field in " + tag + " must contain a default constructor without arguments.");
+      }
+    }
+
+    return targetListener;
   }
 }

@@ -39,4 +39,6 @@ public @interface InjectView {
   int value();
 
   Class[] listenerTypes() default {};
+
+  Class listener() default void.class;
 }
