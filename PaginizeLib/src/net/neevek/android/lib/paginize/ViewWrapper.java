@@ -145,6 +145,20 @@ public abstract class ViewWrapper {
     return mView.getParent() != null;
   }
 
+  public boolean post(Runnable action) {
+    if (mView != null) {
+      return mView.post(action);
+    }
+    return false;
+  }
+
+  public boolean postDelayed(Runnable action, long delayMillis) {
+    if (mView != null) {
+      return mView.postDelayed(action, delayMillis);
+    }
+    return false;
+  }
+
   /**
    * called when added to the view hierarchy of the host activity
    *
