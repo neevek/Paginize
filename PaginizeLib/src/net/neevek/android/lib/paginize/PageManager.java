@@ -119,7 +119,7 @@ public class PageManager {
       animationDuration = mPageAnimator.getAnimationDuration();
     }
     if (animated && animationDuration != -1) {
-      newPage.getView().postDelayed(new Runnable() {
+      newPage.postDelayed(new Runnable() {
         @Override
         public void run() {
           hideOldPageIfNeeded(oldPage, newPage);
@@ -310,32 +310,31 @@ public class PageManager {
       }
     }
 
-    mContainerView.removeView(removedPage.getView());
-    removedPage.onDetach();
-
-    mCurPage = prevPage;
-
     int animationDuration = removedPage.getAnimationDuration();
     if (animationDuration == -1 && mPageAnimator != null) {
       animationDuration = mPageAnimator.getAnimationDuration();
     }
     if (animated && animationDuration != -1) {
-      removedPage.getView().postDelayed(new Runnable() {
+      removedPage.postDelayed(new Runnable() {
         @Override
         public void run() {
-          removedPage.onHidden();
-
-          if (prevPage != null) {
-            prevPage.onUncovered(removedPage.getReturnData());
-          }
+          doFinalWorkForPopPageInternal(removedPage, prevPage);
         }
       }, animationDuration);
-    } else {
-      removedPage.onHidden();
 
-      if (prevPage != null) {
-        prevPage.onUncovered(removedPage.getReturnData());
-      }
+    } else {
+      doFinalWorkForPopPageInternal(removedPage, prevPage);
+    }
+  }
+
+  private void doFinalWorkForPopPageInternal(Page removedPage, Page prevPage) {
+    mContainerView.removeView(removedPage.getView());
+    removedPage.onDetach();
+    removedPage.onHidden();
+    mCurPage = prevPage;
+
+    if (prevPage != null) {
+      prevPage.onUncovered(removedPage.getReturnData());
     }
   }
 
@@ -408,7 +407,12 @@ public class PageManager {
 
   public boolean onKeyDown(int keyCode, KeyEvent event) {
     if (mCurPage != null) {
-      return mCurPage.onKeyDown(keyCode, event);
+      if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0) {
+        return mCurPage.onMenuPressed();
+
+      } else {
+        return mCurPage.onKeyDown(keyCode, event);
+      }
     }
     return false;
   }

@@ -214,6 +214,16 @@ public abstract class ViewWrapper {
   }
 
   /**
+   * onMenuPressed is called when KeyEvent for onKeyDown() is KEYCODE_MENU, only the current
+   * page(on top of the stack) receives this call
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public boolean onMenuPressed() {
+    return false;
+  }
+
+  /**
    * onActivityResult mirrors Activity.onActivityResult, only the current
    * page(on top of the stack) receives this call
    *
