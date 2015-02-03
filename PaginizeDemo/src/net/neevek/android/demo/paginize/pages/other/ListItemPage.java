@@ -46,7 +46,7 @@ public class ListItemPage extends Page implements View.OnClickListener {
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.btn_back:
-        hideWithAnimation(true);
+        hide(true, true);
         break;
     }
   }

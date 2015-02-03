@@ -140,8 +140,8 @@ public class PageManager {
     }
   }
 
-  public void popPage() {
-    popPage(false, false);
+  public void popPage(boolean animated) {
+    popPage(animated, false);
   }
 
   /**
@@ -172,6 +172,10 @@ public class PageManager {
     }
 
     popPageInternal(oldPage, animated, hint);
+  }
+
+  public void popToPage(Page destPage, boolean animated) {
+    popToPage(destPage, animated, false);
   }
 
   /**
@@ -211,6 +215,10 @@ public class PageManager {
     popPageInternal(oldPage, animated, hint);
   }
 
+  public void popToClass(Class<? extends Page> pageClass, boolean animated) {
+    popToClass(pageClass, animated, false);
+  }
+
   /**
    * "pop" operation ends if the pageClass is found,
    * if the class is not found, the method call is a no-op
@@ -225,6 +233,10 @@ public class PageManager {
     }
 
     popToClasses(new Class[]{pageClass}, animated, hint);
+  }
+
+  public void popToClasses(Class<? extends Page>[] pageClasses, boolean animated) {
+    popToClasses(pageClasses, animated, false);
   }
 
   /**

@@ -34,14 +34,14 @@ public class AlertPage extends Page implements View.OnClickListener {
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.btn_confirm:
-        hide();
+        hide(false);
         break;
     }
   }
 
   @Override
   public boolean onBackPressed() {
-    hide();
+    hide(false);
     return true;
   }
 }

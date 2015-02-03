@@ -90,26 +90,30 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
     getPageManager().pushPage(this, arg, animated, hint);
   }
 
-  protected void hide() {
+  protected void hide(boolean animated) {
     if (getPageManager().getTopPage() == this) {
-      getPageManager().popPage(false, false);
+      getPageManager().popPage(animated, false);
     }
   }
 
-  protected void hideWithAnimation(final boolean hint) {
+  protected void hide(boolean animated, boolean hint) {
     if (getPageManager().getTopPage() == this) {
-      getPageManager().popPage(true, hint);
+      getPageManager().popPage(animated, hint);
     }
   }
 
-  protected void hideWithAnimationDelayed(final boolean hint) {
+  protected void hideDelayed(final boolean animated, final boolean hint) {
+    hideDelayed(animated, hint, 500);
+  }
+
+  protected void hideDelayed(final boolean animated, final boolean hint, int delayed) {
     if (getPageManager().getTopPage() == this) {
       getView().postDelayed(new Runnable() {
         @Override
         public void run() {
-          getPageManager().popPage(true, hint);
+          getPageManager().popPage(animated, hint);
         }
-      }, 500);
+      }, delayed);
     }
   }
 
