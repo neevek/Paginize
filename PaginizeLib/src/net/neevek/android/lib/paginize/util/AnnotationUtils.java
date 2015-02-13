@@ -2,7 +2,7 @@ package net.neevek.android.lib.paginize.util;
 
 import android.text.TextWatcher;
 import android.view.View;
-import net.neevek.android.lib.paginize.annotation.DecoratePageConstructor;
+import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
 import net.neevek.android.lib.paginize.exception.NotImplementedInterfaceException;
@@ -92,18 +92,18 @@ public class AnnotationUtils {
       for (int j = 0; j < annotations.length; ++j) {
 
         Annotation anno = annotations[j];
-        if (!(anno instanceof DecoratePageConstructor)) {
+        if (!(anno instanceof ListenerDefs)) {
           continue;
         }
 
-        DecoratePageConstructor annoContainer = (DecoratePageConstructor) anno;
-        if (annoContainer.viewListeners().length == 0) {
+        ListenerDefs annoContainer = (ListenerDefs) anno;
+        if (annoContainer.value().length == 0) {
           continue;
         }
 
         Map<Class, Object> targetListenerCache = new HashMap<Class, Object>();
 
-        Annotation[] setListenerAnnoArray = annoContainer.viewListeners();
+        Annotation[] setListenerAnnoArray = annoContainer.value();
         for (int k = 0; k < setListenerAnnoArray.length; ++k) {
           SetListeners setListenersAnno = (SetListeners) setListenerAnnoArray[k];
           View view = viewFinder.findViewById(setListenersAnno.view());

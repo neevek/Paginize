@@ -8,7 +8,7 @@ import net.neevek.android.demo.paginize.pages.other.TestPage;
 import net.neevek.android.demo.paginize.pages.viewpager.MyViewPagerPage;
 import net.neevek.android.lib.paginize.InnerPage;
 import net.neevek.android.lib.paginize.PageActivity;
-import net.neevek.android.lib.paginize.annotation.DecoratePageConstructor;
+import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
 
@@ -28,7 +28,7 @@ public class TabPage1 extends InnerPage //implements View.OnClickListener
 //    @InjectView(value = R.id.btn_show_view_pager_page, listenerTypes = {View.OnClickListener.class})
 //    private Button mBtnShowViewPagerPage;
 
-  @DecoratePageConstructor(viewListeners = {
+  @ListenerDefs({
       @SetListeners(view = R.id.btn_next_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
       @SetListeners(view = R.id.btn_list_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
       @SetListeners(view = R.id.btn_show_alert, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),

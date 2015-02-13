@@ -5,7 +5,7 @@ import android.widget.Toast;
 import net.neevek.android.demo.paginize.R;
 import net.neevek.android.demo.paginize.pages.general.FramePage;
 import net.neevek.android.lib.paginize.PageActivity;
-import net.neevek.android.lib.paginize.annotation.DecoratePageConstructor;
+import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.InheritPageLayout;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
 
@@ -16,7 +16,7 @@ import net.neevek.android.lib.paginize.annotation.SetListeners;
 @InheritPageLayout(R.layout.page_test)
 public class TestPage extends FramePage implements View.OnClickListener {
 
-  @DecoratePageConstructor(viewListeners = {
+  @ListenerDefs({
       @SetListeners(view = R.id.btn_back, listenerTypes = View.OnClickListener.class)
   })
   public TestPage(PageActivity pageActivity) {

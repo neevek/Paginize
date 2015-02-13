@@ -27,10 +27,7 @@ public class MainPage extends FrameInnerPage {
   // here we do not need a reference to R.id.rb_nav_btn2, so we can inject listeners for it by
   // annotating @DecoratePageConstructor on the constructor, which has the same effect as using
   // @InjectView
-  @DecoratePageConstructor( viewListeners = {
-    @SetListeners(view = R.id.rb_nav_btn2, listenerTypes = {View.OnClickListener.class}, listener = InnerListener.class)
-    }
-  )
+  @ListenerDefs({ @SetListeners(view = R.id.rb_nav_btn2, listenerTypes = {View.OnClickListener.class}, listener = InnerListener.class) })
   public MainPage(PageActivity pageActivity) {
     super(pageActivity);
 

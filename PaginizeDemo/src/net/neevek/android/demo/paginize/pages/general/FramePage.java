@@ -5,7 +5,7 @@ import android.widget.TextView;
 import net.neevek.android.demo.paginize.R;
 import net.neevek.android.lib.paginize.Page;
 import net.neevek.android.lib.paginize.PageActivity;
-import net.neevek.android.lib.paginize.annotation.DecoratePageConstructor;
+import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
@@ -18,7 +18,7 @@ public abstract class FramePage extends Page {
   @InjectView(value = R.id.tv_title)
   TextView mTvTitle;
 
-  @DecoratePageConstructor(viewListeners = {
+  @ListenerDefs({
       @SetListeners(view = R.id.tv_back, listenerTypes = View.OnClickListener.class, listener = MyOnClickListener.class),
       @SetListeners(view = R.id.tv_next, listenerTypes = View.OnClickListener.class, listener = MyOnClickListener.class)
   })
