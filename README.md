@@ -58,25 +58,15 @@ with a BACK button and a title:
 
 ```java
 @PageLayout(R.layout.page_header)
-public abstract class HeaderPage extends Page {
-    @InjectView(R.id.tv_back) private TextView mTvBack;
-    @InjectView(R.id.tv_title) private TextView mTvTitle;
+public abstract class HeaderPage extends Page implements View.OnClickListener {
+    @InjectView(value = R.id.tv_back, listenerTypes = {View.OnClickListener.class}) 
+    private TextView mTvBack;
+
+    @InjectView(R.id.tv_title) 
+    private TextView mTvTitle;
 
     public HeaderPage(PageActivity pageActivity) {
         super(pageActivity);
-
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.tv_back:
-                        onBackButtonClicked();
-                        break;
-                }
-            }
-        };
-
-        mTvBack.setOnClickListener(onClickListener);
     }
 
     protected void setBackButtonVisibility(int visibility) {
@@ -97,7 +87,16 @@ public abstract class HeaderPage extends Page {
     }
 
     protected void onBackButtonClicked() {
-        hideWithAnimation(true);
+        hide(true, true);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_back:
+                onBackButtonClicked();
+            break;
+        }
     }
 }
 ```
