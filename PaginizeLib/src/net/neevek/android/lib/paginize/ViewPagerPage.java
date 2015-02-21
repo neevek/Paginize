@@ -36,7 +36,6 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
  * This class encapsulates a {@link android.support.v4.view.ViewPager},
  * which makes it easy to create swipe pages.
  *
- * @see net.neevek.android.lib.paginize.ViewPagerInnerPage
  * @see net.neevek.android.lib.paginize.PagePagerAdapter
  */
 public abstract class ViewPagerPage extends Page {

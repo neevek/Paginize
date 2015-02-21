@@ -28,10 +28,8 @@ import android.view.ViewGroup;
 /**
  * An adapter that provides ViewWrappers for
  * {@link net.neevek.android.lib.paginize.ViewPagerPage}
- * and {@link net.neevek.android.lib.paginize.ViewPagerInnerPage}
  *
  * @see net.neevek.android.lib.paginize.ViewPagerPage
- * @see net.neevek.android.lib.paginize.ViewPagerInnerPage
  */
 public abstract class PagePagerAdapter extends PagerAdapter {
   public abstract ViewWrapper getItem(int position);
