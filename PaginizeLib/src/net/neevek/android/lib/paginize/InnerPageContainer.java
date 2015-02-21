@@ -1,6 +1,10 @@
 package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutResId;
@@ -105,6 +109,48 @@ public abstract class InnerPageContainer extends Page {
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     mInnerPageManager.onActivityResult(requestCode, resultCode, data);
+  }
+
+  @Override
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (mInnerPageManager.onKeyDown(keyCode, event)) {
+      return true;
+    }
+    return super.onKeyDown(keyCode, event);
+  }
+
+  @Override
+  public boolean onKeyUp(int keyCode, KeyEvent event) {
+    if (mInnerPageManager.onKeyUp(keyCode, event)) {
+      return true;
+    }
+    return super.onKeyUp(keyCode, event);
+  }
+
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    if (mInnerPageManager.onTouchEvent(event)) {
+      return true;
+    }
+    return super.onTouchEvent(event);
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    mInnerPageManager.onConfigurationChanged(newConfig);
+    super.onConfigurationChanged(newConfig);
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    mInnerPageManager.onSaveInstanceState(outState);
+    super.onSaveInstanceState(outState);
+  }
+
+  @Override
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
+    mInnerPageManager.onRestoreInstanceState(savedInstanceState);
+    super.onRestoreInstanceState(savedInstanceState);
   }
 
   @Override

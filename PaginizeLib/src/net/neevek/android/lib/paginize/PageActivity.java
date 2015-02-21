@@ -160,6 +160,7 @@ public class PageActivity extends Activity {
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
+
     mPageManager.onSaveInstanceState(outState);
     super.onSaveInstanceState(outState);
   }

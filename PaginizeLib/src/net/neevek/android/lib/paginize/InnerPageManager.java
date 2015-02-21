@@ -1,6 +1,10 @@
 package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -100,6 +104,50 @@ public class InnerPageManager {
   public void onResume() {
     if (mCurPage != null) {
       mCurPage.onResume();
+    }
+  }
+
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (mCurPage != null) {
+      if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0) {
+        return mCurPage.onMenuPressed();
+
+      } else {
+        return mCurPage.onKeyDown(keyCode, event);
+      }
+    }
+    return false;
+  }
+
+  public boolean onKeyUp(int keyCode, KeyEvent event) {
+    if (mCurPage != null) {
+      return mCurPage.onKeyUp(keyCode, event);
+    }
+    return false;
+  }
+
+  public boolean onTouchEvent(MotionEvent event) {
+    if (mCurPage != null) {
+      return mCurPage.onTouchEvent(event);
+    }
+    return false;
+  }
+
+  public void onConfigurationChanged(Configuration newConfig) {
+    if (mCurPage != null) {
+      mCurPage.onConfigurationChanged(newConfig);
+    }
+  }
+
+  public void onSaveInstanceState(Bundle outState) {
+    if (mCurPage != null) {
+      mCurPage.onSaveInstanceState(outState);
+    }
+  }
+
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
+    if (mCurPage != null) {
+      mCurPage.onRestoreInstanceState(savedInstanceState);
     }
   }
 

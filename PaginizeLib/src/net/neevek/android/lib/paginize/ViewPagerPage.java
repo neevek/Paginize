@@ -1,8 +1,12 @@
 package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import net.neevek.android.lib.paginize.annotation.ViewPagerResId;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
@@ -122,6 +126,57 @@ public abstract class ViewPagerPage extends Page {
     PagePagerAdapter adapter = getPagePagerAdapter();
     if (adapter != null && adapter.getCount() > 0) {
       adapter.getItem(mViewPager.getCurrentItem()).onResume();
+    }
+  }
+
+  @Override
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onKeyDown(keyCode, event);
+    }
+    return false;
+  }
+
+  @Override
+  public boolean onKeyUp(int keyCode, KeyEvent event) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onKeyUp(keyCode, event);
+    }
+    return false;
+  }
+
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onTouchEvent(event);
+    }
+    return false;
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onConfigurationChanged(newConfig);
+    }
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onSaveInstanceState(outState);
+    }
+  }
+
+  @Override
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onRestoreInstanceState(savedInstanceState);
     }
   }
 
