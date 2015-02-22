@@ -39,6 +39,9 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
  * @see net.neevek.android.lib.paginize.PagePagerAdapter
  */
 public abstract class ViewPagerPage extends Page {
+  // todo: if a ViewPagerPage is used multiple times, this key may cause problem
+  private final String SAVE_CURRENT_PAGE_INDEX_KEY = "_paginize_view_pager_page_" + getClass().getName();
+
   private ViewPager mViewPager;
 
   public ViewPagerPage(PageActivity pageActivity) {
@@ -168,6 +171,8 @@ public abstract class ViewPagerPage extends Page {
     PagePagerAdapter adapter = getPagePagerAdapter();
     if (adapter != null && adapter.getCount() > 0) {
       adapter.getItem(mViewPager.getCurrentItem()).onSaveInstanceState(outState);
+
+      outState.putInt(SAVE_CURRENT_PAGE_INDEX_KEY, mViewPager.getCurrentItem());
     }
   }
 
@@ -175,6 +180,9 @@ public abstract class ViewPagerPage extends Page {
   public void onRestoreInstanceState(Bundle savedInstanceState) {
     PagePagerAdapter adapter = getPagePagerAdapter();
     if (adapter != null && adapter.getCount() > 0) {
+      int index = savedInstanceState.getInt(SAVE_CURRENT_PAGE_INDEX_KEY);
+      mViewPager.setCurrentItem(index);
+
       adapter.getItem(mViewPager.getCurrentItem()).onRestoreInstanceState(savedInstanceState);
     }
   }

@@ -13,6 +13,10 @@ public class MainActivity extends PageActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    new MainPage(this).show(null, false);
+    // if MainActivity is restored, the internal page stack will be restored
+    // automatically, so there is no need to create and show MainPage manually here.
+    if (savedInstanceState == null) {
+      new MainPage(this).show(null, false);
+    }
   }
 }

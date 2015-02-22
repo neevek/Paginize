@@ -1,5 +1,6 @@
 package net.neevek.android.demo.paginize.pages.main;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import net.neevek.android.demo.paginize.R;
@@ -13,21 +14,18 @@ import net.neevek.android.lib.paginize.annotation.*;
 @InheritPageLayout(R.layout.page_main)
 @InnerPageContainerLayoutResId(R.id.layout_container)
 public class MainPage extends FrameInnerPage {
+  private final static String SAVE_INDEX = "main_page_inner_page_index";
+
   @InjectView(value = R.id.rb_nav_btn1, listenerTypes = {View.OnClickListener.class}, listener = InnerListener.class)
   private RadioButton mRbNavBtn1;
+  @InjectView(value = R.id.rb_nav_btn2, listenerTypes = {View.OnClickListener.class}, listener = InnerListener.class)
+  private RadioButton mRbNavBtn2;
 
-  // see use of @ListenerDefs below
-//  @InjectView(value = R.id.rb_nav_btn2, listenerTypes = {View.OnClickListener.class}, listener = InnerListener.class)
-//  private RadioButton mRbNavBtn2;
+  private int mSelectIndex = 0;
 
   private TabPage1 mTabPage1 = new TabPage1(getContext());
   private TabPage2 mTabPage2 = new TabPage2(getContext());
 
-  // demonstrate how @ListenerDefs can be used.
-  // here we do not need a reference to R.id.rb_nav_btn2, so we can inject listeners for it by
-  // annotating @ListenerDefs on the constructor, which has the same effect as using
-  // @InjectView
-  @ListenerDefs({ @SetListeners(view = R.id.rb_nav_btn2, listenerTypes = {View.OnClickListener.class}, listener = InnerListener.class) })
   public MainPage(PageActivity pageActivity) {
     super(pageActivity);
 
@@ -42,12 +40,35 @@ public class MainPage extends FrameInnerPage {
     public void onClick(View v) {
       switch (v.getId()) {
         case R.id.rb_nav_btn1:
+          mSelectIndex = 0;
           setInnerPage(mTabPage1, null);
           break;
         case R.id.rb_nav_btn2:
+          mSelectIndex = 1;
           setInnerPage(mTabPage2, null);
           break;
       }
+    }
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putInt(SAVE_INDEX, mRbNavBtn1.isChecked() ? 0 : 1);
+  }
+
+  @Override
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    int index = savedInstanceState.getInt(SAVE_INDEX);
+    if (index != mSelectIndex) {
+      if (index == 0) {
+        mRbNavBtn1.setChecked(true);
+      } else {
+        mRbNavBtn2.setChecked(true);
+      }
+
+      mSelectIndex = index;
     }
   }
 }

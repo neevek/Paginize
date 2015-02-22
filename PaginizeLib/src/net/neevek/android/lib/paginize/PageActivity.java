@@ -50,7 +50,7 @@ public class PageActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mPageManager = new PageManager((ViewGroup) findViewById(android.R.id.content));
+    mPageManager = new PageManager(this, (ViewGroup) findViewById(android.R.id.content));
 
     try {
       initAnnotatedFields();
@@ -154,20 +154,19 @@ public class PageActivity extends Activity {
 
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
-    mPageManager.onConfigurationChanged(newConfig);
     super.onConfigurationChanged(newConfig);
+    mPageManager.onConfigurationChanged(newConfig);
   }
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
-
-    mPageManager.onSaveInstanceState(outState);
     super.onSaveInstanceState(outState);
+    mPageManager.onSaveInstanceState(outState);
   }
 
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    mPageManager.onRestoreInstanceState(savedInstanceState);
     super.onRestoreInstanceState(savedInstanceState);
+    mPageManager.onRestoreInstanceState(savedInstanceState);
   }
 }

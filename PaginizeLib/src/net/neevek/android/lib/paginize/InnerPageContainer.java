@@ -71,7 +71,7 @@ public abstract class InnerPageContainer extends Page {
     if (!(container instanceof ViewGroup)) {
       throw new IllegalStateException("The specified layout for InnerPageContainer is not of type ViewGroup.");
     }
-    mInnerPageManager = new InnerPageManager((ViewGroup) container);
+    mInnerPageManager = new InnerPageManager(getContext(), (ViewGroup) container);
   }
 
   public InnerPageManager getInnerPageManager() {
@@ -137,20 +137,20 @@ public abstract class InnerPageContainer extends Page {
 
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
-    mInnerPageManager.onConfigurationChanged(newConfig);
     super.onConfigurationChanged(newConfig);
+    mInnerPageManager.onConfigurationChanged(newConfig);
   }
 
   @Override
   public void onSaveInstanceState(Bundle outState) {
-    mInnerPageManager.onSaveInstanceState(outState);
     super.onSaveInstanceState(outState);
+    mInnerPageManager.onSaveInstanceState(outState);
   }
 
   @Override
   public void onRestoreInstanceState(Bundle savedInstanceState) {
-    mInnerPageManager.onRestoreInstanceState(savedInstanceState);
     super.onRestoreInstanceState(savedInstanceState);
+    mInnerPageManager.onRestoreInstanceState(savedInstanceState);
   }
 
   @Override

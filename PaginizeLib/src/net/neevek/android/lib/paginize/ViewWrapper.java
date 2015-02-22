@@ -280,7 +280,9 @@ public abstract class ViewWrapper {
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onSaveInstanceState(Bundle outState) { }
+  public void onSaveInstanceState(Bundle outState) {
+    System.out.println(">>>>>>>>>>>>> page onSaveInstanceState: " + getClass());
+  }
 
   /**
    * onResume mirrors Activity.onRestoreInstanceState

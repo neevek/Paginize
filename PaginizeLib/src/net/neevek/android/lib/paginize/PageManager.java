@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.anim.PageAnimator;
 
+import java.lang.reflect.Constructor;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -43,9 +44,11 @@ import java.util.LinkedList;
  * @see net.neevek.android.lib.paginize.anim.PageAnimator
  */
 public class PageManager {
+  private final String SAVE_PAGE_STACK_KEY = "_paginize_page_stack";
   private final String TAG = PageManager.class.getSimpleName();
   private final boolean DEBUG = true;
 
+  private PageActivity mPageActivity;
   private ViewGroup mContainerView;
 
   // the stack to hold the pages
@@ -57,11 +60,12 @@ public class PageManager {
   // the PageAnimator to use to animate transitions when swapping pages
   private PageAnimator mPageAnimator;
 
-  public PageManager(ViewGroup containerView) {
-    this(containerView, null);
+  public PageManager(PageActivity pageActivity, ViewGroup containerView) {
+    this(pageActivity, containerView, null);
   }
 
-  public PageManager(ViewGroup containerView, PageAnimator pageAnimator) {
+  public PageManager(PageActivity pageActivity, ViewGroup containerView, PageAnimator pageAnimator) {
+    mPageActivity = pageActivity;
     mContainerView = containerView;
     mPageAnimator = pageAnimator;
   }
@@ -444,20 +448,41 @@ public class PageManager {
   }
 
   public void onConfigurationChanged(Configuration newConfig) {
-    if (mCurPage != null) {
-      mCurPage.onConfigurationChanged(newConfig);
+    for (int i = 0; i < mPageStack.size(); ++i) {
+      Page p = mPageStack.get(i);
+      p.onConfigurationChanged(newConfig);
     }
   }
 
   public void onSaveInstanceState(Bundle outState) {
-    if (mCurPage != null) {
-      mCurPage.onSaveInstanceState(outState);
+    String[] clazzArray = new String[mPageStack.size()];
+    for (int i = 0; i < mPageStack.size(); ++i) {
+      Page p = mPageStack.get(i);
+      p.onSaveInstanceState(outState);
+
+      clazzArray[i] = p.getClass().getName();
     }
+    outState.putStringArray(SAVE_PAGE_STACK_KEY, clazzArray);
   }
 
   public void onRestoreInstanceState(Bundle savedInstanceState) {
-    if (mCurPage != null) {
-      mCurPage.onRestoreInstanceState(savedInstanceState);
+    String[] clazzArray = savedInstanceState.getStringArray(SAVE_PAGE_STACK_KEY);
+    Class clazz = null;
+    try {
+      for (int i = 0; i < clazzArray.length; ++i) {
+        clazz = Class.forName(clazzArray[i]);
+        Constructor ctor = clazz.getDeclaredConstructor(PageActivity.class);
+        Page p = (Page)ctor.newInstance(mPageActivity);
+        pushPage(p);
+
+        p.onRestoreInstanceState(savedInstanceState);
+      }
+    } catch (NoSuchMethodException e) {
+      throw new RuntimeException("No <init>(PageActivity) constructor in Page: " + clazz.getName()
+          + ", which is required for page restore/recovery to work.");
+
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 

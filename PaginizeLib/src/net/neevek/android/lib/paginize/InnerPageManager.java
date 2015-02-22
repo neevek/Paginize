@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Constructor;
+
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -36,11 +38,14 @@ import android.view.ViewGroup;
  * @see net.neevek.android.lib.paginize.InnerPage
  */
 public class InnerPageManager {
+  private final String SAVE_INNER_PAGE_MANAGER_KEY = "_paginize_inner_page_manager_" + getClass().getName();
+  private PageActivity mPageActivity;
   private ViewGroup mContainerView;
 
   private InnerPage mCurPage;
 
-  public InnerPageManager(ViewGroup containerView) {
+  public InnerPageManager(PageActivity pageActivity, ViewGroup containerView) {
+    mPageActivity = pageActivity;
     mContainerView = containerView;
   }
 
@@ -142,12 +147,28 @@ public class InnerPageManager {
   public void onSaveInstanceState(Bundle outState) {
     if (mCurPage != null) {
       mCurPage.onSaveInstanceState(outState);
+
+      outState.putString(SAVE_INNER_PAGE_MANAGER_KEY, mCurPage.getClass().getName());
     }
   }
 
   public void onRestoreInstanceState(Bundle savedInstanceState) {
-    if (mCurPage != null) {
-      mCurPage.onRestoreInstanceState(savedInstanceState);
+    String clazzString = savedInstanceState.getString(SAVE_INNER_PAGE_MANAGER_KEY);
+
+    Class clazz = null;
+    try {
+      clazz = Class.forName(clazzString);
+      Constructor ctor = clazz.getDeclaredConstructor(PageActivity.class);
+      InnerPage p = (InnerPage)ctor.newInstance(mPageActivity);
+      setPage(p, null);
+
+      p.onRestoreInstanceState(savedInstanceState);
+    } catch (NoSuchMethodException e) {
+      throw new RuntimeException("No <init>(PageActivity) constructor in InnerPage: " + clazz.getName()
+          + ", which is required for page restore/recovery to work.");
+
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
