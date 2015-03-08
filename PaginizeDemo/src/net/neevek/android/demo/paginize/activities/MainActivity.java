@@ -15,6 +15,8 @@ public class MainActivity extends PageActivity {
 
     // if MainActivity is restored, the internal page stack will be restored
     // automatically, so there is no need to create and show MainPage manually here.
+    // Note: this conditional is NOT needed if you are not going to support state recovery for
+    //       device rotation or Activity recreation on low memory.
     if (savedInstanceState == null) {
       new MainPage(this).show(null, false);
     }

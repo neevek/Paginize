@@ -18,6 +18,11 @@ public class TabPage2 extends InnerPage {
     super(context);
   }
 
+  /**
+   * Note: the following code are NOT needed if you are not going to support state recovery for
+   *       device rotation or Activity recreation on low memory.
+   */
+
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
