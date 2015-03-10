@@ -89,4 +89,8 @@
   <!-- version-tag: 1 -->
   <import file="${sdk.dir}/tools/ant/build.xml"/>
 
+  <target name="jar" depends="release">
+    <jar destfile="bin/paginize.jar" basedir="bin/classes" />
+  </target>
+
 </project>
