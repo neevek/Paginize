@@ -326,7 +326,6 @@ public class PageManager {
       }
     }
 
-    mContainerView.removeView(removedPage.getView());
     mCurPage = prevPage;
 
     int animationDuration = removedPage.getAnimationDuration();
@@ -347,6 +346,7 @@ public class PageManager {
   }
 
   private void doFinalWorkForPopPageInternal(Page removedPage, Page prevPage) {
+    mContainerView.removeView(removedPage.getView());
     removedPage.onDetach();
     removedPage.onHidden();
 
