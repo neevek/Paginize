@@ -115,10 +115,24 @@ public abstract class ViewPagerInnerPage extends InnerPage {
     }
   }
 
+  public void onShow(Object arg) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onShow(arg);
+    }
+  }
+
   public void onShown(Object arg) {
     PagePagerAdapter adapter = getPagePagerAdapter();
     if (adapter != null && adapter.getCount() > 0) {
       adapter.getItem(mViewPager.getCurrentItem()).onShown(arg);
+    }
+  }
+
+  public void onHide() {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onHide();
     }
   }
 
@@ -129,10 +143,24 @@ public abstract class ViewPagerInnerPage extends InnerPage {
     }
   }
 
+  public void onCover() {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onCover();
+    }
+  }
+
   public void onCovered() {
     PagePagerAdapter adapter = getPagePagerAdapter();
     if (adapter != null && adapter.getCount() > 0) {
       adapter.getItem(mViewPager.getCurrentItem()).onCovered();
+    }
+  }
+
+  public void onUncover(Object arg) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onUncover(arg);
     }
   }
 

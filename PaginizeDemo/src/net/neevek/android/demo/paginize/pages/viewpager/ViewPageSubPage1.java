@@ -25,12 +25,12 @@ public class ViewPageSubPage1 extends ViewWrapper {
   }
 
   @Override
-  public void onAttach() {
-    Log.d(TAG, "onAttach() called: " + this);
+  public void onAttached() {
+    Log.d(TAG, "onAttached() called: " + this);
   }
 
   @Override
-  public void onDetach() {
-    Log.d(TAG, "onDetach() called: " + this);
+  public void onDetached() {
+    Log.d(TAG, "onDetached() called: " + this);
   }
 }

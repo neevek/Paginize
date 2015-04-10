@@ -24,10 +24,10 @@ package net.neevek.android.lib.paginize;
 /**
  * An InnerPage encapsulates a View(usually a layout with complex UI components),
  * which is to be put into a ViewGroup and finally be shown on screen.
- *
+ * <p/>
  * InnerPage is designed to be used in a layout that contains multiple views
  * that can be swapped at runtime, such as a Page with multiple tabs.
- *
+ * <p/>
  * InnerPage is managed by InnerPageManager, we call InnerPageManager.setPage()
  * method to set an InnerPage as the current page.
  *

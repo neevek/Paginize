@@ -43,7 +43,7 @@ public abstract class PagePagerAdapter extends PagerAdapter {
   public Object instantiateItem(ViewGroup container, int position) {
     ViewWrapper viewWrapper = getItem(position);
     container.addView(viewWrapper.getView());
-    viewWrapper.onAttach();
+    viewWrapper.onAttached();
     return viewWrapper;
   }
 
@@ -51,7 +51,7 @@ public abstract class PagePagerAdapter extends PagerAdapter {
   public void destroyItem(ViewGroup container, int position, Object object) {
     ViewWrapper viewWrapper = (ViewWrapper) object;
     container.removeView(viewWrapper.getView());
-    viewWrapper.onDetach();
+    viewWrapper.onDetached();
   }
 
   @Override

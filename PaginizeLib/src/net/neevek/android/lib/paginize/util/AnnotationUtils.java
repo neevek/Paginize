@@ -2,8 +2,8 @@ package net.neevek.android.lib.paginize.util;
 
 import android.text.TextWatcher;
 import android.view.View;
-import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.InjectView;
+import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
 import net.neevek.android.lib.paginize.exception.NotImplementedInterfaceException;
 

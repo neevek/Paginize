@@ -164,28 +164,59 @@ public abstract class ViewWrapper {
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onAttach() { }
+  public void onAttached() {
+  }
 
   /**
    * called when removed from the view hierarchy of the host activity
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onDetach() { }
+  public void onDetached() {
+  }
+
+  /**
+   * onShow is called when the page is pushed on the page stack,
+   * at this point the Page is still not be visible
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onShow(Object arg) {
+  }
 
   /**
    * onShown is called after the page is pushed on the page stack
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onShown(Object arg) { }
+  public void onShown(Object arg) {
+  }
+
+  /**
+   * onHide is called before the page is popped out of the page stack,
+   * at this point the Page is still visible
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onHide() {
+  }
 
   /**
    * onHidden is called after the page is popped out of the page stack
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onHidden() { }
+  public void onHidden() {
+  }
+
+  /**
+   * onCover is called for the current ViewWrapper before a new
+   * ViewWrapper is pushed on the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onCover() {
+  }
 
   /**
    * onCovered is called for the current ViewWrapper when a new
@@ -193,7 +224,17 @@ public abstract class ViewWrapper {
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onCovered() { }
+  public void onCovered() {
+  }
+
+  /**
+   * onUncovered is called for the previous page before the current page
+   * is popped out of the page stack
+   *
+   * @see net.neevek.android.lib.paginize.PageManager
+   */
+  public void onUncover(Object arg) {
+  }
 
   /**
    * onUncovered is called for the previous page when the current page
@@ -201,7 +242,8 @@ public abstract class ViewWrapper {
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onUncovered(Object arg) { }
+  public void onUncovered(Object arg) {
+  }
 
   /**
    * onBackPressed mirrors Activity.onBackPressed, only the current
@@ -229,7 +271,8 @@ public abstract class ViewWrapper {
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onActivityResult(int requestCode, int resultCode, Intent data) { }
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+  }
 
   /**
    * onPause mirrors Activity.onPause, only the current page
@@ -237,7 +280,8 @@ public abstract class ViewWrapper {
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onPause() { }
+  public void onPause() {
+  }
 
   /**
    * onResume mirrors Activity.onResume, only the current page
@@ -245,35 +289,43 @@ public abstract class ViewWrapper {
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onResume() { }
+  public void onResume() {
+  }
 
   /**
    * onResume mirrors Activity.onKeyDown
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public boolean onKeyDown(int keyCode, KeyEvent event) { return false; }
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    return false;
+  }
 
   /**
    * onResume mirrors Activity.onKeyUp
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public boolean onKeyUp(int keyCode, KeyEvent event) { return false; }
+  public boolean onKeyUp(int keyCode, KeyEvent event) {
+    return false;
+  }
 
   /**
    * onResume mirrors Activity.onTouchEvent
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public boolean onTouchEvent(MotionEvent event) { return false; }
+  public boolean onTouchEvent(MotionEvent event) {
+    return false;
+  }
 
   /**
    * onResume mirrors Activity.onConfigurationChanged
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onConfigurationChanged(Configuration newConfig) { }
+  public void onConfigurationChanged(Configuration newConfig) {
+  }
 
   /**
    * onResume mirrors Activity.onSaveInstanceState
@@ -281,7 +333,6 @@ public abstract class ViewWrapper {
    * @see net.neevek.android.lib.paginize.PageManager
    */
   public void onSaveInstanceState(Bundle outState) {
-    System.out.println(">>>>>>>>>>>>> page onSaveInstanceState: " + getClass());
   }
 
   /**
@@ -289,5 +340,6 @@ public abstract class ViewWrapper {
    *
    * @see net.neevek.android.lib.paginize.PageManager
    */
-  public void onRestoreInstanceState(Bundle savedInstanceState) { }
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
+  }
 }

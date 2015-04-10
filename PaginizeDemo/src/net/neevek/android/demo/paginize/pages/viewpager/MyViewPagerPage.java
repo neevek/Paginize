@@ -43,13 +43,13 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
   }
 
   @Override
-  public void onAttach() {
-    Log.d(TAG, "onAttach(): " + this);
+  public void onAttached() {
+    Log.d(TAG, "onAttached(): " + this);
   }
 
   @Override
-  public void onDetach() {
-    Log.d(TAG, "onDetach(): " + this);
+  public void onDetached() {
+    Log.d(TAG, "onDetached(): " + this);
   }
 
   @Override

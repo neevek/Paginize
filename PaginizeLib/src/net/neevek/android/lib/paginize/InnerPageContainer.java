@@ -154,8 +154,18 @@ public abstract class InnerPageContainer extends Page {
   }
 
   @Override
+  public void onShow(Object arg) {
+    mInnerPageManager.onShow(arg);
+  }
+
+  @Override
   public void onShown(Object arg) {
     mInnerPageManager.onShown(arg);
+  }
+
+  @Override
+  public void onHide() {
+    mInnerPageManager.onHide();
   }
 
   @Override
@@ -164,8 +174,18 @@ public abstract class InnerPageContainer extends Page {
   }
 
   @Override
+  public void onCover() {
+    mInnerPageManager.onCover();
+  }
+
+  @Override
   public void onCovered() {
     mInnerPageManager.onCovered();
+  }
+
+  @Override
+  public void onUncover(Object arg) {
+    mInnerPageManager.onUncover(arg);
   }
 
   @Override

@@ -65,7 +65,7 @@ public class InnerPageManager {
 
       if (mContainerView.indexOfChild(newPageView) == -1) {
         mContainerView.addView(newPageView);
-        newPage.onAttach();
+        newPage.onAttached();
       }
 
       newPageView.bringToFront();
@@ -79,7 +79,7 @@ public class InnerPageManager {
   // this method is rarely needed
   public void removePage(InnerPage page) {
     mContainerView.removeView(page.getView());
-    page.onDetach();
+    page.onDetached();
   }
 
   public void unsetPage() {
@@ -159,7 +159,7 @@ public class InnerPageManager {
     try {
       clazz = Class.forName(clazzString);
       Constructor ctor = clazz.getDeclaredConstructor(PageActivity.class);
-      InnerPage p = (InnerPage)ctor.newInstance(mPageActivity);
+      InnerPage p = (InnerPage) ctor.newInstance(mPageActivity);
       setPage(p, null);
 
       p.onRestoreInstanceState(savedInstanceState);
@@ -172,9 +172,21 @@ public class InnerPageManager {
     }
   }
 
+  public void onShow(Object arg) {
+    if (mCurPage != null) {
+      mCurPage.onShow(arg);
+    }
+  }
+
   public void onShown(Object arg) {
     if (mCurPage != null) {
       mCurPage.onShown(arg);
+    }
+  }
+
+  public void onHide() {
+    if (mCurPage != null) {
+      mCurPage.onHide();
     }
   }
 
@@ -184,9 +196,21 @@ public class InnerPageManager {
     }
   }
 
+  public void onCover() {
+    if (mCurPage != null) {
+      mCurPage.onCover();
+    }
+  }
+
   public void onCovered() {
     if (mCurPage != null) {
       mCurPage.onCovered();
+    }
+  }
+
+  public void onUncover(Object arg) {
+    if (mCurPage != null) {
+      mCurPage.onUncover(arg);
     }
   }
 

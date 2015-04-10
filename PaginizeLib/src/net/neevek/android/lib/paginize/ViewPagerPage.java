@@ -92,13 +92,13 @@ public abstract class ViewPagerPage extends Page {
     return null;
   }
 
-  public void onAttach() {
-    // do nothing here, onAttach is called on the ViewWrapper when
+  public void onAttached() {
+    // do nothing here, onAttached is called on the ViewWrapper when
     // it is added to ViewPager
   }
 
-  public void onDetach() {
-    // do nothing here, onAttach is called on the ViewWrapper when
+  public void onDetached() {
+    // do nothing here, onAttached is called on the ViewWrapper when
     // it is removed from ViewPager
   }
 
@@ -188,10 +188,24 @@ public abstract class ViewPagerPage extends Page {
     }
   }
 
+  public void onShow(Object arg) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onShow(arg);
+    }
+  }
+
   public void onShown(Object arg) {
     PagePagerAdapter adapter = getPagePagerAdapter();
     if (adapter != null && adapter.getCount() > 0) {
       adapter.getItem(mViewPager.getCurrentItem()).onShown(arg);
+    }
+  }
+
+  public void onHide() {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onHide();
     }
   }
 
@@ -202,10 +216,24 @@ public abstract class ViewPagerPage extends Page {
     }
   }
 
+  public void onCover() {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onCover();
+    }
+  }
+
   public void onCovered() {
     PagePagerAdapter adapter = getPagePagerAdapter();
     if (adapter != null && adapter.getCount() > 0) {
       adapter.getItem(mViewPager.getCurrentItem()).onCovered();
+    }
+  }
+
+  public void onUncover(Object arg) {
+    PagePagerAdapter adapter = getPagePagerAdapter();
+    if (adapter != null && adapter.getCount() > 0) {
+      adapter.getItem(mViewPager.getCurrentItem()).onUncover(arg);
     }
   }
 
