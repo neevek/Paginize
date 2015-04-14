@@ -44,6 +44,8 @@ public class AnnotationUtils {
 
   static {
     sSetListenerMethodMap.put(TextWatcher.class, "addTextChangedListener");
+    sSetListenerMethodMap.put(View.OnLayoutChangeListener.class, "addOnLayoutChangeListener");
+    sSetListenerMethodMap.put(View.OnAttachStateChangeListener.class, "addOnAttachStateChangeListener");
   }
 
   private static void setListenersForView(View view, Class[] listenerTypes, Object listener) throws InvocationTargetException
