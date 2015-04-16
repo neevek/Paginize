@@ -58,6 +58,11 @@ public class InnerPageManager {
     if (oldPage != null) {
       oldPage.onReplaced();
       oldPage.getView().setVisibility(View.GONE);
+
+      View currentFocusedView = oldPage.getContext().getCurrentFocus();
+      if (currentFocusedView != null) {
+        currentFocusedView.clearFocus();
+      }
     }
 
     if (newPage != null) {
@@ -71,6 +76,7 @@ public class InnerPageManager {
       newPageView.bringToFront();
       newPageView.setVisibility(View.VISIBLE);
       newPage.onSet(data);
+      newPageView.requestFocus();
     }
 
     mCurPage = newPage;

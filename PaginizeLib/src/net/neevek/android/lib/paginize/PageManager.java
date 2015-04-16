@@ -97,6 +97,10 @@ public class PageManager {
 
     if (oldPage != null) {
       oldPage.onCover();
+      View currentFocusedView = oldPage.getContext().getCurrentFocus();
+      if (currentFocusedView != null) {
+        currentFocusedView.clearFocus();
+      }
     }
 
     mCurPage = newPage;
@@ -138,6 +142,7 @@ public class PageManager {
     }
 
     newPage.onShown(arg);
+    newPage.getView().requestFocus();
   }
 
   public void popPage(boolean animated) {
@@ -309,11 +314,17 @@ public class PageManager {
 
   private void popPageInternal(final Page removedPage, boolean animated, boolean hint) {
     removedPage.onHide();
+    View currentFocusedView = removedPage.getContext().getCurrentFocus();
+    if (currentFocusedView != null) {
+      currentFocusedView.clearFocus();
+    }
 
     final Page prevPage;
     if (mPageStack.size() > 0) {    // this check is always necessary
       prevPage = mPageStack.getLast();
       prevPage.onUncover(removedPage.getReturnData());
+      prevPage.getView().requestFocus();
+
 
       if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, prevPage, hint)) {
         mPageAnimator.onPopPageAnimation(removedPage, prevPage, hint);
