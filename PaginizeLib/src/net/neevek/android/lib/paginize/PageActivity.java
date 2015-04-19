@@ -6,16 +6,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import net.neevek.android.lib.paginize.annotation.InjectPageAnimator;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
-import net.neevek.android.lib.paginize.util.AnnotationUtils;
-import net.neevek.android.lib.paginize.util.ViewFinder;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>
@@ -51,38 +44,27 @@ public class PageActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mPageManager = new PageManager(this, (ViewGroup) findViewById(android.R.id.content));
+    setupPageAnimatorIfNeeded();
+  }
 
+  private void setupPageAnimatorIfNeeded() {
     try {
-      initAnnotatedFields();
+
+      Class clazz = getClass();
+
+      do {
+        if (mPageManager.getPageAnimator() == null) {
+          InjectPageAnimator pamAnnotation = (InjectPageAnimator) clazz.getAnnotation(InjectPageAnimator.class);
+          if (pamAnnotation != null) {
+            mPageManager.setPageAnimator(pamAnnotation.value().newInstance());
+            break;
+          }
+        }
+      } while ((clazz = clazz.getSuperclass()) != PageActivity.class);
 
     } catch (Exception e) {
       e.printStackTrace();
       throw new InjectFailedException(e);
-    }
-  }
-
-  private void initAnnotatedFields() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
-    Class clazz = getClass();
-
-    List<Class> list = new ArrayList<Class>();
-    do {
-      list.add(clazz);
-
-      if (mPageManager.getPageAnimator() == null) {
-        InjectPageAnimator pamAnnotation = (InjectPageAnimator) clazz.getAnnotation(InjectPageAnimator.class);
-        if (pamAnnotation != null) {
-          mPageManager.setPageAnimator(pamAnnotation.value().newInstance());
-        }
-      }
-    } while ((clazz = clazz.getSuperclass()) != PageActivity.class);
-
-    ViewFinder viewFinder = new ViewFinder() {
-      public View findViewById(int id) {
-        return PageActivity.this.findViewById(id);
-      }
-    };
-    for (int i = list.size() - 1; i >= 0; --i) {
-      AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder, false);
     }
   }
 
