@@ -82,7 +82,7 @@ public class PageActivity extends Activity {
       }
     };
     for (int i = list.size() - 1; i >= 0; --i) {
-      AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder);
+      AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder, false);
     }
   }
 

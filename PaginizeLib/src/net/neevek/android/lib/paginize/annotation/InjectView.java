@@ -36,9 +36,16 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface InjectView {
+  // the resource id of the view
   int value();
 
+  // what kind of events to listen
   Class[] listenerTypes() default {};
 
+  // the object for listening for events
   Class listener() default void.class;
+
+  // should the view be injected when the ViewWrapper is constructed or
+  // the injection be triggered lazily with ViewWrapper.lazyInitializeLayout()
+  boolean lazy() default false;
 }

@@ -83,7 +83,7 @@ public class AnnotationUtils {
     }
   }
 
-  public static void handleAnnotatedPageConstructors(Class clazz, Object object, ViewFinder viewFinder) throws InvocationTargetException
+  public static void handleAnnotatedConstructors(Class clazz, Object object, ViewFinder viewFinder, boolean initForLazy) throws InvocationTargetException
       , IllegalAccessException, NoSuchMethodException, InstantiationException {
 
     Constructor[] constructors = clazz.getConstructors();
@@ -108,8 +108,19 @@ public class AnnotationUtils {
         Annotation[] setListenerAnnoArray = annoContainer.value();
         for (int k = 0; k < setListenerAnnoArray.length; ++k) {
           SetListeners setListenersAnno = (SetListeners) setListenerAnnoArray[k];
+
+          if ((!initForLazy && setListenersAnno.lazy()) || (initForLazy && !setListenersAnno.lazy())) {
+            continue;
+          }
+
           View view = viewFinder.findViewById(setListenersAnno.view());
           if (view == null) {
+            if (initForLazy && setListenersAnno.lazy()) {
+              // view == null is tolerable in this case, we assume that this field
+              // be injected later with another call to ViewWrapper.lazyInitializeLayout().
+              continue;
+            }
+
             throw new IllegalArgumentException("The view specified in @SetListeners is not found.");
           }
 
@@ -126,7 +137,7 @@ public class AnnotationUtils {
     }
   }
 
-  public static void initAnnotatedFields(Class clazz, Object object, ViewFinder viewFinder) throws InvocationTargetException
+  public static void initAnnotatedFields(Class clazz, Object object, ViewFinder viewFinder, boolean initForLazy) throws InvocationTargetException
       , IllegalAccessException, NoSuchMethodException, InstantiationException {
     Field fields[] = clazz.getDeclaredFields();
 
@@ -147,21 +158,35 @@ public class AnnotationUtils {
           continue;
         }
 
-        InjectView annotation = (InjectView) anno;
-        View view = viewFinder.findViewById(annotation.value());
+        InjectView injectViewAnno = (InjectView) anno;
+        if ((!initForLazy && injectViewAnno.lazy()) || (initForLazy && !injectViewAnno.lazy())) {
+          continue;
+        }
+
+        View view = viewFinder.findViewById(injectViewAnno.value());
+        if (view == null) {
+          if (initForLazy && injectViewAnno.lazy()) {
+            // view == null is tolerable in this case, we assume that this field
+            // be injected later with another call to ViewWrapper.lazyInitializeLayout().
+            continue;
+          }
+
+          throw new IllegalArgumentException("View specified in @InjectView on this field is not found: " + field.getName());
+        }
+
         field.setAccessible(true);
         field.set(object, view);
 
-        Class[] listenerTypes = annotation.listenerTypes();
+        Class[] listenerTypes = injectViewAnno.listenerTypes();
         if (listenerTypes == null || listenerTypes.length == 0) {
           continue;
         }
 
-        Object targetListener = getTargetListener(clazz, object, targetListenerCache, annotation.listener(), "@InjectView");
+        Object targetListener = getTargetListener(clazz, object, targetListenerCache, injectViewAnno.listener(), "@InjectView");
         if (targetListener == null) {
           targetListener = object;
         }
-        AnnotationUtils.setListenersForView(view, annotation.listenerTypes(), targetListener);
+        AnnotationUtils.setListenersForView(view, injectViewAnno.listenerTypes(), targetListener);
 
       }
     }

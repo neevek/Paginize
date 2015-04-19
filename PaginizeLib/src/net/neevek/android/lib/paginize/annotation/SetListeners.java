@@ -37,7 +37,13 @@ import java.lang.annotation.Target;
 public @interface SetListeners {
   int view();
 
+  // what kind of events to listen
   Class[] listenerTypes() default {};
 
+  // the object for listening for events
   Class listener() default void.class;
+
+  // should the view be injected when the ViewWrapper is constructed or
+  // the injection be triggered lazily with ViewWrapper.lazyInitializeLayout()
+  boolean lazy() default false;
 }

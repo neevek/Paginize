@@ -103,14 +103,37 @@ public abstract class ViewWrapper {
       };
 
       for (int i = list.size() - 1; i >= 0; --i) {
-        AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder);
-        AnnotationUtils.handleAnnotatedPageConstructors(list.get(i), this, viewFinder);
+        AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder, false);
+        AnnotationUtils.handleAnnotatedConstructors(list.get(i), this, viewFinder, false);
       }
 
     } catch (Exception e) {
       e.printStackTrace();
       throw new InjectFailedException(e);
     }
+  }
+
+  /**
+   * inject views after the ViewWrapper is constructed
+   */
+  protected View lazyInitializeLayout(int layoutResId) {
+    final View view = mContext.getLayoutInflater().inflate(layoutResId, null, false);
+    ViewFinder viewFinder = new ViewFinder() {
+      public View findViewById(int id) {
+        return view.findViewById(id);
+      }
+    };
+
+    try {
+      AnnotationUtils.initAnnotatedFields(getClass(), this, viewFinder, true);
+      AnnotationUtils.handleAnnotatedConstructors(getClass(), this, viewFinder, true);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new InjectFailedException(e);
+    }
+
+    return view;
   }
 
   public PageActivity getContext() {
@@ -342,4 +365,5 @@ public abstract class ViewWrapper {
    */
   public void onRestoreInstanceState(Bundle savedInstanceState) {
   }
+
 }
