@@ -55,7 +55,8 @@ public class AnnotationUtils {
       Class listenerClass = listenerTypes[j];
 
       if (!listenerClass.isAssignableFrom(listener.getClass())) {
-        throw new NotImplementedInterfaceException(listener.getClass().getName() + " does not implement " + listenerClass.getName());
+        throw new NotImplementedInterfaceException("When injecting listener for view 0x" + Integer.toHexString(view.getId()) + ", we find that "
+            + listener.getClass().getName() + " does not implement " + listenerClass.getName());
       }
 
       String methodName = sSetListenerMethodMap.get(listenerClass);
@@ -78,7 +79,7 @@ public class AnnotationUtils {
         method.invoke(view, listener);
       } catch (NoSuchMethodException e) {
         throw new NoSuchMethodException("No such method: " + listenerClass.getSimpleName() + "." + methodName
-            + ", you have to manually add the set-listener method to sSetListenerMethodMap.");
+            + ", you have to manually add the set-listener method to sSetListenerMethodMap to support injecting listener for view 0x" + Integer.toHexString(view.getId()));
       }
     }
   }
@@ -121,7 +122,8 @@ public class AnnotationUtils {
               continue;
             }
 
-            throw new IllegalArgumentException("The view specified in @SetListeners is not found.");
+            throw new IllegalArgumentException("The view specified in @SetListeners is not found: 0x" + Integer.toHexString(setListenersAnno.view()) +
+                ", if this field is meant to be injected lazily, remember to specify the 'lazy' attribute.");
           }
 
           Object targetListener = getTargetListener(clazz, object, targetListenerCache, setListenersAnno.listener(), "@SetListeners");
@@ -171,11 +173,29 @@ public class AnnotationUtils {
             continue;
           }
 
-          throw new IllegalArgumentException("View specified in @InjectView on this field is not found: " + field.getName());
+          throw new IllegalArgumentException("View 0x"+ Integer.toHexString(injectViewAnno.value()) +" specified in @InjectView on this field is not found: " + field.getName()
+              + ", if this field is meant to be injected lazily, remember to specify the 'lazy' attribute.");
         }
 
-        field.setAccessible(true);
-        field.set(object, view);
+        try {
+          field.setAccessible(true);
+          field.set(object, view);
+
+        } catch (IllegalAccessException e) {
+          String errMsg = "@InjectView() on '" + field.getName() + "' failed. ";
+          if (field.getType() != view.getClass()) {
+            errMsg += (view.getClass().getSimpleName() + " cannot be cast to " + field.getType().getSimpleName());
+          }
+          throw new IllegalAccessException(errMsg);
+
+        } catch (IllegalArgumentException e) {
+          String errMsg = "@InjectView() on '" + field.getName() + "' failed. ";
+          if (field.getType() != view.getClass()) {
+            errMsg += (view.getClass().getSimpleName() + " cannot be cast to " + field.getType().getSimpleName());
+          }
+          throw new IllegalArgumentException(errMsg);
+        }
+
 
         Class[] listenerTypes = injectViewAnno.listenerTypes();
         if (listenerTypes == null || listenerTypes.length == 0) {
@@ -221,7 +241,7 @@ public class AnnotationUtils {
 
         targetListenerCache.put(targetListenerClass, targetListener);
       } catch (NoSuchMethodException e) {
-        throw new IllegalArgumentException("The 'listener' field in " + tag + " must contain a default constructor without arguments.");
+        throw new IllegalArgumentException("The 'listener' field: '"+ targetListenerClass.getSimpleName() +"' in " + tag + " must contain a default constructor without arguments.");
       }
     }
 
