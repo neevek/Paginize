@@ -39,6 +39,7 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
  */
 public abstract class InnerPageContainer extends Page {
   private InnerPageManager mInnerPageManager;
+  private ViewGroup mVgContainer;
 
   public InnerPageContainer(PageActivity pageActivity) {
     super(pageActivity);
@@ -71,13 +72,18 @@ public abstract class InnerPageContainer extends Page {
     if (!(container instanceof ViewGroup)) {
       throw new IllegalStateException("The specified layout for InnerPageContainer is not of type ViewGroup.");
     }
-    mInnerPageManager = new InnerPageManager(getContext(), (ViewGroup) container);
+
+    mVgContainer = (ViewGroup)container;
+    mInnerPageManager = new InnerPageManager(getContext(), mVgContainer);
   }
 
   public InnerPageManager getInnerPageManager() {
     return mInnerPageManager;
   }
 
+  public ViewGroup getContainerView() {
+    return mVgContainer;
+  }
 
   public void setInnerPage(InnerPage newPage, Object data) {
     mInnerPageManager.setPage(newPage, data);
