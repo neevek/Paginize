@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 import java.lang.reflect.Constructor;
@@ -51,6 +52,9 @@ public class PageManager {
   private PageActivity mPageActivity;
   private ViewGroup mContainerView;
 
+  // a mask view that intercepts all touch events when a page is in a process of pushing or popping
+  private View mViewTransparentMask;
+
   // the stack to hold the pages
   private LinkedList<Page> mPageStack = new LinkedList<Page>();
 
@@ -68,6 +72,17 @@ public class PageManager {
     mPageActivity = pageActivity;
     mContainerView = containerView;
     mPageAnimator = pageAnimator;
+
+    mViewTransparentMask = new View(pageActivity);
+    mViewTransparentMask.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    mViewTransparentMask.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        // intercept all touch events
+        return true;
+      }
+    });
+    containerView.addView(mViewTransparentMask);
   }
 
   public void setPageAnimator(PageAnimator pageAnimator) {
@@ -108,6 +123,8 @@ public class PageManager {
     mContainerView.addView(newPage.getView());
     newPage.onAttached();
 
+    mViewTransparentMask.bringToFront();
+
     if (DEBUG) {
       Log.d(TAG, String.format(">>>> pushPage, pagestack=%d, %s, arg=%s", mPageStack.size(), newPage, arg));
     }
@@ -133,6 +150,8 @@ public class PageManager {
   }
 
   private void doFinalWorkForPushPage(Page oldPage, Page newPage, Object arg) {
+    newPage.getView().bringToFront();
+
     if (oldPage != null) {
       if (newPage.getType() != Page.TYPE.TYPE_DIALOG) {
         oldPage.getView().setVisibility(View.GONE);
@@ -339,7 +358,6 @@ public class PageManager {
       }
     }
 
-
     mCurPage = prevPage;
 
     int animationDuration = removedPage.getAnimationDuration();
@@ -365,6 +383,7 @@ public class PageManager {
     removedPage.onHidden();
 
     if (prevPage != null) {
+      prevPage.getView().bringToFront();
       prevPage.onUncovered(removedPage.getReturnData());
     }
   }
