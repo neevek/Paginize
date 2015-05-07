@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 import java.lang.reflect.Constructor;
@@ -74,7 +73,7 @@ public class PageManager {
     mPageAnimator = pageAnimator;
 
     mViewTransparentMask = new View(pageActivity);
-    mViewTransparentMask.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    mViewTransparentMask.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     mViewTransparentMask.setOnTouchListener(new View.OnTouchListener() {
       @Override
       public boolean onTouch(View v, MotionEvent event) {
