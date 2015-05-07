@@ -36,6 +36,16 @@
       android:padding="12dp"
       />
 
+    <Button
+            android:id="@+id/btn_push_multiple_pages"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Push Multiple Pages"
+            android:gravity="center"
+            android:textSize="21dp"
+            android:padding="12dp"
+            />
+
   <Button
       android:id="@+id/btn_show_alert"
       android:layout_width="fill_parent"

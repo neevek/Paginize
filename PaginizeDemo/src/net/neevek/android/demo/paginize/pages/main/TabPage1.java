@@ -7,6 +7,7 @@ import net.neevek.android.demo.paginize.pages.other.ListPage;
 import net.neevek.android.demo.paginize.pages.other.TestPage;
 import net.neevek.android.demo.paginize.pages.viewpager.MyViewPagerPage;
 import net.neevek.android.lib.paginize.InnerPage;
+import net.neevek.android.lib.paginize.Page;
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
@@ -34,6 +35,7 @@ public class TabPage1 extends InnerPage //implements View.OnClickListener
   @ListenerDefs({
       @SetListeners(view = R.id.btn_next_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
       @SetListeners(view = R.id.btn_list_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
+      @SetListeners(view = R.id.btn_push_multiple_pages, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
       @SetListeners(view = R.id.btn_show_alert, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
       @SetListeners(view = R.id.btn_show_view_pager_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class)
   })
@@ -68,6 +70,9 @@ public class TabPage1 extends InnerPage //implements View.OnClickListener
           break;
         case R.id.btn_list_page:
           new ListPage(getContext()).show(null, true);
+          break;
+        case R.id.btn_push_multiple_pages:
+          getContext().getPageManager().pushPages(new Page[]{ new TestPage(getContext()), new ListPage(getContext())}, null, true, false);
           break;
         case R.id.btn_show_alert:
           new AlertPage(getContext()).show();

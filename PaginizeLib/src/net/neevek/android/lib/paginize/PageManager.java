@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -92,6 +93,57 @@ public class PageManager {
     return mPageAnimator;
   }
 
+  public void pushPages(Page[] pages) {
+    pushPages(pages, null, false, false);
+  }
+
+  public void pushPages(Page[] pages, Object arg, boolean animated) {
+    pushPages(pages, arg, animated, false);
+  }
+
+  /**
+   * 'arg' will be passed to the last page in the array
+   **/
+  public void pushPages(Page[] pages, Object arg, boolean animated, boolean hint) {
+    if (pages == null || pages.length == 0) {
+      return;
+    }
+
+    Page firstOldPage = mCurPage;
+    Page tmpOldPage = null;
+    for (int i = 0; i < pages.length - 1; ++i) {
+      pushPageInternal(pages[i], tmpOldPage, null, false, false);
+      tmpOldPage = pages[i];
+    }
+    pushPageInternal(pages[pages.length - 1], firstOldPage, arg, animated, hint);
+  }
+
+  public void pushPages(Pair<Page, Object>[] pagePacks, boolean animated) {
+    pushPages(pagePacks, animated, false);
+  }
+
+  public void pushPages(Pair<Page, Object>[] pagePacks, boolean animated, boolean hint) {
+    if (pagePacks == null || pagePacks.length == 0) {
+      return;
+    }
+
+    Page firstOldPage = mCurPage;
+    Page tmpOldPage = null;
+    for (int i = 0; i < pagePacks.length - 1; ++i) {
+      Pair<Page, Object> pagePack = pagePacks[i];
+      if (pagePack.first == null) {
+        continue;
+      }
+      pushPageInternal(pagePack.first, tmpOldPage, pagePack.second, false, false);
+      tmpOldPage = pagePack.first;
+    }
+
+    Pair<Page, Object> lastPagePack = pagePacks[pagePacks.length - 1];
+    if (lastPagePack.first != null) {
+      pushPageInternal(lastPagePack.first, firstOldPage, lastPagePack.second, animated, hint);
+    }
+  }
+
   public void pushPage(Page page) {
     pushPage(page, null, false);
   }
@@ -105,11 +157,19 @@ public class PageManager {
       return;
     }
 
-    final Page oldPage = mCurPage;
+    pushPageInternal(newPage, mCurPage, arg, animated, hint);
+  }
 
+  private void pushPageInternal(final Page newPage, final Page oldPage, final Object arg, boolean animated, boolean hint) {
     newPage.onShow(arg);
 
     if (oldPage != null) {
+      if (animated) {
+        // when a new page is being pushed, ensures the oldPage always be visible during the animation
+        // transition if animated is true
+        oldPage.getView().bringToFront();
+      }
+
       oldPage.onCover();
       View currentFocusedView = oldPage.getContext().getCurrentFocus();
       if (currentFocusedView != null) {
