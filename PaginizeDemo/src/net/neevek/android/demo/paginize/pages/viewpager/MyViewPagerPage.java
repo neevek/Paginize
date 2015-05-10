@@ -56,7 +56,7 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.tv_back:
-        hide(true, true);
+        hide(true);
         break;
       case R.id.tv_next:
         Toast.makeText(getContext(), "Next button clicked!", Toast.LENGTH_SHORT).show();

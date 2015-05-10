@@ -29,7 +29,7 @@ public class TestPage extends FramePage implements View.OnClickListener {
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.btn_back:
-        hide(true, true);
+        hide(true);
         break;
     }
   }

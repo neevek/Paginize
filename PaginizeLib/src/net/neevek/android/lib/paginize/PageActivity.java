@@ -73,7 +73,7 @@ public class PageActivity extends Activity {
   }
 
   public void hideTopPage() {
-    getPageManager().popPage(false, false);
+    getPageManager().popPage(false);
   }
 
   public int getPageCount() {

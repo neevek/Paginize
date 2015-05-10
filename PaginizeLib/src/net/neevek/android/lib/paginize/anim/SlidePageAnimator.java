@@ -52,27 +52,19 @@ public class SlidePageAnimator implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+  public boolean onPushPageAnimation(Page oldPage, Page newPage) {
     if (oldPage != null) {
       oldPage.getView().startAnimation(mPullOutFromRightAnimation);
     }
 
-    if (hint) {
-      newPage.getView().startAnimation(mPushInFromLeftAnimation);
-    } else {
-      newPage.getView().startAnimation(mPushInFromRightAnimation);
-    }
+    newPage.getView().startAnimation(mPushInFromRightAnimation);
 
     return true;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
-    if (hint) {
-      oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
-    } else {
-      oldPage.getView().startAnimation(mPullOutFromRightAnimation);
-    }
+  public boolean onPopPageAnimation(Page oldPage, Page newPage) {
+    oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
 
     if (newPage != null) {
       newPage.getView().startAnimation(mPushInFromLeftAnimation);

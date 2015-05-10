@@ -94,17 +94,13 @@ public class PageManager {
   }
 
   public void pushPages(Page[] pages) {
-    pushPages(pages, null, false, false);
-  }
-
-  public void pushPages(Page[] pages, Object arg, boolean animated) {
-    pushPages(pages, arg, animated, false);
+    pushPages(pages, null, false);
   }
 
   /**
    * 'arg' will be passed to the last page in the array
    **/
-  public void pushPages(Page[] pages, Object arg, boolean animated, boolean hint) {
+  public void pushPages(Page[] pages, Object arg, boolean animated) {
     if (pages == null || pages.length == 0) {
       return;
     }
@@ -112,17 +108,13 @@ public class PageManager {
     Page firstOldPage = mCurPage;
     Page tmpOldPage = null;
     for (int i = 0; i < pages.length - 1; ++i) {
-      pushPageInternal(pages[i], tmpOldPage, null, false, false);
+      pushPageInternal(pages[i], tmpOldPage, null, false);
       tmpOldPage = pages[i];
     }
-    pushPageInternal(pages[pages.length - 1], firstOldPage, arg, animated, hint);
+    pushPageInternal(pages[pages.length - 1], firstOldPage, arg, animated);
   }
 
   public void pushPages(Pair<Page, Object>[] pagePacks, boolean animated) {
-    pushPages(pagePacks, animated, false);
-  }
-
-  public void pushPages(Pair<Page, Object>[] pagePacks, boolean animated, boolean hint) {
     if (pagePacks == null || pagePacks.length == 0) {
       return;
     }
@@ -134,13 +126,13 @@ public class PageManager {
       if (pagePack.first == null) {
         continue;
       }
-      pushPageInternal(pagePack.first, tmpOldPage, pagePack.second, false, false);
+      pushPageInternal(pagePack.first, tmpOldPage, pagePack.second, false);
       tmpOldPage = pagePack.first;
     }
 
     Pair<Page, Object> lastPagePack = pagePacks[pagePacks.length - 1];
     if (lastPagePack.first != null) {
-      pushPageInternal(lastPagePack.first, firstOldPage, lastPagePack.second, animated, hint);
+      pushPageInternal(lastPagePack.first, firstOldPage, lastPagePack.second, animated);
     }
   }
 
@@ -148,19 +140,15 @@ public class PageManager {
     pushPage(page, null, false);
   }
 
-  public void pushPage(Page page, Object arg, boolean animated) {
-    pushPage(page, arg, animated, false);
-  }
-
-  public void pushPage(final Page newPage, final Object arg, boolean animated, boolean hint) {
+  public void pushPage(Page newPage, Object arg, boolean animated) {
     if (newPage == mCurPage) {
       return;
     }
 
-    pushPageInternal(newPage, mCurPage, arg, animated, hint);
+    pushPageInternal(newPage, mCurPage, arg, animated);
   }
 
-  private void pushPageInternal(final Page newPage, final Page oldPage, final Object arg, boolean animated, boolean hint) {
+  private void pushPageInternal(final Page newPage, final Page oldPage, final Object arg, boolean animated) {
     newPage.onShow(arg);
 
     if (oldPage != null) {
@@ -188,8 +176,8 @@ public class PageManager {
       Log.d(TAG, String.format(">>>> pushPage, pagestack=%d, %s, arg=%s", mPageStack.size(), newPage, arg));
     }
 
-    if (animated && mPageAnimator != null && !newPage.onPushPageAnimation(oldPage, newPage, hint)) {
-      mPageAnimator.onPushPageAnimation(oldPage, newPage, hint);
+    if (animated && mPageAnimator != null && !newPage.onPushPageAnimation(oldPage, newPage)) {
+      mPageAnimator.onPushPageAnimation(oldPage, newPage);
     }
 
     int animationDuration = newPage.getAnimationDuration();
@@ -223,19 +211,14 @@ public class PageManager {
     newPage.getView().requestFocus();
   }
 
-  public void popPage(boolean animated) {
-    popPage(animated, false);
-  }
-
   /**
    * @param animated true to animate the transition
-   * @param hint     true=left, false=right
    */
-  public void popPage(boolean animated, boolean hint) {
-    popTopNPages(1, animated, hint);
+  public void popPage(boolean animated) {
+    popTopNPages(1, animated);
   }
 
-  public void popTopNPages(int n, boolean animated, boolean hint) {
+  public void popTopNPages(int n, boolean animated) {
     if (n <= 0 || mPageStack.size() <= 0) {
       return;
     }
@@ -255,11 +238,7 @@ public class PageManager {
       }
     }
 
-    popPageInternal(oldPage, animated, hint);
-  }
-
-  public void popToPage(Page destPage, boolean animated) {
-    popToPage(destPage, animated, false);
+    popPageInternal(oldPage, animated);
   }
 
   /**
@@ -268,9 +247,8 @@ public class PageManager {
    *
    * @param destPage page as the destination for this pop operation
    * @param animated true to animate the transition
-   * @param hint     used by the PageAnimator
    */
-  public void popToPage(Page destPage, boolean animated, boolean hint) {
+  public void popToPage(Page destPage, boolean animated) {
     if (destPage == null) {
       throw new IllegalArgumentException("cannot call popToPage() with null destPage.");
     }
@@ -297,11 +275,7 @@ public class PageManager {
       page.onHidden();
     }
 
-    popPageInternal(oldPage, animated, hint);
-  }
-
-  public void popToClass(Class<? extends Page> pageClass, boolean animated) {
-    popToClass(pageClass, animated, false);
+    popPageInternal(oldPage, animated);
   }
 
   /**
@@ -310,18 +284,13 @@ public class PageManager {
    *
    * @param pageClass class of page as the destination for this pop operation
    * @param animated  true to animate the transition
-   * @param hint      used by the PageAnimator
    */
-  public void popToClass(Class<? extends Page> pageClass, boolean animated, boolean hint) {
+  public void popToClass(Class<? extends Page> pageClass, boolean animated) {
     if (pageClass == null) {
       throw new IllegalArgumentException("cannot call popToClass() with null pageClass.");
     }
 
-    popToClasses(new Class[]{pageClass}, animated, hint);
-  }
-
-  public void popToClasses(Class<? extends Page>[] pageClasses, boolean animated) {
-    popToClasses(pageClasses, animated, false);
+    popToClasses(new Class[]{pageClass}, animated);
   }
 
   /**
@@ -330,9 +299,8 @@ public class PageManager {
    *
    * @param pageClasses classes of pages as the destination for this pop operation
    * @param animated    true to animate the transition
-   * @param hint        used by the PageAnimator
    */
-  public void popToClasses(Class<? extends Page>[] pageClasses, boolean animated, boolean hint) {
+  public void popToClasses(Class<? extends Page>[] pageClasses, boolean animated) {
     if (pageClasses == null || pageClasses.length == 0) {
       throw new IllegalArgumentException("cannot call popToClasses() with null or empty pageClasses.");
     }
@@ -387,10 +355,10 @@ public class PageManager {
       page.onHidden();
     }
 
-    popPageInternal(oldPage, animated, hint);
+    popPageInternal(oldPage, animated);
   }
 
-  private void popPageInternal(final Page removedPage, boolean animated, boolean hint) {
+  private void popPageInternal(final Page removedPage, boolean animated) {
     removedPage.onHide();
     View currentFocusedView = removedPage.getContext().getCurrentFocus();
     if (currentFocusedView != null) {
@@ -404,16 +372,16 @@ public class PageManager {
       prevPage.getView().requestFocus();
 
 
-      if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, prevPage, hint)) {
-        mPageAnimator.onPopPageAnimation(removedPage, prevPage, hint);
+      if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, prevPage)) {
+        mPageAnimator.onPopPageAnimation(removedPage, prevPage);
       }
 
       prevPage.getView().setVisibility(View.VISIBLE);
     } else {
       prevPage = null;
 
-      if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, null, hint)) {
-        mPageAnimator.onPopPageAnimation(removedPage, null, hint);
+      if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, null)) {
+        mPageAnimator.onPopPageAnimation(removedPage, null);
       }
     }
 
@@ -477,10 +445,10 @@ public class PageManager {
     // we do not pop the last page, let the activity handle this BACK-press
     if (getPageCount() > 1) {
       if (mCurPage.getType() == Page.TYPE.TYPE_DIALOG) {
-        popPage(false, false);  // for pages of DIALOG type, do not apply animation.
+        popPage(false);  // for pages of DIALOG type, do not apply animation.
 
       } else {
-        popPage(true, true);
+        popPage(true);
       }
 
       return true;

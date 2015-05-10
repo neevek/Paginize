@@ -55,14 +55,14 @@ public class ZoomPageAnimator implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+  public boolean onPushPageAnimation(Page oldPage, Page newPage) {
     newPage.getView().startAnimation(mInAnimation);
 
     return true;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
+  public boolean onPopPageAnimation(Page oldPage, Page newPage) {
     oldPage.getView().startAnimation(mOutAnimation);
 
     return true;

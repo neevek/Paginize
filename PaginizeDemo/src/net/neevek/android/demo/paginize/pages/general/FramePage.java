@@ -31,7 +31,7 @@ public abstract class FramePage extends Page {
   }
 
   protected void onBackButtonClicked() {
-    hide(true, true);
+    hide(true);
   }
 
   protected void onNextButtonClicked() {

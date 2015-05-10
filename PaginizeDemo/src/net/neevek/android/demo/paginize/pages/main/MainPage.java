@@ -35,6 +35,7 @@ public class MainPage extends FrameInnerPage {
     setInnerPage(mTabPage1, null);
   }
 
+  @ListenerMarker
   class InnerListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
