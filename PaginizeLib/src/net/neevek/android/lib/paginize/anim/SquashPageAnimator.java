@@ -26,50 +26,64 @@ import net.neevek.android.lib.paginize.Page;
 
 public class SquashPageAnimator implements PageAnimator {
   private final static int ANIMATION_DURATION = 400;
-  private Animation mPushInAnimation;
-  private Animation mPushOutAnimation;
-  private Animation mPopInAnimation;
-  private Animation mPopOutAnimation;
+  private Animation mExpandInFromRightAnimation;
+  private Animation mShrinkOutFromRightAnimation;
+  private Animation mExpanndInFromLeftAnimation;
+  private Animation mShrinkOutFromLeftAnimation;
 
   public SquashPageAnimator() {
     initAnimations();
   }
 
   private void initAnimations() {
-    mPushInAnimation = new ScaleAnimation(0, 1, 1, 1, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
-    mPushInAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
-    mPushInAnimation.setDuration(ANIMATION_DURATION);
+    mExpandInFromRightAnimation = new ScaleAnimation(0, 1, 1, 1, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+    mExpandInFromRightAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
+    mExpandInFromRightAnimation.setDuration(ANIMATION_DURATION);
 
-    mPushOutAnimation = new ScaleAnimation(1, 0, 1, 1, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
-    mPushOutAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
-    mPushOutAnimation.setDuration(ANIMATION_DURATION);
+    mShrinkOutFromRightAnimation = new ScaleAnimation(1, 0, 1, 1, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
+    mShrinkOutFromRightAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
+    mShrinkOutFromRightAnimation.setDuration(ANIMATION_DURATION);
 
-    mPopInAnimation = new ScaleAnimation(0, 1, 1, 1, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
-    mPopInAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
-    mPopInAnimation.setDuration(ANIMATION_DURATION);
+    mExpanndInFromLeftAnimation = new ScaleAnimation(0, 1, 1, 1, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
+    mExpanndInFromLeftAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
+    mExpanndInFromLeftAnimation.setDuration(ANIMATION_DURATION);
 
-    mPopOutAnimation = new ScaleAnimation(1, 0, 1, 1, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
-    mPopOutAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
-    mPopOutAnimation.setDuration(ANIMATION_DURATION);
+    mShrinkOutFromLeftAnimation = new ScaleAnimation(1, 0, 1, 1, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+    mShrinkOutFromLeftAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
+    mShrinkOutFromLeftAnimation.setDuration(ANIMATION_DURATION);
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage) {
-    if (oldPage != null) {
-      oldPage.getView().startAnimation(mPushOutAnimation);
-    }
+  public boolean onPushPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+    if (animationDirection == AnimationDirection.FROM_RIGHT) {
+      if (oldPage != null) {
+        oldPage.getView().startAnimation(mShrinkOutFromRightAnimation);
+      }
+      newPage.getView().startAnimation(mExpandInFromRightAnimation);
 
-    newPage.getView().startAnimation(mPushInAnimation);
+    } else {
+      if (oldPage != null) {
+        oldPage.getView().startAnimation(mShrinkOutFromLeftAnimation);
+      }
+      newPage.getView().startAnimation(mExpanndInFromLeftAnimation);
+    }
 
     return true;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage) {
-    oldPage.getView().startAnimation(mPopOutAnimation);
+  public boolean onPopPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+    if (animationDirection == AnimationDirection.FROM_LEFT) {
+      oldPage.getView().startAnimation(mShrinkOutFromLeftAnimation);
+      if (newPage != null) {
+        newPage.getView().startAnimation(mExpanndInFromLeftAnimation);
+      }
 
-    if (newPage != null) {
-      newPage.getView().startAnimation(mPopInAnimation);
+    } else {
+      oldPage.getView().startAnimation(mShrinkOutFromRightAnimation);
+      if (newPage != null) {
+        newPage.getView().startAnimation(mExpandInFromRightAnimation);
+      }
     }
 
     return true;

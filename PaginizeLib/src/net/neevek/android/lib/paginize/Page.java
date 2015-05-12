@@ -106,12 +106,12 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage) {
+  public boolean onPushPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
     return false;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage) {
+  public boolean onPopPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
     return false;
   }
 

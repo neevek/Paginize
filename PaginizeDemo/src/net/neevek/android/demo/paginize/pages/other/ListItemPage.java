@@ -2,13 +2,15 @@ package net.neevek.android.demo.paginize.pages.other;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import net.neevek.android.demo.paginize.R;
+import net.neevek.android.demo.paginize.pages.main.MainPage;
 import net.neevek.android.lib.paginize.Page;
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.annotation.InjectView;
+import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
+import net.neevek.android.lib.paginize.annotation.SetListeners;
 
 /**
  * Created by neevek on 3/16/14.
@@ -18,13 +20,14 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
 public class ListItemPage extends Page implements View.OnClickListener {
   private final static String SAVED_ARGUMENT_KEY = "saved_list_item_page_arg";
 
-  @InjectView(value = R.id.btn_back, listenerTypes = {View.OnClickListener.class})
-  private Button mBtnBack;
-
   @InjectView(R.id.tv_text)
   private TextView mTvText;
 
 
+  @ListenerDefs({
+          @SetListeners(view = R.id.btn_back, listenerTypes = View.OnClickListener.class),
+          @SetListeners(view = R.id.btn_nav_to_main_page, listenerTypes = View.OnClickListener.class),
+  })
   public ListItemPage(PageActivity pageActivity) {
     super(pageActivity);
   }
@@ -49,6 +52,11 @@ public class ListItemPage extends Page implements View.OnClickListener {
     switch (v.getId()) {
       case R.id.btn_back:
         hide(true);
+        break;
+
+      case R.id.btn_nav_to_main_page:
+        getPageManager().popTopNPages(getPageManager().getPageCount(), true);
+        getPageManager().pushPage(new MainPage(getContext()), null, true, AnimationDirection.FROM_LEFT);
         break;
     }
   }
