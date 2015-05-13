@@ -175,10 +175,6 @@ public class PageManager {
       }
 
       oldPage.onCover();
-      View currentFocusedView = oldPage.getContext().getCurrentFocus();
-      if (currentFocusedView != null) {
-        currentFocusedView.clearFocus();
-      }
     }
 
     mCurPage = newPage;
@@ -396,17 +392,11 @@ public class PageManager {
 
   private void popPageInternal(final Page removedPage, boolean animated, PageAnimator.AnimationDirection animationDirection) {
     removedPage.onHide();
-    View currentFocusedView = removedPage.getContext().getCurrentFocus();
-    if (currentFocusedView != null) {
-      currentFocusedView.clearFocus();
-    }
 
     final Page prevPage;
     if (mPageStack.size() > 0) {    // this check is always necessary
       prevPage = mPageStack.getLast();
       prevPage.onUncover(removedPage.getReturnData());
-      prevPage.getView().requestFocus();
-
 
       if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, prevPage, animationDirection)) {
         mPageAnimator.onPopPageAnimation(removedPage, prevPage, animationDirection);

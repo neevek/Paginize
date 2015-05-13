@@ -53,6 +53,7 @@ public abstract class ViewWrapper {
    */
   protected PageActivity mContext;
   private View mView;
+  View mViewCurrentFocus;
 
   public ViewWrapper(PageActivity pageActivity) {
     mContext = pageActivity;
@@ -239,6 +240,7 @@ public abstract class ViewWrapper {
    * @see net.neevek.android.lib.paginize.PageManager
    */
   public void onCover() {
+    mViewCurrentFocus = getContext().getCurrentFocus();
   }
 
   /**
@@ -257,6 +259,9 @@ public abstract class ViewWrapper {
    * @see net.neevek.android.lib.paginize.PageManager
    */
   public void onUncover(Object arg) {
+    if (mViewCurrentFocus != null) {
+      mViewCurrentFocus.requestFocus();
+    }
   }
 
   /**
