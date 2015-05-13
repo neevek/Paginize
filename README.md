@@ -22,6 +22,13 @@ Fragment is good and it is versatile, but for me it is too heavy, not flexible a
 
 **Paginize** is a light-weight framework for Android, which eases development of Android applications with complex UI structures. **Paginize** makes use of Java annotations to inject layouts and views, layouts and Pages can be inherited, the layout inheritance feature is just like the `frameset` tag in HTML, and this makes code reuse much easier.
 
+Note
+----
+The project is still *NOT* stable, APIs may change(but not significantly).
+
+Demo
+--------
+
 1. Create a layout file(res/layout/page_header.xml) for HeaderPage:
 
 ```xml
@@ -101,7 +108,7 @@ public abstract class HeaderPage extends Page implements View.OnClickListener {
 }
 ```
 
-3. Create another layout(page_xxx_detail.xml) for XXXDetailPage, let's say this detail page contains only one TextView:
+3. Create another layout(page_test.xml) for TestPage, let's say this test page contains only one TextView:
 
 ```xml
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -113,17 +120,17 @@ public abstract class HeaderPage extends Page implements View.OnClickListener {
     />
 ````
 
-4. Create the XXXDetailPage:
+4. Create the TestPage:
 
 ```java
 // here we inherit the layout from HeaderPage, and of course 
 // the logics for handling the BACK button press
-@InheritPageLayout(R.layout.page_xxx_detail)
-public class XXXDetailPage extends HeaderPage {
+@InheritPageLayout(R.layout.page_test)
+public class TestPage extends HeaderPage {
     @InjectView(R.id.tv_content)
     private TextView mTvContent;
 
-    public XXXDetailPage(PageActivity pageActivity) {
+    public TestPage(PageActivity pageActivity) {
         super(pageActivity);
 
         mTvContent.setText("Hello Paginize!");
@@ -131,10 +138,10 @@ public class XXXDetailPage extends HeaderPage {
 }
 ```
 
-After the steps above, XXXDetailPage is a page that contains a titlebar with a BACK button on the 
+After the steps above, TestPage is a page that contains a titlebar with a BACK button on the 
 top-left corner and a TextView as the content at the center.
 
-5. Create an Activity that extends PageActivity, and show the XXXDetailPage:
+5. Create an Activity that extends PageActivity, and show the TestPage:
 
 ```java
 @InjectPageAnimator(SlidePageAnimator.class)
@@ -143,7 +150,7 @@ public class MainActivity extends PageActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        new XXXDetailPage(this).show(null, true);
+        new TestPage(this).show(null, true);
     }
 }
 ```
@@ -156,10 +163,11 @@ application.
 You have already seen the usages of `@PageLayout`, `@InheritPageLayout` and a few other annotations, and 
 some framework code, you may want to explore and find more from the demo project.
 
+
 Under MIT license
 -----------------
 
 ```
-Copyright (c) 2014 neevek <i at neevek.net>
+Copyright (c) 2014 - 2015 neevek <i@neevek.net>
 See the file license.txt for copying permission.
 ```
