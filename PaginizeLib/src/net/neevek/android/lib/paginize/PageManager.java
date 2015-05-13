@@ -341,7 +341,7 @@ public class PageManager {
       return;
     }
 
-    // is topPage the page we want to navigate to? if so, we do not need to do anything
+    // do nothing if the topPage is the page we want to navigate to
     Class topPageClass = mPageStack.peekLast().getClass();
     for (Class pageClass : pageClasses) {
       if (pageClass == topPageClass) {
@@ -349,7 +349,7 @@ public class PageManager {
       }
     }
 
-    // the page we want to navigate to does not exist? if so, we do not need to do anything
+    // do nothing if the page we want to navigate to does not exist
     boolean hasDestClass = false;
     Iterator<Page> it = mPageStack.descendingIterator();
 

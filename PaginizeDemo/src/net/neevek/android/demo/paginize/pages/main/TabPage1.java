@@ -31,8 +31,8 @@ public class TabPage1 extends InnerPage //implements View.OnClickListener
 //    private Button mBtnShowViewPagerPage;
 
   // demonstrate how @ListenerDefs can be used.
-  // here we do not need a reference to R.id.rb_nav_btn2, so we can inject listeners for it by
-  // annotating @ListenerDefs on the constructor, which has the same effect as using @InjectView
+  // here we do not need references to all these views, so we can inject listeners for them by
+  // annotating the constructor with @ListenerDefs, which has the same effect as using @InjectView
   @ListenerDefs({
       @SetListeners(view = R.id.btn_next_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
       @SetListeners(view = R.id.btn_list_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
