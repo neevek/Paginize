@@ -15,7 +15,6 @@ public abstract class FrameInnerPage extends InnerPageContainer {
   @InjectView(value = R.id.tv_title)
   TextView mTvTitle;
 
-
   public FrameInnerPage(PageActivity pageActivity) {
     super(pageActivity);
   }

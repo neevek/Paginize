@@ -9,9 +9,7 @@ import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.PagePagerAdapter;
 import net.neevek.android.lib.paginize.ViewPagerPage;
 import net.neevek.android.lib.paginize.ViewWrapper;
-import net.neevek.android.lib.paginize.annotation.InjectView;
-import net.neevek.android.lib.paginize.annotation.PageLayout;
-import net.neevek.android.lib.paginize.annotation.ViewPagerResId;
+import net.neevek.android.lib.paginize.annotation.*;
 
 /**
  * Created by neevek on 6/16/14.
@@ -21,12 +19,8 @@ import net.neevek.android.lib.paginize.annotation.ViewPagerResId;
 public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListener {
   private final static String TAG = MyViewPagerPage.class.getSimpleName();
 
-  @InjectView(value = R.id.tv_back, listenerTypes = View.OnClickListener.class)
-  TextView mTvBack;
   @InjectView(value = R.id.tv_title)
   TextView mTvTitle;
-  @InjectView(value = R.id.tv_next, listenerTypes = View.OnClickListener.class)
-  TextView mTvNext;
 
   private ViewWrapper mViewWrappers[] = {
       new ViewPageSubPage1(getContext()), new ViewPageSubPage2(getContext())
@@ -34,6 +28,10 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
       , new ViewPageSubPage1(getContext()), new ViewPageSubPage2(getContext())
   };
 
+  @ListenerDefs({
+          @SetListeners(view = R.id.tv_back, listenerTypes = View.OnClickListener.class),
+          @SetListeners(view = R.id.tv_next, listenerTypes = View.OnClickListener.class),
+  })
   public MyViewPagerPage(PageActivity pageActivity) {
     super(pageActivity);
 
@@ -56,7 +54,7 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.tv_back:
-        hide(true, true);
+        hide(true);
         break;
       case R.id.tv_next:
         Toast.makeText(getContext(), "Next button clicked!", Toast.LENGTH_SHORT).show();

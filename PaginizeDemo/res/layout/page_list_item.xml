@@ -39,4 +39,14 @@
       android:layout_marginTop="48dp"
       />
 
+    <Button
+            android:id="@+id/btn_nav_to_main_page"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Navigate back to MainPage"
+            android:gravity="center"
+            android:textSize="21dp"
+            android:padding="12dp"
+            />
+
 </LinearLayout>

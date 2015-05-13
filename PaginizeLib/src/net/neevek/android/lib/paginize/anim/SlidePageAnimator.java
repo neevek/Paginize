@@ -52,30 +52,34 @@ public class SlidePageAnimator implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
-    if (oldPage != null) {
-      oldPage.getView().startAnimation(mPullOutFromRightAnimation);
-    }
-
-    if (hint) {
-      newPage.getView().startAnimation(mPushInFromLeftAnimation);
-    } else {
+  public boolean onPushPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+    if (animationDirection == AnimationDirection.FROM_RIGHT) {
+      if (oldPage != null) {
+        oldPage.getView().startAnimation(mPullOutFromRightAnimation);
+      }
       newPage.getView().startAnimation(mPushInFromRightAnimation);
+    } else {
+      if (oldPage != null) {
+        oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
+      }
+      newPage.getView().startAnimation(mPushInFromLeftAnimation);
     }
 
     return true;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
-    if (hint) {
+  public boolean onPopPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+    if (animationDirection == AnimationDirection.FROM_LEFT) {
       oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
+      if (newPage != null) {
+        newPage.getView().startAnimation(mPushInFromLeftAnimation);
+      }
     } else {
       oldPage.getView().startAnimation(mPullOutFromRightAnimation);
-    }
-
-    if (newPage != null) {
-      newPage.getView().startAnimation(mPushInFromLeftAnimation);
+      if (newPage != null) {
+        newPage.getView().startAnimation(mPushInFromRightAnimation);
+      }
     }
 
     return true;

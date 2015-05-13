@@ -77,35 +77,25 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
   }
 
   public void show(Object arg, boolean animated) {
-    show(arg, animated, false);
-  }
-
-  public void show(Object arg, boolean animated, boolean hint) {
-    getPageManager().pushPage(this, arg, animated, hint);
+    getPageManager().pushPage(this, arg, animated);
   }
 
   protected void hide(boolean animated) {
     if (getPageManager().getTopPage() == this) {
-      getPageManager().popPage(animated, false);
+      getPageManager().popPage(animated);
     }
   }
 
-  protected void hide(boolean animated, boolean hint) {
-    if (getPageManager().getTopPage() == this) {
-      getPageManager().popPage(animated, hint);
-    }
+  protected void hideDelayed(final boolean animated) {
+    hideDelayed(animated, 500);
   }
 
-  protected void hideDelayed(final boolean animated, final boolean hint) {
-    hideDelayed(animated, hint, 500);
-  }
-
-  protected void hideDelayed(final boolean animated, final boolean hint, int delayed) {
+  protected void hideDelayed(final boolean animated, int delayed) {
     if (getPageManager().getTopPage() == this) {
       getView().postDelayed(new Runnable() {
         @Override
         public void run() {
-          getPageManager().popPage(animated, hint);
+          getPageManager().popPage(animated);
         }
       }, delayed);
     }
@@ -116,12 +106,12 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage, boolean hint) {
+  public boolean onPushPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
     return false;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage, boolean hint) {
+  public boolean onPopPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
     return false;
   }
 

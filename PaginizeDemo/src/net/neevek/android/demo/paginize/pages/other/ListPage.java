@@ -46,7 +46,6 @@ public class ListPage extends FramePage implements AdapterView.OnItemClickListen
     new ListItemPage(getContext())
         .setText((String) parent.getItemAtPosition(position))
         .show(null, true);
-//        new ListItemPage(getContext()).show(arg, true);
   }
 
   @Override

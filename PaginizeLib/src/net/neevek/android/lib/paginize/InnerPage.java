@@ -40,8 +40,14 @@ public abstract class InnerPage extends ViewWrapper {
   }
 
   public void onSet(Object obj) {
+    if (mViewCurrentFocus != null) {
+      mViewCurrentFocus.requestFocus();
+    } else {
+      getView().requestFocus();
+    }
   }
 
   public void onReplaced() {
+    mViewCurrentFocus = getContext().getCurrentFocus();
   }
 }
