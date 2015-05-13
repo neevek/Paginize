@@ -22,11 +22,9 @@
 -renamesourcefileattribute ProGuard
 -keepattributes SourceFile,LineNumberTable
 
--keep class net.neevek.android.lib.paginize.PageActivity
--keep class net.neevek.android.lib.paginize.anim.*
-
--keepclassmembers class net.neevek.android.demo.paginize.** {
-     public <init>(android.view.ViewGroup);
-     public <init>(net.neevek.android.lib.paginize.PageActivity);
-     @net.neevek.android.lib.paginize.annotation.** <fields>;
+-keep public class net.neevek.android.lib.paginize.**
+-keep @net.neevek.android.lib.paginize.annotation.ListenerMarker class ** { *; }
+-keepclassmembers,allowobfuscation class ** {
+  @net.neevek.android.lib.paginize.annotation.** <fields>;
 }
+
