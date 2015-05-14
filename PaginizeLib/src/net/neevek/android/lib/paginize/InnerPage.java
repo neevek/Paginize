@@ -35,8 +35,19 @@ package net.neevek.android.lib.paginize;
  * @see net.neevek.android.lib.paginize.InnerPageContainer
  */
 public abstract class InnerPage extends ViewWrapper {
+  private InnerPageContainer mInnerPageContainer;
+
+  @Deprecated
+  /**
+   * @deprecated - use InnerPage(InnerPageContainer) instead
+   */
   public InnerPage(PageActivity pageActivity) {
     super(pageActivity);
+  }
+
+  public InnerPage(InnerPageContainer innerPageContainer) {
+    this(innerPageContainer.getContext());
+    mInnerPageContainer = innerPageContainer;
   }
 
   public void onSet(Object obj) {
@@ -49,5 +60,12 @@ public abstract class InnerPage extends ViewWrapper {
 
   public void onReplaced() {
     mViewCurrentFocus = getContext().getCurrentFocus();
+  }
+
+  public InnerPageContainer getInnerPageContainer() {
+    if (mInnerPageContainer == null) {
+      throw new NullPointerException("InnerPageContainer not correctly set, you need to use InnerPage(InnerPageContainer) to construct the current InnerPage");
+    }
+    return mInnerPageContainer;
   }
 }
