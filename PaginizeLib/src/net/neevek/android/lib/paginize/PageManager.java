@@ -209,7 +209,9 @@ public class PageManager {
   }
 
   private void doFinalWorkForPushPage(Page oldPage, Page newPage, Object arg) {
-    newPage.getView().bringToFront();
+    if (newPage == getTopPage()) {
+      newPage.getView().bringToFront();
+    }
 
     if (oldPage != null) {
       if (newPage.getType() != Page.TYPE.TYPE_DIALOG) {
@@ -436,7 +438,9 @@ public class PageManager {
     removedPage.onHidden();
 
     if (prevPage != null) {
-      prevPage.getView().bringToFront();
+      if (prevPage == getTopPage()) {
+        prevPage.getView().bringToFront();
+      }
       prevPage.onUncovered(removedPage.getReturnData());
     }
   }
