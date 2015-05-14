@@ -163,6 +163,18 @@ application.
 You have already seen the usages of `@PageLayout`, `@InheritPageLayout` and a few other annotations, and 
 some framework code, you may want to explore and find more from the demo project.
 
+Proguard rules
+--------------
+To prevent annotated classes and fields from being stripped away, the following rules must be put in `proguard-project.txt`.
+
+```java
+-keep public class net.neevek.android.lib.paginize.**
+-keep @net.neevek.android.lib.paginize.annotation.ListenerMarker class ** { *; }
+-keepclassmembers,allowobfuscation class ** {
+  @net.neevek.android.lib.paginize.annotation.** <fields>;
+}
+
+```
 
 Under MIT license
 -----------------
