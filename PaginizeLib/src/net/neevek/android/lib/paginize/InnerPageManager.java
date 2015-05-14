@@ -71,6 +71,8 @@ public class InnerPageManager {
       newPageView.bringToFront();
       newPageView.setVisibility(View.VISIBLE);
       newPage.onSet(data);
+    } else {
+      mContainerView.setVisibility(View.GONE);
     }
 
     mCurPage = newPage;
