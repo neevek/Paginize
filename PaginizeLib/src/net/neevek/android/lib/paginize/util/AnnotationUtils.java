@@ -39,7 +39,7 @@ import java.util.Map;
  * @see net.neevek.android.lib.paginize.ViewWrapper
  * @see net.neevek.android.lib.paginize.PageActivity
  */
-public class AnnotationUtils {
+public final class AnnotationUtils {
   private static Map<Class, String> sSetListenerMethodMap = new HashMap<Class, String>();
 
   static {

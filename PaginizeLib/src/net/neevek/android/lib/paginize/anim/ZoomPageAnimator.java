@@ -27,7 +27,7 @@ import net.neevek.android.lib.paginize.Page;
  * THE SOFTWARE.
  */
 
-public class ZoomPageAnimator implements PageAnimator {
+public final class ZoomPageAnimator implements PageAnimator {
   private final static int ANIMATION_DURATION = 200;
   private Animation mInAnimation;
   private Animation mOutAnimation;

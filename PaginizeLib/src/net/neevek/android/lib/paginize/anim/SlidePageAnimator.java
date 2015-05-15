@@ -25,7 +25,7 @@ import net.neevek.android.lib.paginize.Page;
  * THE SOFTWARE.
  */
 
-public class SlidePageAnimator implements PageAnimator {
+public final class SlidePageAnimator implements PageAnimator {
   private final static int ANIMATION_DURATION = 250;
   private Animation mPushInFromRightAnimation;
   private Animation mPullOutFromRightAnimation;

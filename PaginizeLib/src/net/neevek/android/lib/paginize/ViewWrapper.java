@@ -145,19 +145,19 @@ public abstract class ViewWrapper {
     return mView;
   }
 
-  public View findViewById(int id) {
+  protected View findViewById(int id) {
     return mView.findViewById(id);
   }
 
-  public String getString(int resId) {
+  protected String getString(int resId) {
     return mContext.getString(resId);
   }
 
-  public String getString(int resId, Object... args) {
+  protected String getString(int resId, Object... args) {
     return mContext.getString(resId, args);
   }
 
-  public Resources getResources() {
+  protected Resources getResources() {
     return mContext.getResources();
   }
 
@@ -165,18 +165,18 @@ public abstract class ViewWrapper {
     mContext.hideTopPage();
   }
 
-  public boolean isAttached() {
+  protected boolean isAttached() {
     return mView.getParent() != null;
   }
 
-  public boolean post(Runnable action) {
+  protected boolean post(Runnable action) {
     if (mView != null) {
       return mView.post(action);
     }
     return false;
   }
 
-  public boolean postDelayed(Runnable action, long delayMillis) {
+  protected boolean postDelayed(Runnable action, long delayMillis) {
     if (mView != null) {
       return mView.postDelayed(action, delayMillis);
     }

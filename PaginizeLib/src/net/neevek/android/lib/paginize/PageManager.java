@@ -44,7 +44,7 @@ import java.util.LinkedList;
  * @see net.neevek.android.lib.paginize.Page
  * @see net.neevek.android.lib.paginize.anim.PageAnimator
  */
-public class PageManager {
+public final class PageManager {
   private final String SAVE_PAGE_STACK_KEY = "_paginize_page_stack";
   private final String TAG = PageManager.class.getSimpleName();
   private final boolean DEBUG = true;

@@ -37,7 +37,7 @@ import java.lang.reflect.Constructor;
  *
  * @see net.neevek.android.lib.paginize.InnerPage
  */
-public class InnerPageManager {
+public final class InnerPageManager {
   private final String SAVE_INNER_PAGE_MANAGER_KEY = "_paginize_inner_page_manager_" + getClass().getName();
   private PageActivity mPageActivity;
   private ViewGroup mContainerView;

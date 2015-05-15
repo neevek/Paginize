@@ -24,7 +24,7 @@ import net.neevek.android.lib.paginize.Page;
  * THE SOFTWARE.
  */
 
-public class SquashPageAnimator implements PageAnimator {
+public final class SquashPageAnimator implements PageAnimator {
   private final static int ANIMATION_DURATION = 400;
   private Animation mExpandInFromRightAnimation;
   private Animation mShrinkOutFromRightAnimation;

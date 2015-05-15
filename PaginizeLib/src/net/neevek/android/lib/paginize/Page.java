@@ -52,23 +52,23 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
     super(pageActivity);
   }
 
-  public void setType(TYPE type) {
+  protected void setType(TYPE type) {
     mType = type;
   }
 
-  public TYPE getType() {
+  protected TYPE getType() {
     return mType;
   }
 
-  public Object getReturnData() {
+  protected Object getReturnData() {
     return mReturnData;
   }
 
-  public void setReturnData(Object data) {
+  protected void setReturnData(Object data) {
     mReturnData = data;
   }
 
-  public PageManager getPageManager() {
+  protected PageManager getPageManager() {
     return getContext().getPageManager();
   }
 

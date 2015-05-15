@@ -37,7 +37,7 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
  *
  * @see net.neevek.android.lib.paginize.PageManager
  */
-public class PageActivity extends Activity {
+public abstract class PageActivity extends Activity {
   private PageManager mPageManager;
 
   @Override
