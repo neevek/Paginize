@@ -413,6 +413,7 @@ public final class PageManager {
       }
     }
 
+    mViewTransparentMask.bringToFront();
     mCurPage = prevPage;
 
     int animationDuration = removedPage.getAnimationDuration();
