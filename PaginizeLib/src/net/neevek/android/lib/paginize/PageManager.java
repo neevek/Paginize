@@ -64,6 +64,8 @@ public final class PageManager {
   // the PageAnimator to use to animate transitions when swapping pages
   private PageAnimator mPageAnimator;
 
+  private boolean mAnimating;
+
   public PageManager(PageActivity pageActivity, ViewGroup containerView) {
     this(pageActivity, containerView, null);
   }
@@ -165,6 +167,10 @@ public final class PageManager {
   }
 
   private void pushPageInternal(final Page newPage, final Page oldPage, final Object arg, boolean animated, PageAnimator.AnimationDirection animationDirection) {
+    if (animated) {
+      mAnimating = true;
+    }
+
     newPage.onShow(arg);
 
     if (oldPage != null) {
@@ -223,6 +229,7 @@ public final class PageManager {
 
     newPage.onShown(arg);
     newPage.getView().requestFocus();
+    mAnimating = false;
   }
 
   public void popPage(boolean animated) {
@@ -241,6 +248,9 @@ public final class PageManager {
   }
 
   public void popTopNPages(int n, boolean animated, PageAnimator.AnimationDirection animationDirection) {
+    if (mAnimating) {
+      return;
+    }
     if (n <= 0 || mPageStack.size() <= 0) {
       return;
     }
@@ -275,6 +285,9 @@ public final class PageManager {
    * @param animated true to animate the transition
    */
   public void popToPage(Page destPage, boolean animated, PageAnimator.AnimationDirection animationDirection) {
+    if (mAnimating) {
+      return;
+    }
     if (destPage == null) {
       throw new IllegalArgumentException("cannot call popToPage() with null destPage.");
     }
@@ -335,6 +348,9 @@ public final class PageManager {
    * @param animated    true to animate the transition
    */
   public void popToClasses(Class<? extends Page>[] pageClasses, boolean animated, PageAnimator.AnimationDirection animationDirection) {
+    if (mAnimating) {
+      return;
+    }
     if (pageClasses == null || pageClasses.length == 0) {
       throw new IllegalArgumentException("cannot call popToClasses() with null or empty pageClasses.");
     }
@@ -393,6 +409,10 @@ public final class PageManager {
   }
 
   private void popPageInternal(final Page removedPage, boolean animated, PageAnimator.AnimationDirection animationDirection) {
+    if (DEBUG) {
+      Log.d(TAG, String.format(">>>> popPage, pagestack=%d, %s", mPageStack.size(), removedPage));
+    }
+
     removedPage.onHide();
 
     final Page prevPage;
