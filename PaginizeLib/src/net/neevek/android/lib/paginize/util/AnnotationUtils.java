@@ -48,7 +48,9 @@ public final class AnnotationUtils {
     if (Build.VERSION.SDK_INT >= 11) {
       sSetListenerMethodMap.put(View.OnLayoutChangeListener.class, "addOnLayoutChangeListener");
     }
-    sSetListenerMethodMap.put(View.OnAttachStateChangeListener.class, "addOnAttachStateChangeListener");
+    if (Build.VERSION.SDK_INT >= 12) {
+      sSetListenerMethodMap.put(View.OnAttachStateChangeListener.class, "addOnAttachStateChangeListener");
+    }
   }
 
   private static void setListenersForView(View view, Class[] listenerTypes, Object listener) throws InvocationTargetException
