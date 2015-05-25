@@ -1,5 +1,6 @@
 package net.neevek.android.lib.paginize.util;
 
+import android.os.Build;
 import android.text.TextWatcher;
 import android.view.View;
 import net.neevek.android.lib.paginize.annotation.InjectView;
@@ -44,7 +45,9 @@ public final class AnnotationUtils {
 
   static {
     sSetListenerMethodMap.put(TextWatcher.class, "addTextChangedListener");
-    sSetListenerMethodMap.put(View.OnLayoutChangeListener.class, "addOnLayoutChangeListener");
+    if (Build.VERSION.SDK_INT >= 11) {
+      sSetListenerMethodMap.put(View.OnLayoutChangeListener.class, "addOnLayoutChangeListener");
+    }
     sSetListenerMethodMap.put(View.OnAttachStateChangeListener.class, "addOnAttachStateChangeListener");
   }
 
