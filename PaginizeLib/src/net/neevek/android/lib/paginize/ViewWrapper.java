@@ -371,4 +371,7 @@ public abstract class ViewWrapper {
   public void onRestoreInstanceState(Bundle savedInstanceState) {
   }
 
+  public boolean shouldSaveInstanceState() {
+    return true;
+  }
 }

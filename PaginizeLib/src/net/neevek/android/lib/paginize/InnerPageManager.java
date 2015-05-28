@@ -147,7 +147,7 @@ public final class InnerPageManager {
   }
 
   public void onSaveInstanceState(Bundle outState) {
-    if (mCurPage != null) {
+    if (mCurPage != null && mCurPage.shouldSaveInstanceState()) {
       mCurPage.onSaveInstanceState(outState);
 
       outState.putString(SAVE_INNER_PAGE_MANAGER_KEY, mCurPage.getClass().getName());

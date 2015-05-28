@@ -171,9 +171,12 @@ public abstract class ViewPagerPage extends Page {
   public void onSaveInstanceState(Bundle outState) {
     PagePagerAdapter adapter = getPagePagerAdapter();
     if (adapter != null && adapter.getCount() > 0) {
-      adapter.getItem(mViewPager.getCurrentItem()).onSaveInstanceState(outState);
+      ViewWrapper viewWrapper = adapter.getItem(mViewPager.getCurrentItem());
+      if (viewWrapper.shouldSaveInstanceState()) {
+        adapter.getItem(mViewPager.getCurrentItem()).onSaveInstanceState(outState);
 
-      outState.putInt(SAVE_CURRENT_PAGE_INDEX_KEY, mViewPager.getCurrentItem());
+        outState.putInt(SAVE_CURRENT_PAGE_INDEX_KEY, mViewPager.getCurrentItem());
+      }
     }
   }
 

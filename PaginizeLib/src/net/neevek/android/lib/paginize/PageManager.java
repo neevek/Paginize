@@ -571,9 +571,11 @@ public final class PageManager {
     String[] clazzArray = new String[mPageStack.size()];
     for (int i = 0; i < mPageStack.size(); ++i) {
       Page p = mPageStack.get(i);
-      p.onSaveInstanceState(outState);
+      if (p.shouldSaveInstanceState()) {
+        p.onSaveInstanceState(outState);
 
-      clazzArray[i] = p.getClass().getName();
+        clazzArray[i] = p.getClass().getName();
+      }
     }
     outState.putStringArray(SAVE_PAGE_STACK_KEY, clazzArray);
   }
