@@ -47,10 +47,10 @@ import java.util.LinkedList;
 public final class PageManager {
   private final String SAVE_PAGE_STACK_KEY = "_paginize_page_stack";
   private final String TAG = PageManager.class.getSimpleName();
-  private final boolean DEBUG = true;
 
   private PageActivity mPageActivity;
   private ViewGroup mContainerView;
+  private boolean mEnableDebug;
 
   // a mask view that intercepts all touch events when a page is in a process of pushing or popping
   private View mViewTransparentMask;
@@ -85,6 +85,10 @@ public final class PageManager {
       }
     });
     containerView.addView(mViewTransparentMask);
+  }
+
+  public void setDebug(boolean debug) {
+      mEnableDebug = debug;
   }
 
   public void setPageAnimator(PageAnimator pageAnimator) {
@@ -190,7 +194,7 @@ public final class PageManager {
 
     mViewTransparentMask.bringToFront();
 
-    if (DEBUG) {
+    if (mEnableDebug) {
       Log.d(TAG, String.format(">>>> pushPage, pagestack=%d, %s, arg=%s", mPageStack.size(), newPage, arg));
     }
 
@@ -265,7 +269,7 @@ public final class PageManager {
       page.onDetached();
       page.onHidden();
 
-      if (DEBUG) {
+      if (mEnableDebug) {
         Log.d(TAG, String.format(">>>> popPage, pagestack=%d, %s", mPageStack.size(), page));
       }
     }
@@ -298,7 +302,7 @@ public final class PageManager {
 
     Page oldPage = mPageStack.removeLast();
 
-    if (DEBUG) {
+    if (mEnableDebug) {
       Log.d(TAG, String.format(">>>> popPage, pagestack=%d, %s", mPageStack.size(), oldPage));
     }
 
@@ -409,7 +413,7 @@ public final class PageManager {
   }
 
   private void popPageInternal(final Page removedPage, boolean animated, PageAnimator.AnimationDirection animationDirection) {
-    if (DEBUG) {
+    if (mEnableDebug) {
       Log.d(TAG, String.format(">>>> popPage, pagestack=%d, %s", mPageStack.size(), removedPage));
     }
 
