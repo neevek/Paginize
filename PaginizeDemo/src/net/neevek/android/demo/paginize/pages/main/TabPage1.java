@@ -6,6 +6,7 @@ import net.neevek.android.demo.paginize.pages.other.AlertPage;
 import net.neevek.android.demo.paginize.pages.other.ListPage;
 import net.neevek.android.demo.paginize.pages.other.TestPage;
 import net.neevek.android.demo.paginize.pages.viewpager.MyViewPagerPage;
+import net.neevek.android.lib.paginize.BaseInnerPageContainer;
 import net.neevek.android.lib.paginize.InnerPage;
 import net.neevek.android.lib.paginize.Page;
 import net.neevek.android.lib.paginize.PageActivity;
@@ -20,8 +21,7 @@ import net.neevek.android.lib.paginize.annotation.SetListeners;
 @PageLayout(R.layout.inner_page_tab1)
 public class TabPage1 extends InnerPage //implements View.OnClickListener
 {
-
-//    @InjectView(value = R.id.btn_next_page, listenerTypes = {View.OnClickListener.class})
+  //    @InjectView(value = R.id.btn_next_page, listenerTypes = {View.OnClickListener.class})
 //    private Button mBtnNextPage;
 //    @InjectView(value = R.id.btn_list_page, listenerTypes = {View.OnClickListener.class})
 //    private Button mBtnListPage;
@@ -40,9 +40,10 @@ public class TabPage1 extends InnerPage //implements View.OnClickListener
       @SetListeners(view = R.id.btn_show_alert, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class),
       @SetListeners(view = R.id.btn_show_view_pager_page, listenerTypes = {View.OnClickListener.class}, listener = MyOnClickListener.class)
   })
-  public TabPage1(PageActivity context) {
-    super(context);
+  public TabPage1(BaseInnerPageContainer baseInnerPageContainer) {
+    super(baseInnerPageContainer);
   }
+
 
 //    @Override
 //    public void onClick(View v) {

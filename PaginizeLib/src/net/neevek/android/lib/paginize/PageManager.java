@@ -190,7 +190,6 @@ public final class PageManager {
     mCurPage = newPage;
     mPageStack.addLast(newPage);
     mContainerView.addView(newPage.getView());
-    newPage.onAttached();
 
     mViewTransparentMask.bringToFront();
 
@@ -266,7 +265,6 @@ public final class PageManager {
       Page page = mPageStack.removeLast();
       page.onHide();
       mContainerView.removeView(page.getView());
-      page.onDetached();
       page.onHidden();
 
       if (mEnableDebug) {
@@ -314,7 +312,6 @@ public final class PageManager {
       Page page = mPageStack.removeLast();
       page.onHide();
       mContainerView.removeView(page.getView());
-      page.onDetached();
       page.onHidden();
     }
 
@@ -405,7 +402,6 @@ public final class PageManager {
       Page page = mPageStack.removeLast();
       page.onHide();
       mContainerView.removeView(page.getView());
-      page.onDetached();
       page.onHidden();
     }
 
@@ -459,7 +455,6 @@ public final class PageManager {
 
   private void doFinalWorkForPopPageInternal(Page removedPage, Page prevPage) {
     mContainerView.removeView(removedPage.getView());
-    removedPage.onDetached();
     removedPage.onHidden();
 
     if (prevPage != null) {

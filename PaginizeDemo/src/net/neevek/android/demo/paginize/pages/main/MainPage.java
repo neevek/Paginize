@@ -23,8 +23,8 @@ public class MainPage extends FrameInnerPage {
 
   private int mSelectIndex = 0;
 
-  private TabPage1 mTabPage1 = new TabPage1(getContext());
-  private TabPage2 mTabPage2 = new TabPage2(getContext());
+  private TabPage1 mTabPage1 = new TabPage1(this);
+  private TabPage2 mTabPage2 = new TabPage2(this);
 
   public MainPage(PageActivity pageActivity) {
     super(pageActivity);

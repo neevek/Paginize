@@ -37,52 +37,16 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
  * @see net.neevek.android.lib.paginize.InnerPageManager
  * @see net.neevek.android.lib.paginize.InnerPage
  */
-public abstract class InnerPageContainer extends Page {
+public abstract class InnerPageContainer extends BaseInnerPageContainer {
   private InnerPageManager mInnerPageManager;
-  private ViewGroup mVgContainer;
 
   public InnerPageContainer(PageActivity pageActivity) {
     super(pageActivity);
-
-    Class clazz = getClass();
-
-    InnerPageContainerLayoutResId resIdAnnotation = null;
-
-    try {
-      do {
-        if (clazz.isAnnotationPresent(InnerPageContainerLayoutResId.class)) {
-          resIdAnnotation = (InnerPageContainerLayoutResId) clazz.getAnnotation(InnerPageContainerLayoutResId.class);
-          break;
-        }
-      } while ((clazz = clazz.getSuperclass()) != InnerPageContainer.class);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new InjectFailedException(e);
-    }
-
-    if (resIdAnnotation == null) {
-      throw new IllegalStateException("Must specify a layout for InnerPageContainer with the @InnerPageContainerLayoutResId annotation.");
-    }
-
-    View container = getView().findViewById(resIdAnnotation.value());
-    if (container == null) {
-      throw new IllegalStateException("Can not find the layout with the specified resource ID: " + resIdAnnotation.value());
-    }
-    if (!(container instanceof ViewGroup)) {
-      throw new IllegalStateException("The specified layout for InnerPageContainer is not of type ViewGroup.");
-    }
-
-    mVgContainer = (ViewGroup)container;
-    mInnerPageManager = new InnerPageManager(getContext(), mVgContainer);
+    mInnerPageManager = new InnerPageManager(getContext(), getContainerView());
   }
 
   public InnerPageManager getInnerPageManager() {
     return mInnerPageManager;
-  }
-
-  public ViewGroup getContainerView() {
-    return mVgContainer;
   }
 
   public void setInnerPage(InnerPage newPage, Object data) {

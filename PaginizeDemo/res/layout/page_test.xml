@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        >
 
   <TextView
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="200dp"
       android:text="This is a test page!\n\nNow you can press the BACK button below or the BACK key of the device to navigate back to previous page.\n"
       android:gravity="center"
       android:textSize="21dp"
@@ -26,5 +31,4 @@
       android:layout_height="wrap_content"
       android:layout_marginTop="12dp"
       />
-
-</merge>
+</LinearLayout>

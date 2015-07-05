@@ -43,10 +43,11 @@
 
   </LinearLayout>
 
-  <android.support.v4.view.ViewPager
-      android:id="@+id/vp_main"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
-      />
+    <FrameLayout
+            android:id="@+id/layout_container"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1">
+    </FrameLayout>
 
 </LinearLayout>

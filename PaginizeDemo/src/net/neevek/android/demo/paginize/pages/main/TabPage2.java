@@ -3,6 +3,7 @@ package net.neevek.android.demo.paginize.pages.main;
 
 import android.os.Bundle;
 import net.neevek.android.demo.paginize.R;
+import net.neevek.android.lib.paginize.BaseInnerPageContainer;
 import net.neevek.android.lib.paginize.InnerPage;
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
@@ -14,8 +15,8 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
 public class TabPage2 extends InnerPage {
   final static String SAVED_DATA_KEY = "some_key";
 
-  public TabPage2(PageActivity context) {
-    super(context);
+  public TabPage2(BaseInnerPageContainer baseInnerPageContainer) {
+    super(baseInnerPageContainer);
   }
 
   /**

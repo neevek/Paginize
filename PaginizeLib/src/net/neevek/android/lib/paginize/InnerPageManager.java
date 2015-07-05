@@ -56,7 +56,8 @@ public final class InnerPageManager {
     }
 
     if (oldPage != null) {
-      oldPage.onReplaced();
+      oldPage.onHide();
+      oldPage.onHidden();
       oldPage.getView().setVisibility(View.GONE);
     }
 
@@ -65,12 +66,12 @@ public final class InnerPageManager {
 
       if (mContainerView.indexOfChild(newPageView) == -1) {
         mContainerView.addView(newPageView);
-        newPage.onAttached();
       }
 
       newPageView.bringToFront();
       newPageView.setVisibility(View.VISIBLE);
-      newPage.onSet(data);
+      newPage.onShow(data);
+      newPage.onShown(data);
     } else {
       mContainerView.setVisibility(View.GONE);
     }
@@ -81,7 +82,6 @@ public final class InnerPageManager {
   // this method is rarely needed
   public void removePage(InnerPage page) {
     mContainerView.removeView(page.getView());
-    page.onDetached();
   }
 
   public void unsetPage() {

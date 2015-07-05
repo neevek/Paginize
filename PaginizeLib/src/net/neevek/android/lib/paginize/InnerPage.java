@@ -31,26 +31,17 @@ package net.neevek.android.lib.paginize;
  * InnerPage is managed by InnerPageManager, we call InnerPageManager.setPage()
  * method to set an InnerPage as the current page.
  *
- * @see net.neevek.android.lib.paginize.InnerPageManager
  * @see net.neevek.android.lib.paginize.InnerPageContainer
  */
 public abstract class InnerPage extends ViewWrapper {
-  private InnerPageContainer mInnerPageContainer;
+  private BaseInnerPageContainer mBaseInnerPageContainer;
 
-  @Deprecated
-  /**
-   * @deprecated - use InnerPage(InnerPageContainer) instead
-   */
-  public InnerPage(PageActivity pageActivity) {
-    super(pageActivity);
+  public InnerPage(BaseInnerPageContainer baseInnerPageContainer) {
+    super(baseInnerPageContainer.getContext());
+    mBaseInnerPageContainer = baseInnerPageContainer;
   }
 
-  public InnerPage(InnerPageContainer innerPageContainer) {
-    this(innerPageContainer.getContext());
-    mInnerPageContainer = innerPageContainer;
-  }
-
-  public void onSet(Object obj) {
+  public void onShown(Object obj) {
     if (mViewCurrentFocus != null) {
       mViewCurrentFocus.requestFocus();
     } else {
@@ -58,14 +49,11 @@ public abstract class InnerPage extends ViewWrapper {
     }
   }
 
-  public void onReplaced() {
+  public void onHidden() {
     mViewCurrentFocus = getContext().getCurrentFocus();
   }
 
-  public InnerPageContainer getInnerPageContainer() {
-    if (mInnerPageContainer == null) {
-      throw new NullPointerException("InnerPageContainer not correctly set, you need to use InnerPage(InnerPageContainer) to construct the current InnerPage");
-    }
-    return mInnerPageContainer;
+  public BaseInnerPageContainer getInnerPageContainer() {
+    return mBaseInnerPageContainer;
   }
 }
