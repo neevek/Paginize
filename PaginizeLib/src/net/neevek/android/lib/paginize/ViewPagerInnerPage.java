@@ -29,32 +29,32 @@ import android.view.ViewGroup;
  */
 
 /**
- * ViewPagerPage wraps a ViewPager, manages InnerPages, the main difference between ViewPagerPage
- * and ContainerPage is that this class offers page swiping while ContainerPage does not.
+ * ViewPagerInnerPage wraps a ViewPager, manages InnerPages, the main difference between ViewPagerPage
+ * and ContainerInnerPage is that this class offers page swiping while ContainerInnerPage does not.
  *
  * @see ViewPagerPageManager
- * @see ViewPagerInnerPage
+ * @see ViewPagerPage
  */
-public abstract class ViewPagerPage extends Page implements InnerPageContainer {
+public abstract class ViewPagerInnerPage extends InnerPage implements InnerPageContainer {
   private ViewPagerPageManager mViewPagerPageManager;
 
-  public ViewPagerPage(PageActivity pageActivity) {
-    super(pageActivity);
+  public ViewPagerInnerPage(ViewWrapper innerPageContainer) {
+    super(innerPageContainer);
     mViewPagerPageManager = new ViewPagerPageManager(this);
     mViewPagerPageManager.setPageScrollListener(new ViewPagerPageScrollListener() {
       @Override
       public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        ViewPagerPage.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        ViewPagerInnerPage.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
       }
 
       @Override
       public void onPageSelected(int position) {
-        ViewPagerPage.this.onPageSelected(position);
+        ViewPagerInnerPage.this.onPageSelected(position);
       }
 
       @Override
       public void onPageScrollStateChanged(int state) {
-        ViewPagerPage.this.onPageScrollStateChanged(state);
+        ViewPagerInnerPage.this.onPageScrollStateChanged(state);
       }
     });
   }

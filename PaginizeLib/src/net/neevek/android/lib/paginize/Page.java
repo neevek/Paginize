@@ -34,7 +34,7 @@ import net.neevek.android.lib.paginize.anim.PageAnimator;
  * in here), as compared to InnerPage, which wraps a View that occupies only part
  * of the screen.
  *
- * @see net.neevek.android.lib.paginize.InnerPageContainer
+ * @see ContainerPage
  * @see net.neevek.android.lib.paginize.InnerPage
  */
 public abstract class Page extends ViewWrapper implements PageAnimator {

@@ -55,8 +55,11 @@ public class ListItemPage extends Page implements View.OnClickListener {
         break;
 
       case R.id.btn_nav_to_main_page:
-        getPageManager().popTopNPages(getPageManager().getPageCount(), true);
-        getPageManager().pushPage(new MainPage(getContext()), null, true, AnimationDirection.FROM_LEFT);
+//        getPageManager().popTopNPages(getPageManager().getPageCount(), true);
+//        getPageManager().pushPage(new MainPage(getContext()), null, true, AnimationDirection.FROM_LEFT);
+
+        // we can also use popToClass()
+        getPageManager().popToClass(MainPage.class, true, AnimationDirection.FROM_LEFT);
         break;
     }
   }

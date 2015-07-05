@@ -1,7 +1,5 @@
 package net.neevek.android.lib.paginize;
 
-import android.view.ViewGroup;
-
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,6 +21,12 @@ import android.view.ViewGroup;
  * THE SOFTWARE.
  */
 
-interface InnerPageContainer {
-    ViewGroup getContainerView();
+interface ViewPagerPageScrollListener {
+    public static final int SCROLL_STATE_IDLE = 0;
+    public static final int SCROLL_STATE_DRAGGING = 1;
+    public static final int SCROLL_STATE_SETTLING = 2;
+
+    void onPageScrolled(int index, float indexOffset, int indexOffsetPixels);
+    void onPageSelected(int position);
+    void onPageScrollStateChanged(int state);
 }

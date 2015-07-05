@@ -23,6 +23,11 @@
         android:id="@+id/rb_nav_btn2"
         style="@style/nav_item"
         android:text="Tab2"/>
+
+      <RadioButton
+              android:id="@+id/rb_nav_btn3"
+              style="@style/nav_item"
+              android:text="Tab3"/>
   </RadioGroup>
 
 </merge>

@@ -31,21 +31,19 @@ package net.neevek.android.lib.paginize;
  * InnerPage is managed by InnerPageManager, we call InnerPageManager.setPage()
  * method to set an InnerPage as the current page.
  *
- * @see net.neevek.android.lib.paginize.InnerPageContainer
+ * @see ContainerPage
  */
 public abstract class InnerPage extends ViewWrapper {
-  private BaseInnerPageContainer mBaseInnerPageContainer;
+  private ViewWrapper mInnerPageContainer;
 
-  public InnerPage(BaseInnerPageContainer baseInnerPageContainer) {
-    super(baseInnerPageContainer.getContext());
-    mBaseInnerPageContainer = baseInnerPageContainer;
+  public InnerPage(ViewWrapper innerPageContainer) {
+    super(innerPageContainer.getContext());
+    mInnerPageContainer = innerPageContainer;
   }
 
   public void onShown(Object obj) {
     if (mViewCurrentFocus != null) {
       mViewCurrentFocus.requestFocus();
-    } else {
-      getView().requestFocus();
     }
   }
 
@@ -53,7 +51,7 @@ public abstract class InnerPage extends ViewWrapper {
     mViewCurrentFocus = getContext().getCurrentFocus();
   }
 
-  public BaseInnerPageContainer getInnerPageContainer() {
-    return mBaseInnerPageContainer;
+  public ViewWrapper getInnerPageContainer() {
+    return mInnerPageContainer;
   }
 }

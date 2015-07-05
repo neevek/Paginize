@@ -592,7 +592,7 @@ public final class PageManager {
         p.onRestoreInstanceState(savedInstanceState);
       }
     } catch (NoSuchMethodException e) {
-      throw new RuntimeException("No <init>(PageActivity) constructor in Page: " + clazz.getName()
+      Log.e("PageManager", "No <init>(PageActivity) constructor in Page: " + clazz.getName()
           + ", which is required for page restore/recovery to work.");
 
     } catch (Exception e) {

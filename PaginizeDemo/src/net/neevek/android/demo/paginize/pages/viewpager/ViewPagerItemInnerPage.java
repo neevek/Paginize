@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import net.neevek.android.demo.paginize.R;
-import net.neevek.android.lib.paginize.BaseInnerPageContainer;
 import net.neevek.android.lib.paginize.InnerPage;
 import net.neevek.android.lib.paginize.ViewPagerPage;
+import net.neevek.android.lib.paginize.ViewWrapper;
 import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
@@ -17,8 +17,8 @@ import net.neevek.android.lib.paginize.annotation.SetListeners;
  * Created by neevek on 6/16/14.
  */
 @PageLayout(R.layout.page_simple_text)
-public class ViewPagerInnerPage extends InnerPage implements View.OnClickListener {
-  private final static String TAG = ViewPagerInnerPage.class.getSimpleName();
+public class ViewPagerItemInnerPage extends InnerPage implements View.OnClickListener {
+  private final static String TAG = ViewPagerItemInnerPage.class.getSimpleName();
 
   @InjectView(R.id.tv_text)
   private TextView mTvSimpleText;
@@ -26,11 +26,11 @@ public class ViewPagerInnerPage extends InnerPage implements View.OnClickListene
   @ListenerDefs({
           @SetListeners(view = R.id.btn_jump, listenerTypes = {View.OnClickListener.class} ),
   })
-  public ViewPagerInnerPage(BaseInnerPageContainer baseInnerPageContainer) {
-    super(baseInnerPageContainer);
+  public ViewPagerItemInnerPage(ViewWrapper innerPageContainer) {
+    super(innerPageContainer);
   }
 
-  public ViewPagerInnerPage setText(String text) {
+  public ViewPagerItemInnerPage setText(String text) {
     mTvSimpleText.setText(text);
     return this;
   }

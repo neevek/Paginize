@@ -1,6 +1,5 @@
 package net.neevek.android.demo.paginize.pages.viewpager;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,12 +30,12 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
 
     setHorizontalFadingEdgeEnabled(false);
 
-    addPage(new ViewPagerInnerPage(this).setText("subpage 0"));
-    addPage(new ViewPagerInnerPage(this).setText("subpage 1"));
-    addPage(new ViewPagerInnerPage(this).setText("subpage 2"));
-    addPage(new ViewPagerInnerPage(this).setText("subpage 3"));
-    addPage(new ViewPagerInnerPage(this).setText("subpage 4"));
-    addPage(new ViewPagerListInnerPage(this));
+    addPage(new ViewPagerItemInnerPage(this).setText("subpage 0"));
+    addPage(new ViewPagerItemInnerPage(this).setText("subpage 1"));
+    addPage(new ViewPagerItemInnerPage(this).setText("subpage 2"));
+    addPage(new ViewPagerItemInnerPage(this).setText("subpage 3"));
+    addPage(new ViewPagerItemInnerPage(this).setText("subpage 4"));
+    addPage(new ViewPagerItemListInnerPage(this));
   }
 
   @Override

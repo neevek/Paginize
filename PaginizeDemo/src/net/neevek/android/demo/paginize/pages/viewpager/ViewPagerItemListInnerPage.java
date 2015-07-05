@@ -7,8 +7,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import net.neevek.android.demo.paginize.R;
 import net.neevek.android.demo.paginize.pages.other.ListItemPage;
-import net.neevek.android.lib.paginize.BaseInnerPageContainer;
 import net.neevek.android.lib.paginize.InnerPage;
+import net.neevek.android.lib.paginize.ViewWrapper;
 import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
 
@@ -16,14 +16,14 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
  * Created by neevek on 6/16/14.
  */
 @PageLayout(R.layout.page_list)
-public class ViewPagerListInnerPage extends InnerPage implements AdapterView.OnItemClickListener {
-  private final static String TAG = ViewPagerListInnerPage.class.getSimpleName();
+public class ViewPagerItemListInnerPage extends InnerPage implements AdapterView.OnItemClickListener {
+  private final static String TAG = ViewPagerItemListInnerPage.class.getSimpleName();
 
   @InjectView(value = android.R.id.list, listenerTypes = {AdapterView.OnItemClickListener.class})
   private ListView mLvData;
 
-  public ViewPagerListInnerPage(BaseInnerPageContainer baseInnerPageContainer) {
-    super(baseInnerPageContainer);
+  public ViewPagerItemListInnerPage(ViewWrapper innerPageContainer) {
+    super(innerPageContainer);
 
     String[] data = new String[100];
     for (int i = 0; i < 100; ++i) {
