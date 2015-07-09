@@ -36,9 +36,21 @@ public class ViewPagerItemInnerPage extends InnerPage implements View.OnClickLis
   }
 
   @Override
+  public void onShow(Object obj) {
+    super.onShow(obj);
+    Log.d(TAG, "onShow() called: " + this);
+  }
+
+  @Override
   public void onShown(Object obj) {
     super.onShown(obj);
     Log.d(TAG, "onShown() called: " + this);
+  }
+
+  @Override
+  public void onHide() {
+    super.onHide();
+    Log.d(TAG, "onHide() called: " + this);
   }
 
   @Override
