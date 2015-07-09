@@ -184,22 +184,6 @@ public abstract class ViewWrapper {
   }
 
   /**
-   * called when added to the view hierarchy of the host activity
-   *
-   * @see net.neevek.android.lib.paginize.PageManager
-   */
-  public void onAttached() {
-  }
-
-  /**
-   * called when removed from the view hierarchy of the host activity
-   *
-   * @see net.neevek.android.lib.paginize.PageManager
-   */
-  public void onDetached() {
-  }
-
-  /**
    * onShow is called when the page is pushed on the page stack,
    * at this point the Page is still not be visible
    *
