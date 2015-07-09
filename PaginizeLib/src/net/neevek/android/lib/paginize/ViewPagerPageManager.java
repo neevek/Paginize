@@ -145,7 +145,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     }
 
     class InnerPageChangeListener implements ViewPager.OnPageChangeListener {
-        private boolean newPageSelected;
+        private boolean markNewPageSelected;
         private InnerPage oldPage;
 
         @Override
@@ -157,10 +157,15 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
 
         @Override
         public void onPageSelected(int position) {
-            newPageSelected = true;
+            if (mViewPager.getScrollX() % mViewPager.getWidth() != 0) {
+                markNewPageSelected = true;
+            }
 
             oldPage = mInnerPageList.get(mLastSelectedPage);
             oldPage.onHide();
+            if (!markNewPageSelected) {
+                oldPage.onHidden();
+            }
 
             mLastSelectedPage = position;
 
@@ -168,6 +173,9 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
             setCurrentInnerPage(newPage);
 
             newPage.onShow(null);
+            if (!markNewPageSelected) {
+                newPage.onShown(null);
+            }
 
             if (mPageScrollListener != null) {
                 mPageScrollListener.onPageSelected(position);
@@ -180,8 +188,8 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
                 mPageScrollListener.onPageScrollStateChanged(state);
             }
 
-            if (state == ViewPager.SCROLL_STATE_IDLE && newPageSelected) {
-                newPageSelected = false;
+            if (markNewPageSelected && state == ViewPager.SCROLL_STATE_IDLE) {
+                markNewPageSelected = false;
 
                 if (oldPage != null) {
                     oldPage.onHidden();
