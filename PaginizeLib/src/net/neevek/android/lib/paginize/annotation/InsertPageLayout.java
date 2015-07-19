@@ -27,14 +27,14 @@ import java.lang.annotation.Target;
  */
 
 /**
- * used to inherit layout of the parent Page
+ * used to insert the specified layout to that of the parent Page
  *
  * @see net.neevek.android.lib.paginize.ViewWrapper
  * @see net.neevek.android.lib.paginize.util.AnnotationUtils
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface InheritPageLayout {
+public @interface InsertPageLayout {
   int value();
 
   // -1 if the specified layout is to be appended to root

@@ -6,14 +6,14 @@ import net.neevek.android.demo.paginize.R;
 import net.neevek.android.demo.paginize.pages.general.FramePage;
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.annotation.ListenerDefs;
-import net.neevek.android.lib.paginize.annotation.InheritPageLayout;
+import net.neevek.android.lib.paginize.annotation.InsertPageLayout;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
 
 /**
  * Created by neevek on 3/16/14.
  */
 
-@InheritPageLayout(R.layout.page_test)
+@InsertPageLayout(R.layout.page_test)
 public class TestPage extends FramePage implements View.OnClickListener {
 
   @ListenerDefs({

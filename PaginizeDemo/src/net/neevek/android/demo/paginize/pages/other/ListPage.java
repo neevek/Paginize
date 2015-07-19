@@ -8,14 +8,14 @@ import android.widget.Toast;
 import net.neevek.android.demo.paginize.R;
 import net.neevek.android.demo.paginize.pages.general.FramePage;
 import net.neevek.android.lib.paginize.PageActivity;
-import net.neevek.android.lib.paginize.annotation.InheritPageLayout;
+import net.neevek.android.lib.paginize.annotation.InsertPageLayout;
 import net.neevek.android.lib.paginize.annotation.InjectView;
 
 /**
  * Created by neevek on 3/16/14.
  */
 
-@InheritPageLayout(R.layout.page_list)
+@InsertPageLayout(R.layout.page_list)
 public class ListPage extends FramePage implements AdapterView.OnItemClickListener {
 
   @InjectView(value = android.R.id.list, listenerTypes = {AdapterView.OnItemClickListener.class})

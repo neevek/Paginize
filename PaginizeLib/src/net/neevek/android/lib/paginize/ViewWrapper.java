@@ -8,7 +8,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import net.neevek.android.lib.paginize.annotation.InheritPageLayout;
+import net.neevek.android.lib.paginize.annotation.InsertPageLayout;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 import net.neevek.android.lib.paginize.util.AnnotationUtils;
@@ -82,16 +82,16 @@ public abstract class ViewWrapper {
         // -2 because a Page with @PageLayout should not have @InheritPageLayout, which will be silently ignored.
         for (int i = list.size() - 2; i >= 0; --i) {
           clazz = list.get(i);
-          if (clazz.isAnnotationPresent(InheritPageLayout.class)) {
-            InheritPageLayout inheritPageLayoutAnno = (InheritPageLayout) clazz.getAnnotation(InheritPageLayout.class);
-            if (inheritPageLayoutAnno.root() != -1) {
-              ViewGroup root = (ViewGroup) mView.findViewById(inheritPageLayoutAnno.root());
+          if (clazz.isAnnotationPresent(InsertPageLayout.class)) {
+            InsertPageLayout insertPageLayoutAnno = (InsertPageLayout) clazz.getAnnotation(InsertPageLayout.class);
+            if (insertPageLayoutAnno.root() != -1) {
+              ViewGroup root = (ViewGroup) mView.findViewById(insertPageLayoutAnno.root());
               if (root == null) {
                 throw new IllegalArgumentException("The root specified in @InheritPageLayout is not found.");
               }
-              mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), root, true);
+              mContext.getLayoutInflater().inflate(insertPageLayoutAnno.value(), root, true);
             } else {
-              mContext.getLayoutInflater().inflate(inheritPageLayoutAnno.value(), (ViewGroup) mView, true);
+              mContext.getLayoutInflater().inflate(insertPageLayoutAnno.value(), (ViewGroup) mView, true);
             }
           }
         }

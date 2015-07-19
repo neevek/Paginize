@@ -8,7 +8,7 @@ import net.neevek.android.demo.paginize.R;
 import net.neevek.android.demo.paginize.pages.general.FrameInnerPage;
 import net.neevek.android.lib.paginize.InnerPage;
 import net.neevek.android.lib.paginize.PageActivity;
-import net.neevek.android.lib.paginize.annotation.InheritPageLayout;
+import net.neevek.android.lib.paginize.annotation.InsertPageLayout;
 import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutResId;
 import net.neevek.android.lib.paginize.annotation.ListenerMarker;
@@ -16,7 +16,7 @@ import net.neevek.android.lib.paginize.annotation.ListenerMarker;
 /**
  * Created by neevek on 3/16/14.
  */
-@InheritPageLayout(R.layout.page_main)
+@InsertPageLayout(R.layout.page_main)
 @InnerPageContainerLayoutResId(R.id.layout_container)
 public class MainPage extends FrameInnerPage {
   private final static String TAG = MainPage.class.getSimpleName();
