@@ -84,10 +84,10 @@ public abstract class ViewWrapper {
           clazz = list.get(i);
           if (clazz.isAnnotationPresent(InsertPageLayout.class)) {
             InsertPageLayout insertPageLayoutAnno = (InsertPageLayout) clazz.getAnnotation(InsertPageLayout.class);
-            if (insertPageLayoutAnno.root() != -1) {
-              ViewGroup root = (ViewGroup) mView.findViewById(insertPageLayoutAnno.root());
+            if (insertPageLayoutAnno.parent() != -1) {
+              ViewGroup root = (ViewGroup) mView.findViewById(insertPageLayoutAnno.parent());
               if (root == null) {
-                throw new IllegalArgumentException("The root specified in @InheritPageLayout is not found.");
+                throw new IllegalArgumentException("The parent specified in @InheritPageLayout is not found.");
               }
               mContext.getLayoutInflater().inflate(insertPageLayoutAnno.value(), root, true);
             } else {
