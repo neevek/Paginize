@@ -119,7 +119,7 @@ public abstract class FramePage extends Page implements View.OnClickListener {
 // here we inherit the layout from FramePage, i.e. R.layout.page_frame, insert R.layout.page_test
 // into the R.id.container element of the parent layout. Since we subclass FramePage, we also inherit
 // the code for handling the BACK button press
-@InsertPageLayout(value = R.layout.page_test, root = R.id.container)
+@InsertPageLayout(value = R.layout.page_test, parent = R.id.container)
 public class TestPage extends FramePage {
     @InjectView(R.id.tv_content)
     private TextView mTvContent;
@@ -174,7 +174,7 @@ Page (including Page, InnerPage) subclasses `ViewWrapper`, lifecycle methods are
 
 When a page is popped, it is ready be to garbage collected, because for most cases no one references the page at this point, but **you could**, that means if you keep a reference to the page, you can call show()/hide() pair multiple times to reuse the page. And that is why the method is named **onHidden()** instead of *onDestroy()*, because the framework will not know whether it is destroyed.
 
-Besides the lifecycle methods introduced by the framework, Paginize mirrors most of the Activity lifecycle methods, for example, when `onResume()` is called for the current Activity, Paginize passes the method call to the top page(the currently showning page), same for methods like `onPause()`, `onActivityResult()`, etc.
+Besides the lifecycle methods introduced by the framework, Paginize mirrors most of the Activity lifecycle methods, for example, when `onResume()` is called for the current Activity, Paginize passes the method call to the top page(the currently showing page), same for methods like `onPause()`, `onActivityResult()`, etc.
 
 ####<a name="header3"></a> 3. Paginize annotations
 
@@ -191,14 +191,14 @@ Paginize takes advantage of Java Annotations to make use of the framework easier
 * `@ListenerDefs` and `@SetListeners`
     - `@ListenerDefs` should be annotated on page constructors, it contains an array of `@SetListeners`, which is introduced to support setting up listeners for views in one place, make all Paginize-powered code consistent. It is normally used when you only want to setup listeners for the views, but do not need to keep references to the views, besides that, `@SetListeners` is same as `@InjectView`.
 * `@InjectPageAnimator`
-    - Annotated on Activity that subclasses `PageActivity`, offers page transition annimation for page push/pop. `PageAnimator` can be customized, simply class `PageAnimator` and override the required methods to create your own page transition annimation.
+    - Annotated on Activity that subclasses `PageActivity`, offers page transition annimation for page push/pop. `PageAnimator` can be customized, simply subclass `PageAnimator` and override the required methods to create your own page transition annimation.
 * `@ListenerMarker`
     - Annotated on listener class used for the `listener` field of `@InjectView` or `@SetListeners`, this annotation is introduced to prevent the listener class from being obfuscated by proguard. Note, add a rule in proguard-project.txt to make this annotation take effect.
 
 
 ####<a name="header4"></a> 4. Argument passing between pages
 
-`onShow()` and `onShown()` take an object as arugment, which is passed from the `show()` method call. `onUncover()` and `onUncovered()` take an object as argument as well, which is passed from the top page by calling `setReturnData()` before it is popped from the page stack. This is all that Pagenize offers for argument passing between pages. But, you are not limited to that, and I recommend against using `show()` to pass arguments(hmmm, the mechanism exists for historical reasons). I recommend simply put methods like `setArgumentXYZ` in the destination page, call these methods to pass arguments to the page, (you can even pass a callback to the destination page, which in some cases may be very useful), this is more intuitive. And if you stick to a certain pattern or naming convention, code will be more manageable with this approach.
+`onShow()` and `onShown()` take an object as arugment, which is passed from the `show()` method call. `onUncover()` and `onUncovered()` take an object argument as well, which is passed from the top page by calling `setReturnData()` before it is popped from the page stack. This is all that Pagenize offers for argument passing between pages. But, you are not limited to that, and I recommend against using `show()` to pass arguments(hmmm, the mechanism exists for historical reasons). I recommend simply put methods like `setArgumentXYZ` in the destination page, call these methods to pass arguments to the page, (you can even pass a callback to the destination page, which in some cases may be very useful), this is more intuitive. And if you stick to a certain pattern or naming convention, code will be more manageable with this approach.
 
 ####<a name="header5"></a> 5. Proguard rules
 
