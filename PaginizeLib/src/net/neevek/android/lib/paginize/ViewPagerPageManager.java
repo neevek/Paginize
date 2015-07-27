@@ -69,6 +69,22 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
         mPagerAdapter.notifyDataSetChanged();
     }
 
+    public void removePage(int index) {
+        if (index > mInnerPageList.size()) {
+            throw new IllegalArgumentException("index is too large: " + index + ", actual: " + mInnerPageList.size());
+        }
+
+        mInnerPageList.remove(index);
+        if (index == mLastSelectedPage) {
+            if (mLastSelectedPage - 1 >= 0) {
+                mLastSelectedPage -= 1;
+            } else {
+                mLastSelectedPage = 0;
+            }
+        }
+        mPagerAdapter.notifyDataSetChanged();
+    }
+
     public void setCurrentPage(int index, boolean animated) {
         if (index > mInnerPageList.size()) {
             throw new IllegalArgumentException("index is too large: " + index + ", actual: " + mInnerPageList.size());

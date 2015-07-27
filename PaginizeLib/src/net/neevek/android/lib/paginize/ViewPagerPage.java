@@ -63,6 +63,10 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
     mViewPagerPageManager.addPage(page);
   }
 
+  public void removePage(int index) {
+    mViewPagerPageManager.removePage(index);
+  }
+
   public void setCurrentPage(int index, boolean animated) {
     mViewPagerPageManager.setCurrentPage(index, animated);
   }
