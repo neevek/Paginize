@@ -197,7 +197,7 @@ public final class PageManager {
       Log.d(TAG, String.format(">>>> pushPage, pagestack=%d, %s, arg=%s", mPageStack.size(), newPage, arg));
     }
 
-    if (animated && mPageAnimator != null && !newPage.onPushPageAnimation(oldPage, newPage, animationDirection)) {
+    if (animated && !newPage.onPushPageAnimation(oldPage, newPage, animationDirection) && mPageAnimator != null) {
       mPageAnimator.onPushPageAnimation(oldPage, newPage, animationDirection);
     }
 
@@ -420,7 +420,7 @@ public final class PageManager {
       prevPage = mPageStack.getLast();
       prevPage.onUncover(removedPage.getReturnData());
 
-      if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, prevPage, animationDirection)) {
+      if (animated && !removedPage.onPopPageAnimation(removedPage, prevPage, animationDirection) && mPageAnimator != null) {
         mPageAnimator.onPopPageAnimation(removedPage, prevPage, animationDirection);
       }
 
@@ -428,7 +428,7 @@ public final class PageManager {
     } else {
       prevPage = null;
 
-      if (animated && mPageAnimator != null && !removedPage.onPopPageAnimation(removedPage, null, animationDirection)) {
+      if (animated && !removedPage.onPopPageAnimation(removedPage, null, animationDirection) && mPageAnimator != null) {
         mPageAnimator.onPopPageAnimation(removedPage, null, animationDirection);
       }
     }
