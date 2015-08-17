@@ -41,6 +41,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private int mLastSelectedPage;
+    private boolean mAlwaysKeepInnerPagesInViewHierarchy;
 
     private ViewPagerPageScrollListener mPageScrollListener;
 
@@ -59,6 +60,10 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
         mViewPager.setOnPageChangeListener(new InnerPageChangeListener());
 
         getContainerView().addView(mViewPager);
+    }
+
+    public void setAlwaysKeepInnerPagesInViewHierarchy(boolean alwaysKeepInnerPagesInViewHierarchy) {
+        mAlwaysKeepInnerPagesInViewHierarchy = alwaysKeepInnerPagesInViewHierarchy;
     }
 
     public void addPage(InnerPage page) {
@@ -137,15 +142,19 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             InnerPage innerPage = mInnerPageList.get(position);
-            container.addView(innerPage.getView());
+            if (!mAlwaysKeepInnerPagesInViewHierarchy || container.indexOfChild(innerPage.getView()) == -1) {
+                container.addView(innerPage.getView());
+            }
 
             return innerPage;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            InnerPage innerPage = (InnerPage) object;
-            container.removeView(innerPage.getView());
+            if (!mAlwaysKeepInnerPagesInViewHierarchy) {
+                InnerPage innerPage = (InnerPage) object;
+                container.removeView(innerPage.getView());
+            }
         }
 
         @Override
