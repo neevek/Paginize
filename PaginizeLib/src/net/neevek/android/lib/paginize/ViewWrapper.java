@@ -79,7 +79,7 @@ public abstract class ViewWrapper {
       }
 
       if (list.size() > 1) {
-        // -2 because a Page with @PageLayout should not have @InheritPageLayout, which will be silently ignored.
+        // -2 because a Page with @PageLayout should not have @InsertPageLayout, which will be silently ignored.
         for (int i = list.size() - 2; i >= 0; --i) {
           clazz = list.get(i);
           if (clazz.isAnnotationPresent(InsertPageLayout.class)) {
@@ -87,7 +87,7 @@ public abstract class ViewWrapper {
             if (insertPageLayoutAnno.parent() != -1) {
               ViewGroup root = (ViewGroup) mView.findViewById(insertPageLayoutAnno.parent());
               if (root == null) {
-                throw new IllegalArgumentException("The parent specified in @InheritPageLayout is not found.");
+                throw new IllegalArgumentException("The parent specified in @InsertPageLayout is not found.");
               }
               mContext.getLayoutInflater().inflate(insertPageLayoutAnno.value(), root, true);
             } else {
