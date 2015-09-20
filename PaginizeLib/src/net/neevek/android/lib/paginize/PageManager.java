@@ -1,14 +1,16 @@
 package net.neevek.android.lib.paginize;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
+import android.widget.FrameLayout;
 import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 import java.lang.reflect.Constructor;
@@ -50,30 +52,32 @@ public final class PageManager {
 
   private PageActivity mPageActivity;
   private ViewGroup mContainerView;
-  private boolean mEnableDebug;
-
   // a mask view that intercepts all touch events when a page is in a process of pushing or popping
   private View mViewTransparentMask;
+  // on Kitkat or greater, this is used to set background color of the status bar
+  private View mStatusBarBackgroundView;
+  private boolean mInitializedForTranslucentStatus;
+
+  private boolean mEnableDebug;
 
   // the stack to hold the pages
   private LinkedList<Page> mPageStack = new LinkedList<Page>();
-
   // the page on top of the stack
   private Page mCurPage;
-
-  // the PageAnimator to use to animate transitions when swapping pages
+  // the PageAnimator to animate transitions when swapping pages
   private PageAnimator mPageAnimator;
-
   private boolean mAnimating;
 
-  public PageManager(PageActivity pageActivity, ViewGroup containerView) {
-    this(pageActivity, containerView, null);
+
+  public PageManager(PageActivity pageActivity) {
+    this(pageActivity, null);
   }
 
-  public PageManager(PageActivity pageActivity, ViewGroup containerView, PageAnimator pageAnimator) {
+  public PageManager(PageActivity pageActivity, PageAnimator pageAnimator) {
     mPageActivity = pageActivity;
-    mContainerView = containerView;
     mPageAnimator = pageAnimator;
+
+    mContainerView = new FrameLayout(pageActivity);
 
     mViewTransparentMask = new View(pageActivity);
     mViewTransparentMask.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -84,7 +88,10 @@ public final class PageManager {
         return true;
       }
     });
-    containerView.addView(mViewTransparentMask);
+    mContainerView.addView(mViewTransparentMask);
+    mViewTransparentMask.setBackgroundColor(0x00ffffff);
+
+    pageActivity.setContentView(mContainerView);
   }
 
   public void setDebug(boolean debug) {
@@ -97,6 +104,58 @@ public final class PageManager {
 
   public PageAnimator getPageAnimator() {
     return mPageAnimator;
+  }
+
+  public int getStatusBarBackgroundColor() {
+    return mStatusBarBackgroundView != null ? ((ColorDrawable)mStatusBarBackgroundView.getBackground()).getColor() : 0;
+  }
+
+  @TargetApi(19)
+  public void setStatusBarBackgroundColor(int color) {
+    if (Build.VERSION.SDK_INT < 19) {
+      return;
+    }
+
+    if (!mInitializedForTranslucentStatus) {
+      mInitializedForTranslucentStatus = true;
+
+      mPageActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      setDrawsSystemBarBackgroundsFlag();
+
+      mContainerView.setFitsSystemWindows(true);
+
+      int statusBarHeight = getStatusBarHeight();
+      mStatusBarBackgroundView = new View(mPageActivity);
+      ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, statusBarHeight);
+      // after setting setFitsSystemWindows(true), top padding of the container view will be set to height of the status bar
+      // here we set negative margin for the status view so it is placed right behind the translucent system status bar.
+      lp.topMargin = -statusBarHeight;
+
+//      ((ViewGroup)mPageActivity.findViewById(android.R.id.content)).addView(mStatusBarBackgroundView, lp);
+      ((ViewGroup)mContainerView.getParent()).addView(mStatusBarBackgroundView, lp);
+    }
+
+    if ((color & 0xff000000) == 0) {
+      color |= 0xff000000;
+    }
+
+    mStatusBarBackgroundView.setBackgroundColor(color);
+  }
+
+  @TargetApi(21)
+  private void setDrawsSystemBarBackgroundsFlag() {
+    if (Build.VERSION.SDK_INT >= 21) {
+      mPageActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+    }
+  }
+
+  private int getStatusBarHeight() {
+    Resources res = mPageActivity.getResources();
+    int resourceId = res.getIdentifier("status_bar_height", "dimen", "android");
+    if (resourceId > 0) {
+      return res.getDimensionPixelSize(resourceId);
+    }
+    return 0;
   }
 
   public void pushPages(Page[] pages) {

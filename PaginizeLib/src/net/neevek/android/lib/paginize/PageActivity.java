@@ -6,7 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
+import android.view.Window;
 import net.neevek.android.lib.paginize.annotation.InjectPageAnimator;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 
@@ -42,8 +42,10 @@ public abstract class PageActivity extends Activity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    requestWindowFeature(Window.FEATURE_NO_TITLE);
+
     super.onCreate(savedInstanceState);
-    mPageManager = new PageManager(this, (ViewGroup) findViewById(android.R.id.content));
+    mPageManager = new PageManager(this);
     setupPageAnimatorIfNeeded();
   }
 
