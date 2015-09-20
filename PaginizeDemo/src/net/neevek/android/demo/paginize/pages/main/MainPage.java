@@ -38,7 +38,9 @@ public class MainPage extends FrameInnerPage {
   public MainPage(PageActivity pageActivity) {
     super(pageActivity);
 
-    setTitle("Home!");
+    getPageManager().setStatusBarBackgroundColor(0xff00796b);
+
+    setTitle("Home");
     mRbNavBtn1.setChecked(true);
     setInnerPage(mTabPage1, null);
   }
@@ -65,6 +67,12 @@ public class MainPage extends FrameInnerPage {
   public void onHidden() {
     super.onHidden();
     Log.d(TAG, "onHidden called");
+  }
+
+  @Override
+  public void onUncover(Object arg) {
+    super.onUncover(arg);
+    getPageManager().setStatusBarBackgroundColor(0xff00796b);
   }
 
   @ListenerMarker

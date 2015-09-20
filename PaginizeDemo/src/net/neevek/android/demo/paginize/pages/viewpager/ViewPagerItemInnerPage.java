@@ -65,7 +65,7 @@ public class ViewPagerItemInnerPage extends InnerPage implements View.OnClickLis
     int count = viewPagerPage.getPageCount();
     int nextPageIndex = viewPagerPage.getCurrentPageIndex() + 1;
     if (nextPageIndex < count) {
-      viewPagerPage.setCurrentPage(nextPageIndex, false);
+      viewPagerPage.setCurrentPage(nextPageIndex, true);
     } else {
       Toast.makeText(getContext(), "reached last page", Toast.LENGTH_SHORT).show();
     }

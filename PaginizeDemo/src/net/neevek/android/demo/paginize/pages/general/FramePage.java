@@ -15,6 +15,8 @@ public abstract class FramePage extends Page {
   @InjectView(value = R.id.tv_title)
   TextView mTvTitle;
 
+  private int mOldStatusColor;
+
   // we tend to use @ListenerDefs and @SetListeners instead of @InjectView if we do not need references of the views
   @ListenerDefs({
       @SetListeners(view = R.id.tv_back, listenerTypes = View.OnClickListener.class, listener = MyOnClickListener.class),
@@ -22,6 +24,9 @@ public abstract class FramePage extends Page {
   })
   public FramePage(PageActivity pageActivity) {
     super(pageActivity);
+
+    mOldStatusColor = getPageManager().getStatusBarBackgroundColor();
+    getPageManager().setStatusBarBackgroundColor(0x689f38);
   }
 
   protected void setTitle(String title) {
@@ -50,5 +55,11 @@ public abstract class FramePage extends Page {
           break;
       }
     }
+  }
+
+  @Override
+  public void onHide() {
+    super.onHide();
+    getPageManager().setStatusBarBackgroundColor(mOldStatusColor);
   }
 }

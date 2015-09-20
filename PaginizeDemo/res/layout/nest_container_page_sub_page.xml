@@ -4,17 +4,17 @@
               android:layout_height="fill_parent"
               android:background="#ffff"
               android:orientation="vertical"
-    >
+        >
 
-  <TextView
-          android:id="@+id/tv_text"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="some text"
-      android:gravity="center"
-      android:textSize="18dp"
-      android:padding="12dp"
-      android:textColor="#f000"
-      />
+    <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="some text"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:padding="12dp"
+            android:textColor="#f333"
+            />
 
 </LinearLayout>

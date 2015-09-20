@@ -4,25 +4,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import net.neevek.android.demo.paginize.R;
+import net.neevek.android.demo.paginize.pages.general.FramePage;
 import net.neevek.android.demo.paginize.pages.main.MainPage;
-import net.neevek.android.lib.paginize.Page;
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.annotation.InjectView;
+import net.neevek.android.lib.paginize.annotation.InsertPageLayout;
 import net.neevek.android.lib.paginize.annotation.ListenerDefs;
-import net.neevek.android.lib.paginize.annotation.PageLayout;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
 
 /**
  * Created by neevek on 3/16/14.
  */
 
-@PageLayout(R.layout.page_list_item)
-public class ListItemPage extends Page implements View.OnClickListener {
+@InsertPageLayout(R.layout.page_list_item)
+public class ListItemPage extends FramePage implements View.OnClickListener {
   private final static String SAVED_ARGUMENT_KEY = "saved_list_item_page_arg";
 
   @InjectView(R.id.tv_text)
   private TextView mTvText;
-
 
   @ListenerDefs({
           @SetListeners(view = R.id.btn_back, listenerTypes = View.OnClickListener.class),

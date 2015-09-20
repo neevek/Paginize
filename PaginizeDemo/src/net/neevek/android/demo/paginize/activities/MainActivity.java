@@ -14,6 +14,12 @@ public class MainActivity extends PageActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+//    getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//    getWindow().setStatusBarColor(0xffff8800);
+
+//    getPageManager().setStatusBarBackgroundColor(0xff773311);
+//    getPageManager().setStatusBarBackgroundColor(0x00ffffff);
+
     // if MainActivity is restored, the internal page stack will be restored
     // automatically, so there is no need to create and show MainPage manually here.
     // Note: this conditional is NOT needed if you are not going to support state recovery for

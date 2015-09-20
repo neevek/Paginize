@@ -19,12 +19,17 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
   @InjectView(value = R.id.tv_title)
   TextView mTvTitle;
 
+  private int mOldStatusColor;
+
   @ListenerDefs({
           @SetListeners(view = R.id.tv_back, listenerTypes = View.OnClickListener.class),
           @SetListeners(view = R.id.tv_next, listenerTypes = View.OnClickListener.class),
   })
   public MyViewPagerPage(PageActivity pageActivity) {
     super(pageActivity);
+
+    mOldStatusColor = getPageManager().getStatusBarBackgroundColor();
+    getPageManager().setStatusBarBackgroundColor(0x1976d2);
 
     mTvTitle.setText("Test ViewPagerPage");
 
@@ -36,6 +41,12 @@ public class MyViewPagerPage extends ViewPagerPage implements View.OnClickListen
     addPage(new ViewPagerItemInnerPage(this).setText("subpage 3"));
     addPage(new ViewPagerItemInnerPage(this).setText("subpage 4"));
     addPage(new ViewPagerItemListInnerPage(this));
+  }
+
+  @Override
+  public void onHide() {
+    super.onHide();
+    getPageManager().setStatusBarBackgroundColor(mOldStatusColor);
   }
 
   @Override
