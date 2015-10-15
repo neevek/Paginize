@@ -1,10 +1,6 @@
 package net.neevek.android.lib.paginize;
 
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-
-import java.lang.reflect.Constructor;
 
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>

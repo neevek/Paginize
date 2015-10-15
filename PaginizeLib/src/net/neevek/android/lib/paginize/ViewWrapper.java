@@ -169,14 +169,14 @@ public abstract class ViewWrapper {
     return mView.getParent() != null;
   }
 
-  protected boolean post(Runnable action) {
+  public boolean post(Runnable action) {
     if (mView != null) {
       return mView.post(action);
     }
     return false;
   }
 
-  protected boolean postDelayed(Runnable action, long delayMillis) {
+  public boolean postDelayed(Runnable action, long delayMillis) {
     if (mView != null) {
       return mView.postDelayed(action, delayMillis);
     }
