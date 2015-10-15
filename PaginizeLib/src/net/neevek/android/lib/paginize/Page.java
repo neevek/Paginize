@@ -1,5 +1,6 @@
 package net.neevek.android.lib.paginize;
 
+import android.view.View;
 import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 /**
@@ -106,12 +107,12 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+  public boolean onPushPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
     return false;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+  public boolean onPopPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
     return false;
   }
 

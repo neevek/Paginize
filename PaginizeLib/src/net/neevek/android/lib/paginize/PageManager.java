@@ -256,8 +256,8 @@ public final class PageManager {
       Log.d(TAG, String.format(">>>> pushPage, pagestack=%d, %s, arg=%s", mPageStack.size(), newPage, arg));
     }
 
-    if (animated && !newPage.onPushPageAnimation(oldPage, newPage, animationDirection) && mPageAnimator != null) {
-      mPageAnimator.onPushPageAnimation(oldPage, newPage, animationDirection);
+    if (animated && !newPage.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection) && mPageAnimator != null) {
+      mPageAnimator.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection);
     }
 
     int animationDuration = newPage.getAnimationDuration();
@@ -479,16 +479,16 @@ public final class PageManager {
       prevPage = mPageStack.getLast();
       prevPage.onUncover(removedPage.getReturnData());
 
-      if (animated && !removedPage.onPopPageAnimation(removedPage, prevPage, animationDirection) && mPageAnimator != null) {
-        mPageAnimator.onPopPageAnimation(removedPage, prevPage, animationDirection);
+      if (animated && !removedPage.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection) && mPageAnimator != null) {
+        mPageAnimator.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection);
       }
 
       prevPage.getView().setVisibility(View.VISIBLE);
     } else {
       prevPage = null;
 
-      if (animated && !removedPage.onPopPageAnimation(removedPage, null, animationDirection) && mPageAnimator != null) {
-        mPageAnimator.onPopPageAnimation(removedPage, null, animationDirection);
+      if (animated && !removedPage.onPopPageAnimation(removedPage.getView(), null, animationDirection) && mPageAnimator != null) {
+        mPageAnimator.onPopPageAnimation(removedPage.getView(), null, animationDirection);
       }
     }
 

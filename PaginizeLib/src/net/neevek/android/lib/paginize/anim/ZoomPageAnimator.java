@@ -1,10 +1,10 @@
 package net.neevek.android.lib.paginize.anim;
 
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
-import net.neevek.android.lib.paginize.Page;
 
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>
@@ -55,15 +55,15 @@ public final class ZoomPageAnimator implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
-    newPage.getView().startAnimation(mInAnimation);
+  public boolean onPushPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
+    newPageView.startAnimation(mInAnimation);
 
     return true;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
-    oldPage.getView().startAnimation(mOutAnimation);
+  public boolean onPopPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
+    oldPageView.startAnimation(mOutAnimation);
 
     return true;
   }

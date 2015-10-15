@@ -1,7 +1,9 @@
 package net.neevek.android.lib.paginize.anim;
 
-import android.view.animation.*;
-import net.neevek.android.lib.paginize.Page;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>
@@ -54,35 +56,35 @@ public final class SquashPageAnimator implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+  public boolean onPushPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_RIGHT) {
-      if (oldPage != null) {
-        oldPage.getView().startAnimation(mShrinkOutFromRightAnimation);
+      if (oldPageView != null) {
+        oldPageView.startAnimation(mShrinkOutFromRightAnimation);
       }
-      newPage.getView().startAnimation(mExpandInFromRightAnimation);
+      newPageView.startAnimation(mExpandInFromRightAnimation);
 
     } else {
-      if (oldPage != null) {
-        oldPage.getView().startAnimation(mShrinkOutFromLeftAnimation);
+      if (oldPageView != null) {
+        oldPageView.startAnimation(mShrinkOutFromLeftAnimation);
       }
-      newPage.getView().startAnimation(mExpanndInFromLeftAnimation);
+      newPageView.startAnimation(mExpanndInFromLeftAnimation);
     }
 
     return true;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+  public boolean onPopPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_LEFT) {
-      oldPage.getView().startAnimation(mShrinkOutFromLeftAnimation);
-      if (newPage != null) {
-        newPage.getView().startAnimation(mExpanndInFromLeftAnimation);
+      oldPageView.startAnimation(mShrinkOutFromLeftAnimation);
+      if (newPageView != null) {
+        newPageView.startAnimation(mExpanndInFromLeftAnimation);
       }
 
     } else {
-      oldPage.getView().startAnimation(mShrinkOutFromRightAnimation);
-      if (newPage != null) {
-        newPage.getView().startAnimation(mExpandInFromRightAnimation);
+      oldPageView.startAnimation(mShrinkOutFromRightAnimation);
+      if (newPageView != null) {
+        newPageView.startAnimation(mExpandInFromRightAnimation);
       }
     }
 

@@ -1,8 +1,8 @@
 package net.neevek.android.lib.paginize.anim;
 
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import net.neevek.android.lib.paginize.Page;
 
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>
@@ -52,33 +52,33 @@ public final class SlidePageAnimator implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+  public boolean onPushPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_RIGHT) {
-      if (oldPage != null) {
-        oldPage.getView().startAnimation(mPullOutFromRightAnimation);
+      if (oldPageView != null) {
+        oldPageView.startAnimation(mPullOutFromRightAnimation);
       }
-      newPage.getView().startAnimation(mPushInFromRightAnimation);
+      newPageView.startAnimation(mPushInFromRightAnimation);
     } else {
-      if (oldPage != null) {
-        oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
+      if (oldPageView != null) {
+        oldPageView.startAnimation(mPullOutFromLeftAnimation);
       }
-      newPage.getView().startAnimation(mPushInFromLeftAnimation);
+      newPageView.startAnimation(mPushInFromLeftAnimation);
     }
 
     return true;
   }
 
   @Override
-  public boolean onPopPageAnimation(Page oldPage, Page newPage, AnimationDirection animationDirection) {
+  public boolean onPopPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_LEFT) {
-      oldPage.getView().startAnimation(mPullOutFromLeftAnimation);
-      if (newPage != null) {
-        newPage.getView().startAnimation(mPushInFromLeftAnimation);
+      oldPageView.startAnimation(mPullOutFromLeftAnimation);
+      if (newPageView != null) {
+        newPageView.startAnimation(mPushInFromLeftAnimation);
       }
     } else {
-      oldPage.getView().startAnimation(mPullOutFromRightAnimation);
-      if (newPage != null) {
-        newPage.getView().startAnimation(mPushInFromRightAnimation);
+      oldPageView.startAnimation(mPullOutFromRightAnimation);
+      if (newPageView != null) {
+        newPageView.startAnimation(mPushInFromRightAnimation);
       }
     }
 
