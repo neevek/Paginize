@@ -59,15 +59,23 @@ public final class FwPageManager {
   private PageAnimator mPageAnimator;
   private boolean mAnimating;
 
+  private FwWindowType mWindowType;
   private FwPageManagerListener mFwPageManagerListener;
 
   public FwPageManager(Context context) {
-    this(context, null);
+    this(context, null, FwWindowType.GLOBAL);
   }
 
-  public FwPageManager(Context context, PageAnimator pageAnimator) {
-    mContext = context.getApplicationContext();
+  public FwPageManager(Context context, PageAnimator pageAnimator, FwWindowType windowType) {
     mPageAnimator = pageAnimator;
+    mWindowType = windowType;
+
+    if (windowType == FwWindowType.APPLICATION) {
+      mContext = context;
+    } else {
+      mContext = context.getApplicationContext();
+    }
+
     mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
 
     initContainerView();
@@ -94,7 +102,7 @@ public final class FwPageManager {
 
     WindowManager.LayoutParams lp = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+            mWindowType == FwWindowType.GLOBAL ? WindowManager.LayoutParams.TYPE_SYSTEM_ALERT : WindowManager.LayoutParams.TYPE_APPLICATION,
             WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                     | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -554,10 +562,12 @@ public final class FwPageManager {
   }
 
   private void onPageStackCleared() {
-    mWindowManager.removeViewImmediate(mContainerView);
+    if (mContainerView.getParent() != null) {
+      mWindowManager.removeView(mContainerView);
 
-    if (mFwPageManagerListener != null) {
-      mFwPageManagerListener.onPageStackCleared();
+      if (mFwPageManagerListener != null) {
+        mFwPageManagerListener.onPageStackCleared();
+      }
     }
   }
 
