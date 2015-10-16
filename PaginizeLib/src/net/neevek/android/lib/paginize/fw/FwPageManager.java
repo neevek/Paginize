@@ -61,6 +61,7 @@ public final class FwPageManager {
 
   private FwWindowType mWindowType;
   private FwPageManagerListener mFwPageManagerListener;
+  private Object mUserData;
 
   public FwPageManager(Context context) {
     this(context, null, FwWindowType.GLOBAL);
@@ -86,7 +87,7 @@ public final class FwPageManager {
       @Override
       public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        if ((keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) && event.getAction() == KeyEvent.ACTION_DOWN) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) && event.getAction() == KeyEvent.ACTION_UP) {
           onBackPressed();
           return true;
         }
@@ -123,6 +124,14 @@ public final class FwPageManager {
 //    });
 //    mViewTransparentMask.setBackgroundColor(0x00ffffff);
 //    mContainerView.addView(mViewTransparentMask);
+  }
+
+  public void setUserData(Object userData) {
+    mUserData = userData;
+  }
+
+  public Object getUserData() {
+    return mUserData;
   }
 
   public void setDebug(boolean debug) {
@@ -511,6 +520,10 @@ public final class FwPageManager {
       }
       prevPage.onUncovered(removedPage.getReturnData());
     }
+
+    if (getPageCount() == 0) {
+      onPageStackCleared();
+    }
   }
 
   public int lastIndexOfPage(Class<? extends FwPage> pageClass) {
@@ -554,10 +567,6 @@ public final class FwPageManager {
         popPage(true);
       }
 
-    }
-
-    if (getPageCount() == 0) {
-      onPageStackCleared();
     }
   }
 
