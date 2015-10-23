@@ -103,7 +103,7 @@ public final class FwPageManager {
 
     WindowManager.LayoutParams lp = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT,
-            mWindowType == FwWindowType.GLOBAL ? WindowManager.LayoutParams.TYPE_SYSTEM_ALERT : WindowManager.LayoutParams.TYPE_APPLICATION,
+            mWindowType == FwWindowType.GLOBAL ? WindowManager.LayoutParams.TYPE_TOAST : WindowManager.LayoutParams.TYPE_APPLICATION,
             WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                     | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
