@@ -106,6 +106,10 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
     return getContext().getPageManager().isPageKeptInStack(this);
   }
 
+  public boolean canSwipeToHide() {
+    return mType != TYPE.TYPE_DIALOG;
+  }
+
   @Override
   public boolean onPushPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
     return false;

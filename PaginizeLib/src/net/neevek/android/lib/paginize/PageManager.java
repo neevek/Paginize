@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.view.*;
-import android.widget.FrameLayout;
+import android.view.animation.Animation;
 import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 import java.lang.reflect.Constructor;
@@ -67,7 +67,8 @@ public final class PageManager {
   // the PageAnimator to animate transitions when swapping pages
   private PageAnimator mPageAnimator;
   private boolean mAnimating;
-
+  private ContainerViewManager mContainerViewManager;
+  private boolean mUseSwipePageTransitionEffect;
 
   public PageManager(PageActivity pageActivity) {
     this(pageActivity, null);
@@ -77,7 +78,8 @@ public final class PageManager {
     mPageActivity = pageActivity;
     mPageAnimator = pageAnimator;
 
-    mContainerView = new FrameLayout(pageActivity);
+    mContainerViewManager = new ContainerViewManager(this);
+    mContainerView = mContainerViewManager.createContainerView(pageActivity);
 
     mViewTransparentMask = new View(pageActivity);
     mViewTransparentMask.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -104,6 +106,29 @@ public final class PageManager {
 
   public PageAnimator getPageAnimator() {
     return mPageAnimator;
+  }
+
+  public int getTransitionAnimationDuration() {
+    if (mUseSwipePageTransitionEffect) {
+      return ContainerViewManager.SWIPE_TRANSITION_ANIMATION_DURATION;
+    }
+    if (mPageAnimator != null) {
+      return mPageAnimator.getAnimationDuration();
+    }
+    return 0;
+  }
+
+  public void enableSwipeToHide() {
+    mContainerViewManager.enableSwipeToHide();
+  }
+
+  /**
+   * calling this method will override whatever PageAnimator specified
+   * with @InjectPageAnimator annotation, and use the swipe page transition effect
+   */
+  public void useSwipePageTransitionEffect() {
+    enableSwipeToHide();
+    mUseSwipePageTransitionEffect = true;
   }
 
   public int getStatusBarBackgroundColor() {
@@ -256,13 +281,17 @@ public final class PageManager {
       Log.d(TAG, String.format(">>>> pushPage, pagestack=%d, %s, arg=%s", mPageStack.size(), newPage, arg));
     }
 
-    if (animated && !newPage.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection) && mPageAnimator != null) {
-      mPageAnimator.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection);
+    if (animated && !newPage.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection)) {
+      if (mUseSwipePageTransitionEffect) {
+        swipeToShow(oldPage != null ? oldPage.getView() : null, newPage.getView());
+      } else if (mPageAnimator != null) {
+        mPageAnimator.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection);
+      }
     }
 
     int animationDuration = newPage.getAnimationDuration();
-    if (animationDuration == -1 && mPageAnimator != null) {
-      animationDuration = mPageAnimator.getAnimationDuration();
+    if (animationDuration == -1) {
+      animationDuration = getTransitionAnimationDuration();
     }
     if (animated && animationDuration != -1) {
       newPage.postDelayed(new Runnable() {
@@ -479,8 +508,14 @@ public final class PageManager {
       prevPage = mPageStack.getLast();
       prevPage.onUncover(removedPage.getReturnData());
 
-      if (animated && !removedPage.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection) && mPageAnimator != null) {
-        mPageAnimator.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection);
+      if (animated) {
+        if (mContainerViewManager.canSwipeToHide() && removedPage.getView().getLeft() > 0) {
+          swipeToHide(removedPage.getView(), prevPage.getView(), false);
+        } else if (mUseSwipePageTransitionEffect) {
+          swipeToHide(removedPage.getView(), prevPage.getView(), true);
+        } else if (!removedPage.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection) && mPageAnimator != null) {
+          mPageAnimator.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection);
+        }
       }
 
       prevPage.getView().setVisibility(View.VISIBLE);
@@ -496,8 +531,8 @@ public final class PageManager {
     mCurPage = prevPage;
 
     int animationDuration = removedPage.getAnimationDuration();
-    if (animationDuration == -1 && mPageAnimator != null) {
-      animationDuration = mPageAnimator.getAnimationDuration();
+    if (animationDuration == -1) {
+      animationDuration = getTransitionAnimationDuration();
     }
     if (animated && animationDuration != -1) {
       removedPage.postDelayed(new Runnable() {
@@ -521,6 +556,29 @@ public final class PageManager {
         prevPage.getView().bringToFront();
       }
       prevPage.onUncovered(removedPage.getReturnData());
+    }
+  }
+
+  private void swipeToShow(final View oldPageView, final View newPageView) {
+    mContainerViewManager.animateShadowViewForShowing();
+
+    if (oldPageView != null) {
+      mContainerViewManager.animateView(oldPageView, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, -0.5f, true, null);
+    }
+    mContainerViewManager.animateView(newPageView, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0, true, null);
+  }
+
+  private void swipeToHide(final View oldPageView, final View newPageView, final boolean cacheAnimationObj) {
+    mContainerViewManager.animateShadowViewForHiding(oldPageView.getLeft());
+
+    mContainerViewManager.animateView(oldPageView, Animation.ABSOLUTE, oldPageView.getLeft(), Animation.RELATIVE_TO_PARENT, 1, cacheAnimationObj, null);
+    if (newPageView != null) {
+      int left = newPageView.getLeft();
+      if (left == 0) {
+        left = -newPageView.getWidth() / 2;
+      }
+
+      mContainerViewManager.animateView(newPageView, Animation.ABSOLUTE, left, Animation.RELATIVE_TO_PARENT, 0, cacheAnimationObj, null);
     }
   }
 
@@ -669,5 +727,9 @@ public final class PageManager {
 
   boolean isPageKeptInStack(Page page) {
     return mPageStack.indexOf(page) != -1;
+  }
+
+  LinkedList<Page> getPageStack() {
+    return mPageStack;
   }
 }
