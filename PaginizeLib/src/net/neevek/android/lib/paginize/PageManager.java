@@ -511,10 +511,12 @@ public final class PageManager {
       if (animated) {
         if (mContainerViewManager.canSwipeToHide() && removedPage.getView().getLeft() > 0) {
           swipeToHide(removedPage.getView(), prevPage.getView(), false);
-        } else if (mUseSwipePageTransitionEffect) {
-          swipeToHide(removedPage.getView(), prevPage.getView(), true);
-        } else if (!removedPage.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection) && mPageAnimator != null) {
-          mPageAnimator.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection);
+        } else if (!removedPage.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection)) {
+          if (mUseSwipePageTransitionEffect) {
+            swipeToHide(removedPage.getView(), prevPage.getView(), true);
+          } else if (mPageAnimator != null) {
+            mPageAnimator.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection);
+          }
         }
       }
 
