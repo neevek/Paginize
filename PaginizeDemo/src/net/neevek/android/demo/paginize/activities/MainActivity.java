@@ -14,8 +14,8 @@ public class MainActivity extends PageActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-//    getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//    getWindow().setStatusBarColor(0xffff8800);
+    getPageManager().enableSwipeToHide();
+    getPageManager().useSwipePageTransitionEffect();
 
 //    getPageManager().setStatusBarBackgroundColor(0xff773311);
 //    getPageManager().setStatusBarBackgroundColor(0x00ffffff);
