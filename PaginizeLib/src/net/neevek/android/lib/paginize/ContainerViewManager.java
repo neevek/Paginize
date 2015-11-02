@@ -39,8 +39,8 @@ import java.util.Map;
  * This is the main view container
  */
 class ContainerViewManager {
-    final static int SWIPE_TRANSITION_ANIMATION_DURATION = 300;
-    private final static int SHADOW_VIEW_WIDTH = 40;    // in DIP
+    final static int SWIPE_TRANSITION_ANIMATION_DURATION = 180;
+    private final static int SHADOW_VIEW_WIDTH = 20;    // in DIP
 
     private PageManager mPageManager;
     private SwipeableContainerView mSwipeableContainerView;
@@ -281,7 +281,7 @@ class ContainerViewManager {
         }
 
         private void setGredientBackground() {
-            GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] { 0x00000000, 0x30000000 });
+            GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] { 0x00000000, 0x20000000 });
             if (Build.VERSION.SDK_INT >= 16) {
                 setBackground(bg);
             } else {
