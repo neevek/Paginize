@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 
@@ -39,8 +40,10 @@ import java.util.Map;
  * This is the main view container
  */
 class ContainerViewManager {
-    final static int SWIPE_TRANSITION_ANIMATION_DURATION = 180;
-    private final static int SHADOW_VIEW_WIDTH = 20;    // in DIP
+    final static int SWIPE_TRANSITION_ANIMATION_DURATION = 700;
+    private final static int SHADOW_VIEW_WIDTH = 20;                // in DIP
+    private final static int SWIPE_TO_HIDE_THRESHOLD = 60;          // in DIP
+    private final static int SWIPE_TO_HIDE_EDGE_SLOPE = 50;         // in DIP
 
     private PageManager mPageManager;
     private SwipeableContainerView mSwipeableContainerView;
@@ -82,6 +85,7 @@ class ContainerViewManager {
         Animation animation = new TranslateAnimation(fromXType, fromXValue, toXType, toXValue
                 , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
         animation.setDuration(mPageManager.getTransitionAnimationDuration());
+        animation.setInterpolator(new DecelerateInterpolator(3.0f));
         animation.setAnimationListener(animationListener);
         return animation;
     }
@@ -150,8 +154,8 @@ class ContainerViewManager {
         public SwipeableContainerView(Context context) {
             super(context);
             mTouchSlope = ViewConfiguration.get(context).getScaledTouchSlop();
-            mEdgeSlope = ViewConfiguration.get(context).getScaledEdgeSlop() * 2.5f;
-            mSwipeToHideThreshold = (int)(100 * getResources().getDisplayMetrics().density);
+            mEdgeSlope = (int)(SWIPE_TO_HIDE_EDGE_SLOPE * getResources().getDisplayMetrics().density);
+            mSwipeToHideThreshold = (int)(SWIPE_TO_HIDE_THRESHOLD * getResources().getDisplayMetrics().density);
         }
 
         public void enableSwipeToHide() {
@@ -239,10 +243,11 @@ class ContainerViewManager {
                 case MotionEvent.ACTION_CANCEL:
                     if (mIsDragging) {
                         mIsDragging = false;
+                        int currentViewLeft = mCurrentView.getLeft();
 
-                        if (x > mSwipeToHideThreshold) {
+                        if (currentViewLeft > mSwipeToHideThreshold) {
                             mPageManager.popPage(true);
-                        } else if (mCurrentView.getLeft() > 0) {
+                        } else if (currentViewLeft > 0) {
                             cancelSwipeToHide();
                         } else {
                             mShadowView.setVisibility(INVISIBLE);
@@ -281,7 +286,7 @@ class ContainerViewManager {
         }
 
         private void setGredientBackground() {
-            GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] { 0x00000000, 0x20000000 });
+            GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] { 0x00000000, 0x15000000 });
             if (Build.VERSION.SDK_INT >= 16) {
                 setBackground(bg);
             } else {
