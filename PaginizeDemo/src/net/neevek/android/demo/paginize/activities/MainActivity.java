@@ -15,6 +15,7 @@ public class MainActivity extends PageActivity {
     super.onCreate(savedInstanceState);
 
     getPageManager().enableSwipeToHide();
+    // this method call overrides the PageAnimator specified with @InjectPageAnimator
     getPageManager().useSwipePageTransitionEffect();
 
 //    getPageManager().setStatusBarBackgroundColor(0xff773311);

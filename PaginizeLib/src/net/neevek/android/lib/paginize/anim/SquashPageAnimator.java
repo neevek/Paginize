@@ -27,7 +27,7 @@ import android.view.animation.ScaleAnimation;
  */
 
 public final class SquashPageAnimator implements PageAnimator {
-  private final static int ANIMATION_DURATION = 400;
+  private final static int ANIMATION_DURATION = 700;
   private Animation mExpandInFromRightAnimation;
   private Animation mShrinkOutFromRightAnimation;
   private Animation mExpanndInFromLeftAnimation;
@@ -38,20 +38,21 @@ public final class SquashPageAnimator implements PageAnimator {
   }
 
   private void initAnimations() {
+    DecelerateInterpolator interpolator = new DecelerateInterpolator(3.0f);
     mExpandInFromRightAnimation = new ScaleAnimation(0, 1, 1, 1, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
-    mExpandInFromRightAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
+    mExpandInFromRightAnimation.setInterpolator(interpolator);
     mExpandInFromRightAnimation.setDuration(ANIMATION_DURATION);
 
     mShrinkOutFromRightAnimation = new ScaleAnimation(1, 0, 1, 1, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
-    mShrinkOutFromRightAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
+    mShrinkOutFromRightAnimation.setInterpolator(interpolator);
     mShrinkOutFromRightAnimation.setDuration(ANIMATION_DURATION);
 
     mExpanndInFromLeftAnimation = new ScaleAnimation(0, 1, 1, 1, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
-    mExpanndInFromLeftAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
+    mExpanndInFromLeftAnimation.setInterpolator(interpolator);
     mExpanndInFromLeftAnimation.setDuration(ANIMATION_DURATION);
 
     mShrinkOutFromLeftAnimation = new ScaleAnimation(1, 0, 1, 1, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
-    mShrinkOutFromLeftAnimation.setInterpolator(new DecelerateInterpolator(2.5f));
+    mShrinkOutFromLeftAnimation.setInterpolator(interpolator);
     mShrinkOutFromLeftAnimation.setDuration(ANIMATION_DURATION);
   }
 

@@ -2,6 +2,7 @@ package net.neevek.android.lib.paginize.anim;
 
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 
 /**
@@ -26,7 +27,7 @@ import android.view.animation.TranslateAnimation;
  */
 
 public final class SlidePageAnimator implements PageAnimator {
-  private final static int ANIMATION_DURATION = 250;
+  private final static int ANIMATION_DURATION = 700;
   private Animation mPushInFromRightAnimation;
   private Animation mPullOutFromRightAnimation;
   private Animation mPushInFromLeftAnimation;
@@ -37,17 +38,22 @@ public final class SlidePageAnimator implements PageAnimator {
   }
 
   private void initAnimations() {
+    DecelerateInterpolator interpolator = new DecelerateInterpolator(3.0f);
     mPushInFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0
         , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPushInFromRightAnimation.setInterpolator(interpolator);
     mPushInFromRightAnimation.setDuration(ANIMATION_DURATION);
     mPullOutFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1
         , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPullOutFromLeftAnimation.setInterpolator(interpolator);
     mPullOutFromLeftAnimation.setDuration(ANIMATION_DURATION);
     mPushInFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0
         , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPushInFromLeftAnimation.setInterpolator(interpolator);
     mPushInFromLeftAnimation.setDuration(ANIMATION_DURATION);
     mPullOutFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1
         , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPullOutFromRightAnimation.setInterpolator(interpolator);
     mPullOutFromRightAnimation.setDuration(ANIMATION_DURATION);
   }
 
