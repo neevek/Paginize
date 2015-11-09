@@ -283,7 +283,7 @@ public final class PageManager {
 
     if (animated && !newPage.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection)) {
       if (mUseSwipePageTransitionEffect) {
-        swipeToShow(oldPage != null ? oldPage.getView() : null, newPage.getView());
+        swipeToShow(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection);
       } else if (mPageAnimator != null) {
         mPageAnimator.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection);
       }
@@ -510,10 +510,10 @@ public final class PageManager {
 
       if (animated) {
         if (mContainerViewManager.canSwipeToHide() && removedPage.getView().getLeft() > 0) {
-          swipeToHide(removedPage.getView(), prevPage.getView(), false);
+          swipeToHide(removedPage.getView(), prevPage.getView(), animationDirection, false);
         } else if (!removedPage.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection)) {
           if (mUseSwipePageTransitionEffect) {
-            swipeToHide(removedPage.getView(), prevPage.getView(), true);
+            swipeToHide(removedPage.getView(), prevPage.getView(), animationDirection, true);
           } else if (mPageAnimator != null) {
             mPageAnimator.onPopPageAnimation(removedPage.getView(), prevPage.getView(), animationDirection);
           }
@@ -561,26 +561,43 @@ public final class PageManager {
     }
   }
 
-  private void swipeToShow(final View oldPageView, final View newPageView) {
-    mContainerViewManager.animateShadowViewForShowing();
+  private void swipeToShow(final View oldPageView, final View newPageView, PageAnimator.AnimationDirection animationDirection) {
+    mContainerViewManager.animateShadowViewForShowing(animationDirection);
 
-    if (oldPageView != null) {
-      mContainerViewManager.animateView(oldPageView, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, -0.5f, true, null);
+    if (animationDirection == PageAnimator.AnimationDirection.FROM_RIGHT) {
+      if (oldPageView != null) {
+        mContainerViewManager.animateView(oldPageView, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, -0.5f, true, null);
+      }
+      mContainerViewManager.animateView(newPageView, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0, true, null);
+
+    } else {
+      if (oldPageView != null) {
+        mContainerViewManager.animateView(oldPageView, Animation.RELATIVE_TO_PARENT, -0.5f, Animation.RELATIVE_TO_PARENT, 0, true, null);
+      }
+      mContainerViewManager.animateView(newPageView, Animation.RELATIVE_TO_PARENT, -1, Animation.RELATIVE_TO_PARENT, 0, true, null);
     }
-    mContainerViewManager.animateView(newPageView, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0, true, null);
   }
 
-  private void swipeToHide(final View oldPageView, final View newPageView, final boolean cacheAnimationObj) {
-    mContainerViewManager.animateShadowViewForHiding(oldPageView.getLeft());
+  private void swipeToHide(final View oldPageView, final View newPageView, PageAnimator.AnimationDirection animationDirection, final boolean cacheAnimationObj) {
+    int oldPageViewLeft = oldPageView.getLeft();
 
-    mContainerViewManager.animateView(oldPageView, Animation.ABSOLUTE, oldPageView.getLeft(), Animation.RELATIVE_TO_PARENT, 1, cacheAnimationObj, null);
-    if (newPageView != null) {
-      int left = newPageView.getLeft();
-      if (left == 0) {
-        left = -newPageView.getWidth() / 2;
+    if (animationDirection == PageAnimator.AnimationDirection.FROM_LEFT) {
+      mContainerViewManager.animateShadowViewForHiding(oldPageViewLeft, animationDirection);
+      mContainerViewManager.animateView(oldPageView, Animation.ABSOLUTE, oldPageViewLeft, Animation.RELATIVE_TO_PARENT, 1, cacheAnimationObj, null);
+      if (newPageView != null) {
+        int newPageViewLeft = newPageView.getLeft();
+        if (newPageViewLeft >= 0) {
+          newPageViewLeft = -mContainerView.getWidth() / 2;
+        }
+
+        mContainerViewManager.animateView(newPageView, Animation.ABSOLUTE, newPageViewLeft, Animation.RELATIVE_TO_PARENT, 0, cacheAnimationObj, null);
       }
 
-      mContainerViewManager.animateView(newPageView, Animation.ABSOLUTE, left, Animation.RELATIVE_TO_PARENT, 0, cacheAnimationObj, null);
+    } else {
+      mContainerViewManager.animateView(oldPageView, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, -1, cacheAnimationObj, null);
+      if (newPageView != null) {
+        mContainerViewManager.animateView(newPageView, Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0, cacheAnimationObj, null);
+      }
     }
   }
 

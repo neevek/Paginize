@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
+import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,11 +55,11 @@ class ContainerViewManager {
         mPageManager = pageManager;
     }
 
-    void animateView(View view, int fromXType, int fromXValue, int toXType, float toXValue, Animation.AnimationListener animationListener) {
+    void animateView(View view, int fromXType, float fromXValue, int toXType, float toXValue, Animation.AnimationListener animationListener) {
         animateView(view, fromXType, fromXValue, toXType, toXValue, false, animationListener);
     }
 
-    void animateView(View view, int fromXType, int fromXValue, int toXType, float toXValue, boolean cacheAnimationObj, Animation.AnimationListener animationListener) {
+    void animateView(View view, int fromXType, float fromXValue, int toXType, float toXValue, boolean cacheAnimationObj, Animation.AnimationListener animationListener) {
         if (view instanceof ShadowView) {
             view.setRight(view.getWidth());
         }
@@ -81,7 +82,7 @@ class ContainerViewManager {
         view.startAnimation(animation);
     }
 
-    private Animation createAnimation(int fromXType, int fromXValue, int toXType, float toXValue, Animation.AnimationListener animationListener) {
+    private Animation createAnimation(int fromXType, float fromXValue, int toXType, float toXValue, Animation.AnimationListener animationListener) {
         Animation animation = new TranslateAnimation(fromXType, fromXValue, toXType, toXValue
                 , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
         animation.setDuration(mPageManager.getTransitionAnimationDuration());
@@ -90,10 +91,11 @@ class ContainerViewManager {
         return animation;
     }
 
-    void animateShadowViewForHiding(int anchorLeft) {
+    void animateShadowViewForHiding(int anchorLeft, PageAnimator.AnimationDirection animationDirection) {
         mSwipeableContainerView.mShadowView.setVisibility(View.VISIBLE);
         mSwipeableContainerView.mShadowView.bringToFront();
-        animateView(mSwipeableContainerView.mShadowView, Animation.ABSOLUTE, anchorLeft - mSwipeableContainerView.mShadowView.getWidth(), Animation.RELATIVE_TO_PARENT, 1f, new Animation.AnimationListener() {
+
+        Animation.AnimationListener animationListener = new Animation.AnimationListener() {
             public void onAnimationStart(Animation animation) {
             }
 
@@ -103,13 +105,20 @@ class ContainerViewManager {
             public void onAnimationEnd(Animation animation) {
                 mSwipeableContainerView.mShadowView.setVisibility(View.INVISIBLE);
             }
-        });
+        };
+
+        if (animationDirection == PageAnimator.AnimationDirection.FROM_LEFT) {
+            animateView(mSwipeableContainerView.mShadowView, Animation.ABSOLUTE, anchorLeft - mSwipeableContainerView.mShadowView.getWidth(), Animation.RELATIVE_TO_PARENT, 1f, animationListener);
+        } else {
+            animateView(mSwipeableContainerView.mShadowView, Animation.RELATIVE_TO_PARENT, 1, Animation.ABSOLUTE, -mSwipeableContainerView.getWidth(), animationListener);
+        }
     }
 
-    void animateShadowViewForShowing() {
+    void animateShadowViewForShowing(PageAnimator.AnimationDirection animationDirection) {
         mSwipeableContainerView.mShadowView.setVisibility(View.VISIBLE);
         mSwipeableContainerView.mShadowView.bringToFront();
-        animateView(mSwipeableContainerView.mShadowView, Animation.ABSOLUTE, mSwipeableContainerView.getWidth() - mSwipeableContainerView.mShadowView.getWidth(), Animation.RELATIVE_TO_SELF, -1, new Animation.AnimationListener() {
+
+        Animation.AnimationListener animationListener = new Animation.AnimationListener() {
             public void onAnimationStart(Animation animation) {
             }
 
@@ -119,7 +128,13 @@ class ContainerViewManager {
             public void onAnimationEnd(Animation animation) {
                 mSwipeableContainerView.mShadowView.setVisibility(View.INVISIBLE);
             }
-        });
+        };
+
+        if (animationDirection == PageAnimator.AnimationDirection.FROM_RIGHT) {
+            animateView(mSwipeableContainerView.mShadowView, Animation.ABSOLUTE, mSwipeableContainerView.getWidth() - mSwipeableContainerView.mShadowView.getWidth(), Animation.RELATIVE_TO_SELF, -1, animationListener);
+        } else {
+            animateView(mSwipeableContainerView.mShadowView, Animation.RELATIVE_TO_SELF, -1, Animation.ABSOLUTE, mSwipeableContainerView.getWidth() - mSwipeableContainerView.mShadowView.getWidth(), animationListener);
+        }
     }
 
     SwipeableContainerView createContainerView(Context context) {
