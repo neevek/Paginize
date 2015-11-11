@@ -44,6 +44,8 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
   // this as passed as the argument for onUncovered
   private Object mReturnData;
 
+  private int mDefaultPageCountToPop = 1;
+
   public static enum TYPE {
     TYPE_NORMAL,
     TYPE_DIALOG,
@@ -123,5 +125,13 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
   @Override
   public int getAnimationDuration() {
     return -1;
+  }
+
+  void setDefaultPageCountToPop(int pageCountToPop) {
+    mDefaultPageCountToPop = pageCountToPop;
+  }
+
+  int getDefaultPageCountToPop() {
+    return mDefaultPageCountToPop;
   }
 }

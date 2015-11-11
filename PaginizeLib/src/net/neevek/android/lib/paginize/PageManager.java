@@ -205,7 +205,9 @@ public final class PageManager {
       pushPageInternal(pages[i], tmpOldPage, null, false, animationDirection);
       tmpOldPage = pages[i];
     }
-    pushPageInternal(pages[pages.length - 1], firstOldPage, arg, animated, animationDirection);
+    Page topPage = pages[pages.length - 1];
+    topPage.setDefaultPageCountToPop(pages.length);
+    pushPageInternal(topPage, firstOldPage, arg, animated, animationDirection);
   }
 
   public void pushPages(Pair<Page, Object>[] pagePacks) {
@@ -232,9 +234,10 @@ public final class PageManager {
       tmpOldPage = pagePack.first;
     }
 
-    Pair<Page, Object> lastPagePack = pagePacks[pagePacks.length - 1];
-    if (lastPagePack.first != null) {
-      pushPageInternal(lastPagePack.first, firstOldPage, lastPagePack.second, animated, animationDirection);
+    Pair<Page, Object> topPagePack = pagePacks[pagePacks.length - 1];
+    if (topPagePack.first != null) {
+      topPagePack.first.setDefaultPageCountToPop(pagePacks.length);
+      pushPageInternal(topPagePack.first, firstOldPage, topPagePack.second, animated, animationDirection);
     }
   }
 
@@ -631,10 +634,10 @@ public final class PageManager {
     // we do not pop the last page, let the activity handle this BACK-press
     if (getPageCount() > 1) {
       if (mCurPage.getType() == Page.TYPE.TYPE_DIALOG) {
-        popPage(false);  // for pages of DIALOG type, do not apply animation.
+        popTopNPages(mCurPage.getDefaultPageCountToPop(), false);  // for pages of DIALOG type, do not apply animation.
 
       } else {
-        popPage(true);
+        popTopNPages(mCurPage.getDefaultPageCountToPop(), true);
       }
 
       return true;

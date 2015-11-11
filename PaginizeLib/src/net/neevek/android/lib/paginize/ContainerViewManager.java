@@ -207,9 +207,13 @@ class ContainerViewManager {
                     if (!mIsDragging && mPageManager.getTopPage().getView().getAnimation() == null && mInitialX <= mEdgeSlope && x - mInitialX > mTouchSlope) {
                         mIsDragging = true;
 
-                        mCurrentView = mPageManager.getTopPage().getView();
-                        mPrevView = mPageManager.getPageStack().get(pageCount - 2).getView();
-                        mPrevView.setVisibility(VISIBLE);
+                        Page topPage = mPageManager.getTopPage();
+                        mCurrentView = topPage.getView();
+                        int index = pageCount - topPage.getDefaultPageCountToPop() - 1;
+                        if (index >= 0) {
+                            mPrevView = mPageManager.getPageStack().get(index).getView();
+                            mPrevView.setVisibility(VISIBLE);
+                        }
 
                         mInitialX = x;
                         mShadowView.bringToFront();
@@ -261,7 +265,7 @@ class ContainerViewManager {
                         int currentViewLeft = mCurrentView.getLeft();
 
                         if (currentViewLeft > mSwipeToHideThreshold) {
-                            mPageManager.popPage(true);
+                            mPageManager.popTopNPages(mPageManager.getTopPage().getDefaultPageCountToPop(), true);
                         } else if (currentViewLeft > 0) {
                             cancelSwipeToHide();
                         } else {
