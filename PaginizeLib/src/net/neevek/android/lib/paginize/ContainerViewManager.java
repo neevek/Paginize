@@ -41,7 +41,7 @@ import java.util.Map;
  * This is the main view container
  */
 class ContainerViewManager {
-    final static int SWIPE_TRANSITION_ANIMATION_DURATION = 700;
+    final static int SWIPE_TRANSITION_ANIMATION_DURATION = 500;
     private final static int SHADOW_VIEW_WIDTH = 20;                // in DIP
     private final static int SWIPE_TO_HIDE_THRESHOLD = 60;          // in DIP
     private final static int SWIPE_TO_HIDE_EDGE_SLOPE = 50;         // in DIP
@@ -86,7 +86,7 @@ class ContainerViewManager {
         Animation animation = new TranslateAnimation(fromXType, fromXValue, toXType, toXValue
                 , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
         animation.setDuration(mPageManager.getTransitionAnimationDuration());
-        animation.setInterpolator(new DecelerateInterpolator(3.0f));
+        animation.setInterpolator(new DecelerateInterpolator(2.0f));
         animation.setAnimationListener(animationListener);
         return animation;
     }
