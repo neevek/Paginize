@@ -60,10 +60,10 @@ class ContainerViewManager {
     }
 
     void animateView(View view, int fromXType, float fromXValue, int toXType, float toXValue, boolean cacheAnimationObj, Animation.AnimationListener animationListener) {
-        if (view instanceof ShadowView) {
-            view.setRight(view.getWidth());
-        }
-        view.setLeft(0);
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
+        lp.leftMargin = 0;
+        lp.rightMargin = 0;
+        view.requestLayout();
 
         Animation animation = null;
         if (cacheAnimationObj) {
@@ -154,15 +154,17 @@ class ContainerViewManager {
 
     private class SwipeableContainerView extends FrameLayout {
         private ShadowView mShadowView;
+        private View mCurrentView;
+        private View mPrevView;
+        private MarginLayoutParams mShadowViewLP;
+        private MarginLayoutParams mCurrentViewLP;
+        private MarginLayoutParams mPrevViewLP;
 
         private int mInitialX;
         private boolean mIsDragging;
         private float mTouchSlope;
         private float mEdgeSlope;
         private int mSwipeToHideThreshold;
-
-        private View mCurrentView;
-        private View mPrevView;
 
         private boolean mSwipeToHide;
 
@@ -178,8 +180,9 @@ class ContainerViewManager {
                 mSwipeToHide = true;
 
                 mShadowView = new ShadowView(getContext());
+                addView(mShadowView, new ViewGroup.MarginLayoutParams((int) (SHADOW_VIEW_WIDTH * getResources().getDisplayMetrics().density), ViewGroup.LayoutParams.MATCH_PARENT));
+
                 mShadowView.setVisibility(INVISIBLE);
-                addView(mShadowView);
             }
         }
 
@@ -213,7 +216,11 @@ class ContainerViewManager {
                         if (index >= 0) {
                             mPrevView = mPageManager.getPageStack().get(index).getView();
                             mPrevView.setVisibility(VISIBLE);
+                            mPrevViewLP = (MarginLayoutParams)mPrevView.getLayoutParams();
                         }
+
+                        mCurrentViewLP = (MarginLayoutParams)mCurrentView.getLayoutParams();
+                        mShadowViewLP = (MarginLayoutParams)mShadowView.getLayoutParams();
 
                         mInitialX = x;
                         mShadowView.bringToFront();
@@ -246,14 +253,17 @@ class ContainerViewManager {
                         }
 
                         if (mPrevView != null) {
-                            mPrevView.setLeft(-(int)(getWidth() * 0.5f - (delta * 0.5f)));
+                            mPrevViewLP.leftMargin = -(int)(getWidth() * 0.5f - (delta * 0.5f));
+                            mPrevViewLP.rightMargin = -(-(int)(getWidth() * 0.5f - (delta * 0.5f)));
                         }
                         if (mCurrentView != null) {
-                            mCurrentView.setLeft(delta);
-
-                            mShadowView.setLeft(delta - mShadowView.getWidth());
-                            mShadowView.setRight(delta);
+                            mCurrentViewLP.leftMargin = delta;
+                            mCurrentViewLP.rightMargin = -delta;
+                            mShadowViewLP.leftMargin = delta - mShadowView.getWidth();
                         }
+
+                        mSwipeableContainerView.requestLayout();
+
                         return true;
                     }
                     break;
@@ -299,8 +309,6 @@ class ContainerViewManager {
     private class ShadowView extends View {
         public ShadowView(Context context) {
             super(context);
-
-            setLayoutParams(new ViewGroup.LayoutParams((int) (SHADOW_VIEW_WIDTH * getResources().getDisplayMetrics().density), ViewGroup.LayoutParams.MATCH_PARENT));
             setGredientBackground();
         }
 
