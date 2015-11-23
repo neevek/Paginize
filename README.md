@@ -1,5 +1,11 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Paginize-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1545)
 
+Demo
+====
+Install the demo APK and get a feel of how it works!
+
+[![PaginizeDemo](https://github.com/neevek/Paginize/raw/master/DemoAPK/PaginizeQRCode.png)](https://github.com/neevek/Paginize/raw/master/DemoAPK/PaginizeDemo.apk)
+
 Paginize
 ========
 Paginize is a light-weight application framework for Android, it provides an intuitive programming model for writing Android applications. Paginize models a screen as a `Page` or part of the screen as an `InnerPage`, which in essence are just view wrappers. Paginize breaks down complex user interfaces into smaller units, provides APIs for easily handling page navigations, and offers flexibility for Page inheritance and **layout inheritance**, which push code reuse in Android to another level.
