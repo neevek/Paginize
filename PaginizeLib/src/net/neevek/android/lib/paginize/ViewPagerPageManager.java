@@ -95,6 +95,10 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
             throw new IllegalArgumentException("index is too large: " + index + ", actual: " + mInnerPageList.size());
         }
 
+        if (mInnerPageList.size() == 0) {
+            return;
+        }
+
         mViewPager.setCurrentItem(index, animated);
         mLastSelectedPage = index;
     }
