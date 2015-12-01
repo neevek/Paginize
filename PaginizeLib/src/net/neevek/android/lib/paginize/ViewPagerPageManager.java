@@ -99,8 +99,19 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
             return;
         }
 
-        mViewPager.setCurrentItem(index, animated);
-        mLastSelectedPage = index;
+        try {
+            mViewPager.setCurrentItem(index, animated);
+            mLastSelectedPage = index;
+        } catch (Exception e) {
+            if (animated) { // ignore animated, which may cause crash
+                try {   // not sure if it would crash
+                    mViewPager.setCurrentItem(index, false);
+                    mLastSelectedPage = index;
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+        }
     }
 
     public int getCurrentPageIndex() {
