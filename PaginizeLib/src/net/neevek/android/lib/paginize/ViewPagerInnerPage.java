@@ -59,6 +59,10 @@ public abstract class ViewPagerInnerPage extends InnerPage implements InnerPageC
     });
   }
 
+  public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+    mViewPagerPageManager.setInnerPageEventNotifier(innerPageEventNotifier);
+  }
+
   public void addPage(InnerPage page) {
     mViewPagerPageManager.addPage(page);
   }

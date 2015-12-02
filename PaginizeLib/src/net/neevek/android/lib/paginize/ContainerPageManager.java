@@ -29,10 +29,15 @@ import android.view.View;
 class ContainerPageManager extends InnerPageContainerManager {
 //    private final String SAVE_INNER_PAGE_MANAGER_KEY = "_paginize_inner_page_manager_" + getClass().getName();
     private ViewWrapper mInnerPageContainer;
+    private InnerPageEventNotifier mInnerPageEventNotifier;
 
     public ContainerPageManager(ViewWrapper innerPageContainer) {
         super(innerPageContainer);
         mInnerPageContainer = innerPageContainer;
+    }
+
+    public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+        mInnerPageEventNotifier = innerPageEventNotifier;
     }
 
     public void setPage(InnerPage newPage, Object data) {
@@ -45,6 +50,10 @@ class ContainerPageManager extends InnerPageContainerManager {
             oldPage.onHide();
             oldPage.onHidden();
             oldPage.getView().setVisibility(View.GONE);
+
+            if (mInnerPageEventNotifier != null) {
+                mInnerPageEventNotifier.onInnerPageHidden(oldPage);
+            }
         }
 
         if (newPage != null) {
@@ -58,6 +67,10 @@ class ContainerPageManager extends InnerPageContainerManager {
             newPageView.setVisibility(View.VISIBLE);
             newPage.onShow(data);
             newPage.onShown(data);
+
+            if (mInnerPageEventNotifier != null) {
+                mInnerPageEventNotifier.onInnerPageShown(newPage);
+            }
         } else {
             getContainerView().setVisibility(View.GONE);
         }

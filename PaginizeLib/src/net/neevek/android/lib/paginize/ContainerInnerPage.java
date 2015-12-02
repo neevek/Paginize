@@ -2,7 +2,6 @@ package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -40,6 +39,10 @@ public abstract class ContainerInnerPage extends InnerPage implements InnerPageC
   public ContainerInnerPage(ViewWrapper innerPageContainer) {
     super(innerPageContainer);
     mContainerPageManager = new ContainerPageManager(this);
+  }
+
+  public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+    mContainerPageManager.setInnerPageEventNotifier(innerPageEventNotifier);
   }
 
   public void setInnerPage(InnerPage newPage, Object data) {

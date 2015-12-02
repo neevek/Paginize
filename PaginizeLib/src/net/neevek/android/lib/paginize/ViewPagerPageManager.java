@@ -45,9 +45,15 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
 
     private ViewPagerPageScrollListener mPageScrollListener;
 
+    private InnerPageEventNotifier mInnerPageEventNotifier;
+
     public ViewPagerPageManager(ViewWrapper innerPageContainer) {
         super(innerPageContainer);
         initViewPager(innerPageContainer.getContext());
+    }
+
+    public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+        mInnerPageEventNotifier = innerPageEventNotifier;
     }
 
     private void initViewPager(Context context) {
@@ -205,6 +211,9 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
             oldPage.onHide();
             if (!markNewPageSelected) {
                 oldPage.onHidden();
+                if (mInnerPageEventNotifier != null) {
+                    mInnerPageEventNotifier.onInnerPageHidden(oldPage);
+                }
             }
 
             mLastSelectedPage = position;
@@ -215,6 +224,9 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
             newPage.onShow(null);
             if (!markNewPageSelected) {
                 newPage.onShown(null);
+                if (mInnerPageEventNotifier != null) {
+                    mInnerPageEventNotifier.onInnerPageShown(newPage);
+                }
             }
 
             if (mPageScrollListener != null) {
@@ -232,11 +244,19 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
                 markNewPageSelected = false;
 
                 if (oldPage != null) {
+                    oldPage.onHide();
                     oldPage.onHidden();
+                    if (mInnerPageEventNotifier != null) {
+                        mInnerPageEventNotifier.onInnerPageHidden(oldPage);
+                    }
                     InnerPage newPage = mInnerPageList.get(mLastSelectedPage);
 
                     if (newPage != null) {
+                        newPage.onShow(null);
                         newPage.onShown(null);
+                        if (mInnerPageEventNotifier != null) {
+                            mInnerPageEventNotifier.onInnerPageShown(newPage);
+                        }
                     }
                 }
             }

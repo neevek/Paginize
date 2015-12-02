@@ -59,6 +59,10 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
     });
   }
 
+  public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+    mViewPagerPageManager.setInnerPageEventNotifier(innerPageEventNotifier);
+  }
+
   public void setAlwaysKeepInnerPagesInViewHierarchy(boolean alwaysKeepInnerPagesInViewHierarchy) {
     mViewPagerPageManager.setAlwaysKeepInnerPagesInViewHierarchy(alwaysKeepInnerPagesInViewHierarchy);
   }

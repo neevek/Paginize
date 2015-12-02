@@ -70,6 +70,8 @@ public final class PageManager {
   private ContainerViewManager mContainerViewManager;
   private boolean mUseSwipePageTransitionEffect;
 
+  private PageEventNotifier mPageEventNotifier;
+
   public PageManager(PageActivity pageActivity) {
     this(pageActivity, null);
   }
@@ -181,6 +183,10 @@ public final class PageManager {
       return res.getDimensionPixelSize(resourceId);
     }
     return 0;
+  }
+
+  public void setPageEventNotifier(PageEventNotifier pageEventNotifier) {
+    mPageEventNotifier = pageEventNotifier;
   }
 
   public void pushPages(Page[] pages) {
@@ -324,6 +330,10 @@ public final class PageManager {
     newPage.onShown(arg);
     newPage.getView().requestFocus();
     mAnimating = false;
+
+    if (mPageEventNotifier != null) {
+      mPageEventNotifier.onPageShown(newPage);
+    }
   }
 
   public void popPage(boolean animated) {
@@ -357,6 +367,10 @@ public final class PageManager {
       page.onHide();
       mContainerView.removeView(page.getView());
       page.onHidden();
+
+      if (mPageEventNotifier != null) {
+        mPageEventNotifier.onPageHidden(page);
+      }
 
       if (mEnableDebug) {
         Log.d(TAG, String.format(">>>> popPage, pagestack=%d, %s", mPageStack.size(), page));
@@ -404,6 +418,10 @@ public final class PageManager {
       page.onHide();
       mContainerView.removeView(page.getView());
       page.onHidden();
+
+      if (mPageEventNotifier != null) {
+        mPageEventNotifier.onPageHidden(page);
+      }
     }
 
     popPageInternal(oldPage, animated, animationDirection);
@@ -494,6 +512,10 @@ public final class PageManager {
       page.onHide();
       mContainerView.removeView(page.getView());
       page.onHidden();
+
+      if (mPageEventNotifier != null) {
+        mPageEventNotifier.onPageHidden(page);
+      }
     }
 
     popPageInternal(oldPage, animated, animationDirection);
@@ -555,6 +577,9 @@ public final class PageManager {
   private void doFinalWorkForPopPageInternal(Page removedPage, Page prevPage) {
     mContainerView.removeView(removedPage.getView());
     removedPage.onHidden();
+    if (mPageEventNotifier != null) {
+      mPageEventNotifier.onPageHidden(removedPage);
+    }
 
     if (prevPage != null) {
       if (prevPage == getTopPage()) {
@@ -669,6 +694,10 @@ public final class PageManager {
       mCurPage.onHide();
       // we do not pop the top page, we simply call onHidden on it
       mCurPage.onHidden();
+
+      if (mPageEventNotifier != null) {
+        mPageEventNotifier.onPageHidden(mCurPage);
+      }
     }
   }
 
