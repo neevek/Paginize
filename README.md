@@ -8,7 +8,7 @@ Install the demo APK and get a feel of how it works!
 
 Paginize
 ========
-Paginize is a light-weight application framework for Android, it provides an intuitive programming model for writing Android applications. Paginize models a screen as a `Page` or part of the screen as an `InnerPage`, which in essence are just view wrappers. Paginize breaks down complex user interfaces into smaller units, provides APIs for easily handling page navigations, and offers flexibility for Page inheritance and **layout inheritance**, which push code reuse in Android to another level.
+Paginize is a light-weight application framework for Android, it provides an intuitive programming model for writing Android applications. Paginize models a screen as a `Page` or part of the screen as an `InnerPage`, which in essence are just view wrappers. Paginize breaks down complex user interfaces into smaller units, provides APIs for easily handling page navigations, and offers flexibility for Page inheritance and **layout inheritance**, which pushes code reuse in Android to another level.
 
 Documentation
 =============
@@ -60,7 +60,7 @@ Documentation
 </RelativeLayout>
 ```
 
-2. Create the FramePage, this page will be inherited by other pages that need a header(title bar) with a BACK button and a title: 
+2. Create FramePage, this page will be inherited by other pages that need a header(title bar) with a BACK button and a title: 
 
 ```java
 @PageLayout(R.layout.page_frame)
@@ -119,7 +119,7 @@ public abstract class FramePage extends Page implements View.OnClickListener {
     />
 `````
 
-4. Create the TestPage:
+4. Create TestPage:
 
 ```java
 // here we inherit the layout from FramePage, i.e. R.layout.page_frame, insert R.layout.page_test
@@ -234,5 +234,5 @@ Under MIT license
 =================
 
 ```
-Copyright (c) 2014 - 2015 neevek <i@neevek.net>
+Copyright (c) 2014 - 2016 neevek <i@neevek.net>
 See the file license.txt for copying permission.
