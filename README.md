@@ -162,7 +162,7 @@ complicated applications, you see the advantages of it when you use it to struct
 
 ####<a name="header2"></a> 2. The lifecycle methods
 
-Page (including Page, InnerPage) subclasses `ViewWrapper`, lifecycle methods are delcared in this class:
+Page (including Page, InnerPage) subclasses `ViewWrapper`, lifecycle methods are declared in this class:
 
 * onShow()
     - The page is ready to be shown, but not yet attached to the view hierarchy
