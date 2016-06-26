@@ -188,6 +188,12 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
             InnerPage innerPage = (InnerPage)o;
             return view == innerPage.getView();
         }
+
+        @Override
+        public int getItemPosition(Object object) {
+            // see http://stackoverflow.com/a/7287121/668963
+            return POSITION_NONE;
+        }
     }
 
     class InnerPageChangeListener implements ViewPager.OnPageChangeListener {
