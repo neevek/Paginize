@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="#66000000"
+              android:gravity="center"
+              android:weightSum="1"
+        >
+
+    <LinearLayout
+            android:id="@+id/layout_question_alert"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/border_white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            >
+
+        <LinearLayout
+                android:id="@+id/layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                >
+
+            <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    tools:text="Information"
+                    android:singleLine="true"
+                    android:textColor="#f000"
+                    android:textSize="18dp"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#999999"/>
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#333333"
+                android:textSize="16dp"
+                android:padding="16dp"
+                tools:text="This is an alert page, which can be customized and used to replace the builtin dialog widget."
+                />
+
+        <View
+                android:id="@+id/view_btn_top_divider"
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#dadada"
+                />
+
+        <LinearLayout
+                android:id="@+id/layout_btns"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:layout_below="@id/tv_content"
+                android:orientation="horizontal"
+                >
+            <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/btn_selector"
+                    android:gravity="center"
+                    android:text="Cancel"
+                    android:textSize="16dp"
+                    android:textColor="#333333"
+                    android:layout_weight="0.5"
+                    />
+
+            <View
+                    android:id="@+id/view_divider"
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="#dadada"
+                    />
+
+            <Button
+                    android:id="@+id/btn_confirm"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/btn_selector"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:text="OK"
+                    android:textColor="#333333"
+                    android:layout_weight="0.5"
+                    />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+

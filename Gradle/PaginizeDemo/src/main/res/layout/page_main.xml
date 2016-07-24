@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <FrameLayout
+      android:id="@+id/layout_container"
+      android:layout_width="fill_parent"
+      android:layout_height="0dip"
+      android:layout_weight="1">
+  </FrameLayout>
+
+  <RadioGroup
+      android:id="@+id/rg_nav"
+      android:layout_width="fill_parent"
+      android:layout_height="48dip"
+      android:orientation="horizontal">
+
+    <RadioButton
+        android:id="@+id/rb_nav_btn1"
+        style="@style/nav_item"
+        android:text="Tab1"/>
+
+    <RadioButton
+        android:id="@+id/rb_nav_btn2"
+        style="@style/nav_item"
+        android:text="Tab2"/>
+
+      <RadioButton
+              android:id="@+id/rb_nav_btn3"
+              style="@style/nav_item"
+              android:text="Tab3"/>
+  </RadioGroup>
+
+</merge>

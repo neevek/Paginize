@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:padding="12dp"
+              tools:background="#ffff"
+        >
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="The following text is passed as argument from previous page:"
+            android:gravity="center"
+            android:padding="12dp"
+            android:textColor="#f000"
+            />
+
+    <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="28dp"
+            android:padding="12dp"
+            android:layout_marginTop="24dp"
+            android:textColor="#f000"
+            />
+
+    <Button
+            android:id="@+id/btn_back"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="BACK"
+            android:gravity="center"
+            android:layout_marginTop="48dp"
+            />
+
+    <Button
+            android:id="@+id/btn_nav_to_main_page"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Navigate back to MainPage"
+            android:gravity="center"
+            />
+
+</LinearLayout>

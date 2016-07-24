@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Paginize</string>
+  <string name="desc_text">This is a test page!\n\nNow you can press the BACK button below, the BACK key of the device, or just <b>swipe from the left edge</b> to navigate back to previous page.\n</string>
+</resources>

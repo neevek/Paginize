@@ -13,3 +13,11 @@ PaginizeDemo/ant.properties
 .idea/
 out
 *.out
+
+
+.gradle
+local.properties
+.idea/workspace.xml
+.idea/libraries
+build/
+captures/

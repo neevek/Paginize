@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="#ffff"
+              android:orientation="vertical"
+              android:padding="12dp"
+        >
+
+    <TextView
+            android:id="@+id/tv_main_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textColor="#f333"
+            android:layout_marginBottom="12dp"
+            tools:text="Paginize is a library that eases development of Android applications, it is simple yet powerful! This is a demo that shows how to easily create *Pages* and use features of the library."
+            />
+
+    <Button
+            android:id="@+id/btn_next_page"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Navigate To Next Page"
+            android:gravity="center"
+            />
+
+    <Button
+            android:id="@+id/btn_list_page"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Navigate To ListPage"
+            android:gravity="center"
+            />
+
+    <Button
+            android:id="@+id/btn_push_multiple_pages"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Push Multiple Pages"
+            android:gravity="center"
+            />
+
+    <Button
+            android:id="@+id/btn_show_alert"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Show An Alert Page"
+            android:gravity="center"
+            />
+    <Button
+            android:id="@+id/btn_show_view_pager_page"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Show ViewPagerPage"
+            android:gravity="center"
+            />
+
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#ff333333"
+            />
+
+</LinearLayout>
