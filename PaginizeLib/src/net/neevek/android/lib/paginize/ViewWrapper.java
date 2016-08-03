@@ -126,8 +126,31 @@ public abstract class ViewWrapper {
     };
 
     try {
-      AnnotationUtils.initAnnotatedFields(getClass(), this, viewFinder, true);
-      AnnotationUtils.handleAnnotatedConstructors(getClass(), this, viewFinder, true);
+      StackTraceElement[] traces = Thread.currentThread().getStackTrace();
+      Class<?> clazz = null;
+      String className;
+      String viewWrapperClassName = ViewWrapper.class.getName();
+      for (StackTraceElement trace : traces) {
+        className = trace.getClassName();
+        if (viewWrapperClassName.equals(className)) {
+            continue;
+        }
+
+        Class<?> cls = Class.forName(className);
+        if (ViewWrapper.class.isAssignableFrom(cls)) {
+            clazz = cls;
+            break;
+        }
+      }
+		
+      if (clazz != null) {
+        AnnotationUtils.initAnnotatedFields(clazz, this, viewFinder, true);
+        AnnotationUtils.handleAnnotatedConstructors(clazz, this, viewFinder, true);
+      } else {
+        //usually it can not be run here
+        AnnotationUtils.initAnnotatedFields(getClass(), this, viewFinder, true);
+        AnnotationUtils.handleAnnotatedConstructors(getClass(), this, viewFinder, true);
+      }
 
     } catch (Exception e) {
       e.printStackTrace();
