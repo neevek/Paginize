@@ -126,9 +126,9 @@ public abstract class ViewWrapper {
     };
 
     try {
-	  StackTraceElement[] traces = Thread.currentThread().getStackTrace();
-	  Class<?> clazz = null;
-	  String className;
+      StackTraceElement[] traces = Thread.currentThread().getStackTrace();
+      Class<?> clazz = null;
+      String className;
       String viewWrapperClassName = ViewWrapper.class.getName();
       for (StackTraceElement trace : traces) {
         className = trace.getClassName();
