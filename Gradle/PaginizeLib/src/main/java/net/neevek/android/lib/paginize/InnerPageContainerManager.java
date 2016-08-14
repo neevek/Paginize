@@ -141,15 +141,15 @@ class InnerPageContainerManager {
     }
   }
 
-  public void onShow(Object arg) {
+  public void onShow() {
     if (mCurrentInnerPage != null) {
-      mCurrentInnerPage.onShow(arg);
+      mCurrentInnerPage.onShow();
     }
   }
 
-  public void onShown(Object arg) {
+  public void onShown() {
     if (mCurrentInnerPage != null) {
-      mCurrentInnerPage.onShown(arg);
+      mCurrentInnerPage.onShown();
     }
   }
 

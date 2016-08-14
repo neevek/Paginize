@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <style name="nav_item" parent="@android:style/Widget.Button">
-    <item name="android:layout_width">0dip</item>
-    <item name="android:layout_height">fill_parent</item>
-    <item name="android:layout_weight">1</item>
-    <item name="android:button">@null</item>
-    <item name="android:textSize">18sp</item>
-    <item name="android:textColor">#ffff</item>
-    <item name="android:background">@drawable/nav_item_bg_selector</item>
+  <style name="TextAppearance.PaginizeDemo.Tab" parent="TextAppearance.AppCompat.Small">
+    <item name="android:textSize">12dp</item>
   </style>
+
+  <style name="Theme.PaginizeDemo" parent="Base.Theme.PaginizeDemo">
+  </style>
+
+  <style name="Base.Theme.PaginizeDemo" parent="Theme.AppCompat.NoActionBar">
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/darkPrimary</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="android:windowBackground">@color/window_background</item>
+  </style>
+
 </resources>

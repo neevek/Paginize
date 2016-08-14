@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Paginize</string>
-  <string name="desc_text">This is a test page!\n\nNow you can press the BACK button below, the BACK key of the device, or just <b>swipe from the left edge</b> to navigate back to previous page.\n</string>
+  <string name="action_settings">Settings</string>
+  <string name="test_menu">设置菜单</string>
+  <string name="mi_label1">Label1</string>
+  <string name="mi_label2">Label2</string>
+  <string name="mi_label3">Label3</string>
+  <string name="mi_label4">Label4</string>
 </resources>

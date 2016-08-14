@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<android.support.design.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/layout_container"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#fff"
+android:fitsSystemWindows="true"
+>
+-->
+<net.neevek.android.demo.paginize.pages.main.MyLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/layout_container"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#fff"
+android:fitsSystemWindows="true"
+>
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:text="hello world"
+    android:textColor="#000"
+    android:gravity="top"
+    />
+</net.neevek.android.demo.paginize.pages.main.MyLayout>
+  <!--
+  </android.support.design.widget.CoordinatorLayout>
+-->

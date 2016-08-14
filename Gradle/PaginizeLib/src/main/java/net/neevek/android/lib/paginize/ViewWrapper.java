@@ -46,14 +46,9 @@ import java.util.List;
  * @see InnerPage
  */
 public abstract class ViewWrapper {
-  /**
-   * This field will be made private in the future to make the API consistent
-   *
-   * @deprecated use {@link #getContext()} instead.
-   */
-  protected PageActivity mContext;
+  private PageActivity mContext;
   private View mView;
-  View mViewCurrentFocus;
+  /* package */ View mViewCurrentFocus;
 
   public ViewWrapper(PageActivity pageActivity) {
     mContext = pageActivity;
@@ -189,7 +184,7 @@ public abstract class ViewWrapper {
    *
    * @see PageManager
    */
-  public void onShow(Object arg) {
+  public void onShow() {
   }
 
   /**
@@ -197,7 +192,7 @@ public abstract class ViewWrapper {
    *
    * @see PageManager
    */
-  public void onShown(Object arg) {
+  public void onShown() {
   }
 
   /**

@@ -1,16 +1,15 @@
 package net.neevek.android.lib.paginize;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
+
 import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 import java.lang.reflect.Constructor;
@@ -133,74 +132,22 @@ public final class PageManager {
     mUseSwipePageTransitionEffect = true;
   }
 
-  public int getStatusBarBackgroundColor() {
-    return mStatusBarBackgroundView != null ? ((ColorDrawable)mStatusBarBackgroundView.getBackground()).getColor() : 0;
-  }
-
-  @TargetApi(19)
-  public void setStatusBarBackgroundColor(int color) {
-    if (Build.VERSION.SDK_INT < 19) {
-      return;
-    }
-
-    if (!mInitializedForTranslucentStatus) {
-      mInitializedForTranslucentStatus = true;
-
-      mPageActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-      setDrawsSystemBarBackgroundsFlag();
-
-      mContainerView.setFitsSystemWindows(true);
-
-      int statusBarHeight = getStatusBarHeight();
-      mStatusBarBackgroundView = new View(mPageActivity);
-      ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, statusBarHeight);
-      // after setting setFitsSystemWindows(true), top padding of the container view will be set to height of the status bar
-      // here we set negative margin for the status view so it is placed right behind the translucent system status bar.
-      lp.topMargin = -statusBarHeight;
-
-//      ((ViewGroup)mPageActivity.findViewById(android.R.id.content)).addView(mStatusBarBackgroundView, lp);
-      ((ViewGroup)mContainerView.getParent()).addView(mStatusBarBackgroundView, lp);
-    }
-
-    if ((color & 0xff000000) == 0) {
-      color |= 0xff000000;
-    }
-
-    mStatusBarBackgroundView.setBackgroundColor(color);
-  }
-
-  @TargetApi(21)
-  private void setDrawsSystemBarBackgroundsFlag() {
-    if (Build.VERSION.SDK_INT >= 21) {
-      mPageActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-    }
-  }
-
-  private int getStatusBarHeight() {
-    Resources res = mPageActivity.getResources();
-    int resourceId = res.getIdentifier("status_bar_height", "dimen", "android");
-    if (resourceId > 0) {
-      return res.getDimensionPixelSize(resourceId);
-    }
-    return 0;
-  }
-
   public void setPageEventNotifier(PageEventNotifier pageEventNotifier) {
     mPageEventNotifier = pageEventNotifier;
   }
 
   public void pushPages(Page[] pages) {
-    pushPages(pages, null, false, PageAnimator.AnimationDirection.FROM_RIGHT);
+    pushPages(pages, false, PageAnimator.AnimationDirection.FROM_RIGHT);
   }
 
-  public void pushPages(Page[] pages, Object arg, boolean animated) {
-    pushPages(pages, arg, animated, PageAnimator.AnimationDirection.FROM_RIGHT);
+  public void pushPages(Page[] pages, boolean animated) {
+    pushPages(pages, animated, PageAnimator.AnimationDirection.FROM_RIGHT);
   }
 
   /**
    * 'arg' will be passed to the last page in the array
    **/
-  public void pushPages(Page[] pages, Object arg, boolean animated, PageAnimator.AnimationDirection animationDirection) {
+  public void pushPages(Page[] pages, boolean animated, PageAnimator.AnimationDirection animationDirection) {
     if (pages == null || pages.length == 0) {
       return;
     }
@@ -208,67 +155,36 @@ public final class PageManager {
     Page firstOldPage = mCurPage;
     Page tmpOldPage = null;
     for (int i = 0; i < pages.length - 1; ++i) {
-      pushPageInternal(pages[i], tmpOldPage, null, false, animationDirection);
+      pushPageInternal(pages[i], tmpOldPage, false, animationDirection);
       tmpOldPage = pages[i];
     }
     Page topPage = pages[pages.length - 1];
     topPage.setDefaultPageCountToPop(pages.length);
-    pushPageInternal(topPage, firstOldPage, arg, animated, animationDirection);
-  }
-
-  public void pushPages(Pair<Page, Object>[] pagePacks) {
-    pushPages(pagePacks, false, PageAnimator.AnimationDirection.FROM_RIGHT);
-  }
-
-  public void pushPages(Pair<Page, Object>[] pagePacks, boolean animated) {
-    pushPages(pagePacks, animated, PageAnimator.AnimationDirection.FROM_RIGHT);
-  }
-
-  public void pushPages(Pair<Page, Object>[] pagePacks, boolean animated, PageAnimator.AnimationDirection animationDirection) {
-    if (pagePacks == null || pagePacks.length == 0) {
-      return;
-    }
-
-    Page firstOldPage = mCurPage;
-    Page tmpOldPage = null;
-    for (int i = 0; i < pagePacks.length - 1; ++i) {
-      Pair<Page, Object> pagePack = pagePacks[i];
-      if (pagePack.first == null) {
-        continue;
-      }
-      pushPageInternal(pagePack.first, tmpOldPage, pagePack.second, false, animationDirection);
-      tmpOldPage = pagePack.first;
-    }
-
-    Pair<Page, Object> topPagePack = pagePacks[pagePacks.length - 1];
-    if (topPagePack.first != null) {
-      topPagePack.first.setDefaultPageCountToPop(pagePacks.length);
-      pushPageInternal(topPagePack.first, firstOldPage, topPagePack.second, animated, animationDirection);
-    }
+    pushPageInternal(topPage, firstOldPage, animated, animationDirection);
   }
 
   public void pushPage(Page page) {
-    pushPage(page, null, false, PageAnimator.AnimationDirection.FROM_RIGHT);
+    pushPage(page, false, PageAnimator.AnimationDirection.FROM_RIGHT);
   }
 
-  public void pushPage(Page newPage, Object arg, boolean animated) {
-    pushPage(newPage, arg, animated, PageAnimator.AnimationDirection.FROM_RIGHT);
+  public void pushPage(Page newPage, boolean animated) {
+    pushPage(newPage, animated, PageAnimator.AnimationDirection.FROM_RIGHT);
   }
 
-  public void pushPage(Page newPage, Object arg, boolean animated, PageAnimator.AnimationDirection animationDirection) {
+  public void pushPage(Page newPage, boolean animated, PageAnimator.AnimationDirection animationDirection) {
     if (newPage == mCurPage) {
       return;
     }
 
-    pushPageInternal(newPage, mCurPage, arg, animated, animationDirection);
+    pushPageInternal(newPage, mCurPage, animated, animationDirection);
   }
 
-  private void pushPageInternal(final Page newPage, final Page oldPage, final Object arg, boolean animated, PageAnimator.AnimationDirection animationDirection) {
+  private void pushPageInternal(final Page newPage, final Page oldPage, boolean animated, PageAnimator.AnimationDirection animationDirection) {
     if (animated) {
       mAnimating = true;
     }
 
-    newPage.onShow(arg);
+    newPage.onShow();
 
     if (oldPage != null) {
       if (animated) {
@@ -287,7 +203,7 @@ public final class PageManager {
     mViewTransparentMask.bringToFront();
 
     if (mEnableDebug) {
-      Log.d(TAG, String.format(">>>> pushPage, pagestack=%d, %s, arg=%s", mPageStack.size(), newPage, arg));
+      Log.d(TAG, String.format(">>>> pushPage, pagestack=%d, %s=%s", mPageStack.size(), newPage));
     }
 
     if (animated && !newPage.onPushPageAnimation(oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection)) {
@@ -306,15 +222,15 @@ public final class PageManager {
       newPage.postDelayed(new Runnable() {
         @Override
         public void run() {
-          doFinalWorkForPushPage(oldPage, newPage, arg);
+          doFinalWorkForPushPage(oldPage, newPage);
         }
       }, animationDuration);
     } else {
-      doFinalWorkForPushPage(oldPage, newPage, arg);
+      doFinalWorkForPushPage(oldPage, newPage);
     }
   }
 
-  private void doFinalWorkForPushPage(Page oldPage, Page newPage, Object arg) {
+  private void doFinalWorkForPushPage(Page oldPage, Page newPage) {
     if (newPage == getTopPage()) {
       newPage.getView().bringToFront();
     }
@@ -327,7 +243,7 @@ public final class PageManager {
       oldPage.onCovered();
     }
 
-    newPage.onShown(arg);
+    newPage.onShown();
     newPage.getView().requestFocus();
     mAnimating = false;
 

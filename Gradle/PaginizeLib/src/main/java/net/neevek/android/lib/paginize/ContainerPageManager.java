@@ -40,7 +40,7 @@ class ContainerPageManager extends InnerPageContainerManager {
         mInnerPageEventNotifier = innerPageEventNotifier;
     }
 
-    public void setPage(InnerPage newPage, Object data) {
+    public void setPage(InnerPage newPage) {
         InnerPage oldPage = getCurrentInnerPage();
         if (newPage == oldPage) {
             return;
@@ -65,8 +65,8 @@ class ContainerPageManager extends InnerPageContainerManager {
 
             newPageView.bringToFront();
             newPageView.setVisibility(View.VISIBLE);
-            newPage.onShow(data);
-            newPage.onShown(data);
+            newPage.onShow();
+            newPage.onShown();
 
             if (mInnerPageEventNotifier != null) {
                 mInnerPageEventNotifier.onInnerPageShown(newPage);
@@ -84,17 +84,17 @@ class ContainerPageManager extends InnerPageContainerManager {
     }
 
     public void unsetPage() {
-        setPage(null, null);
+        setPage(null);
     }
 
-    public void onShow(Object arg) {
+    public void onShow() {
         // Leave it empty!
         // For InnerPages in ContainerPage or ContainerInnerPage, do not mirror the onShow() callback
         // their onShow() callbacks are called when they are set in ContainerPage or ContainerInnerPage
         // see ContainerPageManager.setPage()
     }
 
-    public void onShown(Object arg) {
+    public void onShown() {
         // Leave it empty!
         // For InnerPages in ContainerPage or ContainerInnerPage, do not mirror the onShown() callback
         // their onShown() callbacks are called when they are set in ContainerPage or ContainerInnerPage

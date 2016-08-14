@@ -45,8 +45,8 @@ public abstract class ContainerPage extends Page implements InnerPageContainer {
     mContainerPageManager.setInnerPageEventNotifier(innerPageEventNotifier);
   }
 
-  public void setInnerPage(InnerPage newPage, Object data) {
-    mContainerPageManager.setPage(newPage, data);
+  public void setInnerPage(InnerPage newPage) {
+    mContainerPageManager.setPage(newPage);
   }
 
   public void unsetInnerPage() {
@@ -112,13 +112,13 @@ public abstract class ContainerPage extends Page implements InnerPageContainer {
   }
 
   @Override
-  public void onShow(Object arg) {
-    mContainerPageManager.onShow(arg);
+  public void onShow() {
+    mContainerPageManager.onShow();
   }
 
   @Override
-  public void onShown(Object arg) {
-    mContainerPageManager.onShown(arg);
+  public void onShown() {
+    mContainerPageManager.onShown();
   }
 
   @Override

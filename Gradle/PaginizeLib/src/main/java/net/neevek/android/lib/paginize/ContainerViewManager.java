@@ -1,5 +1,6 @@
 package net.neevek.android.lib.paginize;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
@@ -7,10 +8,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
+
 import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 import java.util.HashMap;
@@ -175,7 +178,19 @@ class ContainerViewManager {
             mSwipeToHideThreshold = (int)(SWIPE_TO_HIDE_THRESHOLD * getResources().getDisplayMetrics().density);
         }
 
-        public void enableSwipeToHide() {
+      @TargetApi(20)
+      public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) {
+        if (insets != null) {
+          final int childCount = getChildCount();
+          for (int i = 0; i < childCount; ++i) {
+            View v = getChildAt(i);
+            getChildAt(i).dispatchApplyWindowInsets(insets);
+          }
+        }
+        return insets;
+      }
+
+      public void enableSwipeToHide() {
             if (!mSwipeToHide) {
                 mSwipeToHide = true;
 

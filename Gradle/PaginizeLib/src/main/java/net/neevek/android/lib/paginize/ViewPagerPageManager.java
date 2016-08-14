@@ -1,7 +1,11 @@
 package net.neevek.android.lib.paginize;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -39,6 +43,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
 
     private List<InnerPage> mInnerPageList = new ArrayList<InnerPage>();
     private PagerAdapter mPagerAdapter;
+  private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private int mLastSelectedPage;
     private boolean mAlwaysKeepInnerPagesInViewHierarchy;
@@ -58,12 +63,13 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
 
     private void initViewPager(Context context) {
         mViewPager = new ViewPager(context);
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mViewPager.setLayoutParams(lp);
+        mViewPager.setLayoutParams(new ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT));
 
         mPagerAdapter = new InnerPagePagerAdapter();
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setOnPageChangeListener(new InnerPageChangeListener());
+        mViewPager.addOnPageChangeListener(new InnerPageChangeListener());
 
         getContainerView().addView(mViewPager);
     }
@@ -72,7 +78,67 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
         mAlwaysKeepInnerPagesInViewHierarchy = alwaysKeepInnerPagesInViewHierarchy;
     }
 
-    public void addPage(InnerPage page) {
+  public void setupTabLayout(TabLayout tabLayout, final boolean smoothScroll) {
+    mTabLayout = tabLayout;
+    mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+      public void onTabSelected(TabLayout.Tab tab) {
+        if (tab != null) {
+          mViewPager.setCurrentItem(tab.getPosition(), smoothScroll);
+        }
+      }
+      public void onTabUnselected(TabLayout.Tab tab) { }
+      public void onTabReselected(TabLayout.Tab tab) { }
+    });
+    mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+  }
+
+  public void addPage(InnerPage page, CharSequence tabText, Drawable tabIcon) {
+    if (mTabLayout == null && (tabText != null || tabIcon != null)) {
+      throw new IllegalStateException("TabLayout not set, call setupTabLayout() first");
+    }
+    if (tabText != null || tabIcon != null) {
+      mTabLayout.addTab(mTabLayout.newTab().setText(tabText).setIcon(tabIcon));
+    }
+    addPage(page);
+  }
+
+  public void addPage(InnerPage page, CharSequence tabText, @DrawableRes int tabIcon) {
+    if (mTabLayout == null && (tabText != null || tabIcon <= 0)) {
+      throw new IllegalStateException("TabLayout not set, call setupTabLayout() first");
+    }
+    if (tabText != null || tabIcon > 0) {
+      TabLayout.Tab tab = mTabLayout.newTab().setText(tabText);
+      if (tabIcon > 0) {
+        tab.setIcon(tabIcon);
+      }
+      mTabLayout.addTab(tab);
+    }
+    addPage(page);
+  }
+
+  public void addPage(InnerPage page, CharSequence tabText) {
+    addPage(page, tabText, null);
+  }
+
+  public void addPage(InnerPage page, View tabView) {
+    checkTabLayout();
+    mTabLayout.addTab(mTabLayout.newTab().setCustomView(tabView));
+    addPage(page);
+  }
+
+  public void addPage(InnerPage page, @LayoutRes int tabView) {
+    checkTabLayout();
+    mTabLayout.addTab(mTabLayout.newTab().setCustomView(tabView));
+    addPage(page);
+  }
+
+  private void checkTabLayout() {
+    if (mTabLayout == null) {
+      throw new IllegalStateException("TabLayout not set, call setupTabLayout() first");
+    }
+  }
+
+  public void addPage(InnerPage page) {
         if (getCurrentInnerPage() == null) {
             setCurrentInnerPage(page);
         }
@@ -86,14 +152,14 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
         }
 
         mInnerPageList.remove(index);
-        if (index == mLastSelectedPage) {
-            if (mLastSelectedPage - 1 >= 0) {
-                mLastSelectedPage -= 1;
-            } else {
-                mLastSelectedPage = 0;
-            }
-        }
-        mPagerAdapter.notifyDataSetChanged();
+      if (mLastSelectedPage - 1 >= 0) {
+        mLastSelectedPage -= 1;
+      } else {
+        mLastSelectedPage = 0;
+      }
+      mPagerAdapter.notifyDataSetChanged();
+      setCurrentPage(mLastSelectedPage, false);
+      mTabLayout.removeTabAt(index);
     }
 
     public void setCurrentPage(int index, boolean animated) {
@@ -227,9 +293,9 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
             InnerPage newPage = mInnerPageList.get(mLastSelectedPage);
             setCurrentInnerPage(newPage);
 
-            newPage.onShow(null);
+            newPage.onShow();
             if (!markNewPageSelected) {
-                newPage.onShown(null);
+                newPage.onShown();
                 if (mInnerPageEventNotifier != null) {
                     mInnerPageEventNotifier.onInnerPageShown(newPage);
                 }
@@ -258,8 +324,8 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
                     InnerPage newPage = mInnerPageList.get(mLastSelectedPage);
 
                     if (newPage != null) {
-                        newPage.onShow(null);
-                        newPage.onShown(null);
+                        newPage.onShow();
+                        newPage.onShown();
                         if (mInnerPageEventNotifier != null) {
                             mInnerPageEventNotifier.onInnerPageShown(newPage);
                         }

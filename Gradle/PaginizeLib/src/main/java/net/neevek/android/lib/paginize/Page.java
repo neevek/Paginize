@@ -1,6 +1,7 @@
 package net.neevek.android.lib.paginize;
 
 import android.view.View;
+
 import net.neevek.android.lib.paginize.anim.PageAnimator;
 
 /**
@@ -41,12 +42,13 @@ import net.neevek.android.lib.paginize.anim.PageAnimator;
 public abstract class Page extends ViewWrapper implements PageAnimator {
   // default page type should be normal here.
   private TYPE mType = TYPE.TYPE_NORMAL;
-  // this as passed as the argument for onUncovered
+  // this is passed as the argument for onUncover/onUncovered
   private Object mReturnData;
+  private Object mArgument;
 
   private int mDefaultPageCountToPop = 1;
 
-  public static enum TYPE {
+  public enum TYPE {
     TYPE_NORMAL,
     TYPE_DIALOG,
   }
@@ -63,12 +65,21 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
     return mType;
   }
 
-  protected Object getReturnData() {
+  protected void setReturnData(Object data) {
+    mReturnData = data;
+  }
+
+  /* package */ Object getReturnData() {
     return mReturnData;
   }
 
-  protected void setReturnData(Object data) {
-    mReturnData = data;
+  public Page setArgument(Object argument) {
+    mArgument = argument;
+    return this;
+  }
+
+  public Object getArgument() {
+    return mArgument;
   }
 
   protected PageManager getPageManager() {
@@ -76,11 +87,11 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
   }
 
   public void show() {
-    show(null, false);
+    show(false);
   }
 
-  public void show(Object arg, boolean animated) {
-    getPageManager().pushPage(this, arg, animated);
+  public void show(boolean animated) {
+    getPageManager().pushPage(this, animated);
   }
 
   protected void hide(boolean animated) {

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="light_gray">#ffeeeeee</color>
-  <color name="dark_gray">#ffaaaaaa</color>
-
-  <color name="tabbar_item_bg_selected">#ff00796b</color>
-  <color name="tabbar_item_bg_normal">#ff009688</color>
+  <color name="primary">#607D8B</color>
+  <color name="darkPrimary">#455A64</color>
+  <color name="colorAccent">#607D8B</color>
+  <color name="lightPrimary">#CFD8DC</color>
+  <color name="primaryText">#212121</color>
+  <color name="secondaryText">#727272</color>
+  <color name="divider">#B6B6B6</color>
+  <color name="window_background">#FFf</color>
 </resources>

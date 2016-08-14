@@ -2,9 +2,14 @@ package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
+import android.support.design.widget.TabLayout;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 
 /**
@@ -67,6 +72,30 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
     mViewPagerPageManager.setAlwaysKeepInnerPagesInViewHierarchy(alwaysKeepInnerPagesInViewHierarchy);
   }
 
+  public void setupTabLayout(TabLayout tabLayout, boolean smoothScroll) {
+    mViewPagerPageManager.setupTabLayout(tabLayout, smoothScroll);
+  }
+
+  public void addPage(InnerPage page, CharSequence tabText, Drawable tabIcon) {
+    mViewPagerPageManager.addPage(page, tabText, tabIcon);
+  }
+
+  public void addPage(InnerPage page, CharSequence tabText, @DrawableRes int tabIcon) {
+    mViewPagerPageManager.addPage(page, tabText, tabIcon);
+  }
+
+  public void addPage(InnerPage page, CharSequence tabText) {
+    mViewPagerPageManager.addPage(page, tabText);
+  }
+
+  public void addPage(InnerPage page, View tabView) {
+    mViewPagerPageManager.addPage(page, tabView);
+  }
+
+  public void addPage(InnerPage page, @LayoutRes int tabView) {
+    mViewPagerPageManager.addPage(page, tabView);
+  }
+
   public void addPage(InnerPage page) {
     mViewPagerPageManager.addPage(page);
   }
@@ -105,13 +134,13 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
   }
 
   @Override
-  public void onShow(Object arg) {
-    mViewPagerPageManager.onShow(arg);
+  public void onShow() {
+    mViewPagerPageManager.onShow();
   }
 
   @Override
-  public void onShown(Object arg) {
-    mViewPagerPageManager.onShown(arg);
+  public void onShown() {
+    mViewPagerPageManager.onShown();
   }
 
   @Override

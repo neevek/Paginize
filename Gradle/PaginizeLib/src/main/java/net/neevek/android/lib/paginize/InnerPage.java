@@ -41,7 +41,7 @@ public abstract class InnerPage extends ViewWrapper {
     mInnerPageContainer = innerPageContainer;
   }
 
-  public void onShown(Object obj) {
+  public void onShown() {
     if (mViewCurrentFocus != null) {
       mViewCurrentFocus.requestFocus();
     }

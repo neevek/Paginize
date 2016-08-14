@@ -1,6 +1,7 @@
 package net.neevek.android.demo.paginize.activities;
 
 import android.os.Bundle;
+
 import net.neevek.android.demo.paginize.pages.main.MainPage;
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.anim.SquashPageAnimator;
@@ -18,15 +19,24 @@ public class MainActivity extends PageActivity {
     // this method call overrides the PageAnimator specified with @InjectPageAnimator
     getPageManager().useSwipePageTransitionEffect();
 
-//    getPageManager().setStatusBarBackgroundColor(0xff773311);
-//    getPageManager().setStatusBarBackgroundColor(0x00ffffff);
 
     // if MainActivity is restored, the internal page stack will be restored
     // automatically, so there is no need to create and show MainPage manually here.
     // Note: this conditional is NOT needed if you are not going to support state recovery for
     //       device rotation or Activity recreation on low memory.
     if (savedInstanceState == null) {
-      new MainPage(this).show(null, false);
+//      new DetailPage2(this).show(false);
+      new MainPage(this).show(false);
+//      new DetailPage(this)
+//          .setArgument("Hello World Text!")
+//          .show(true);
     }
   }
+
+//  @Override
+//  public boolean onCreateOptionsMenu(Menu menu) {
+//    // Inflate the menu; this adds items to the action bar if it is present.
+//    getMenuInflater().inflate(R.menu.menu_main, menu);
+//    return true;
+//  }
 }
