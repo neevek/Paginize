@@ -39,7 +39,8 @@ public interface PageAnimator {
    * @param animationDirection the direction from which the new page is pushed
    * @return true if implemented
    */
-  boolean onPushPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection);
+  boolean onPushPageAnimation(
+      View oldPageView, View newPageView, AnimationDirection animationDirection);
 
   /**
    * called when a Page is popped out from stack
@@ -49,7 +50,8 @@ public interface PageAnimator {
    * @param animationDirection the direction from which the new page is pushed
    * @return true if implemented
    */
-  boolean onPopPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection);
+  boolean onPopPageAnimation(
+      View oldPageView, View newPageView, AnimationDirection animationDirection);
 
   int getAnimationDuration();
 }

@@ -5,6 +5,6 @@ package net.neevek.android.lib.paginize;
  * Date: 12/2/15 4:48 PM
  */
 public interface PageEventNotifier {
-    void onPageShown(Page page);
-    void onPageHidden(Page page);
+  void onPageShown(Page page);
+  void onPageHidden(Page page);
 }

@@ -24,5 +24,5 @@ import android.view.ViewGroup;
  */
 
 interface FwInnerPageContainer {
-    ViewGroup getContainerView();
+  ViewGroup getContainerView();
 }

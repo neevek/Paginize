@@ -22,11 +22,11 @@ package net.neevek.android.lib.paginize;
  */
 
 public interface ViewPagerPageScrollListener {
-    int SCROLL_STATE_IDLE = 0;
-    int SCROLL_STATE_DRAGGING = 1;
-    int SCROLL_STATE_SETTLING = 2;
+  int SCROLL_STATE_IDLE = 0;
+  int SCROLL_STATE_DRAGGING = 1;
+  int SCROLL_STATE_SETTLING = 2;
 
-    void onPageScrolled(int index, float indexOffset, int indexOffsetPixels);
-    void onPageSelected(int position);
-    void onPageScrollStateChanged(int state);
+  void onPageScrolled(int index, float indexOffset, int indexOffsetPixels);
+  void onPageSelected(int position);
+  void onPageScrollStateChanged(int state);
 }

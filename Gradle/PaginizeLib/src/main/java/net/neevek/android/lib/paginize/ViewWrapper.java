@@ -65,28 +65,34 @@ public abstract class ViewWrapper {
         list.add(clazz);
 
         if (mView == null && clazz.isAnnotationPresent(PageLayout.class)) {
-          mView = mContext.getLayoutInflater().inflate(((PageLayout) clazz.getAnnotation(PageLayout.class)).value(), null);
+          mView = mContext.getLayoutInflater().inflate(
+              ((PageLayout) clazz.getAnnotation(PageLayout.class)).value(), null);
         }
       } while ((clazz = clazz.getSuperclass()) != ViewWrapper.class);
 
       if (mView == null) {
-        throw new IllegalArgumentException("Must specify a layout resource with the @PageLayout annotation on " + clazz.getName());
+        throw new IllegalArgumentException("Must specify a layout resource with the " +
+            "@PageLayout annotation on " + clazz.getName());
       }
 
       if (list.size() > 1) {
-        // -2 because a Page with @PageLayout should not have @InsertPageLayout, which will be silently ignored.
+        // -2 because a Page with @PageLayout should not have @InsertPageLayout,
+        // which will be silently ignored.
         for (int i = list.size() - 2; i >= 0; --i) {
           clazz = list.get(i);
           if (clazz.isAnnotationPresent(InsertPageLayout.class)) {
-            InsertPageLayout insertPageLayoutAnno = (InsertPageLayout) clazz.getAnnotation(InsertPageLayout.class);
+            InsertPageLayout insertPageLayoutAnno =
+                (InsertPageLayout) clazz.getAnnotation(InsertPageLayout.class);
             if (insertPageLayoutAnno.parent() != -1) {
               ViewGroup root = (ViewGroup) mView.findViewById(insertPageLayoutAnno.parent());
               if (root == null) {
-                throw new IllegalArgumentException("The parent specified in @InsertPageLayout is not found.");
+                throw new IllegalArgumentException("The parent specified in " +
+                    "@InsertPageLayout is not found.");
               }
               mContext.getLayoutInflater().inflate(insertPageLayoutAnno.value(), root, true);
             } else {
-              mContext.getLayoutInflater().inflate(insertPageLayoutAnno.value(), (ViewGroup) mView, true);
+              mContext.getLayoutInflater().inflate(
+                  insertPageLayoutAnno.value(), (ViewGroup) mView, true);
             }
           }
         }

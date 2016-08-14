@@ -39,26 +39,39 @@ public final class SlidePageAnimator implements PageAnimator {
 
   private void initAnimations() {
     DecelerateInterpolator interpolator = new DecelerateInterpolator(3.0f);
-    mPushInFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0
-        , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPushInFromRightAnimation = new TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, 1,
+        Animation.RELATIVE_TO_SELF, 0,
+        Animation.RELATIVE_TO_SELF, 0,
+        Animation.RELATIVE_TO_SELF, 0);
     mPushInFromRightAnimation.setInterpolator(interpolator);
     mPushInFromRightAnimation.setDuration(ANIMATION_DURATION);
-    mPullOutFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1
-        , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPullOutFromLeftAnimation = new TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, 0,
+        Animation.RELATIVE_TO_SELF, 1,
+        Animation.RELATIVE_TO_SELF, 0,
+        Animation.RELATIVE_TO_SELF, 0);
     mPullOutFromLeftAnimation.setInterpolator(interpolator);
     mPullOutFromLeftAnimation.setDuration(ANIMATION_DURATION);
-    mPushInFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0
-        , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPushInFromLeftAnimation = new TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, -1,
+        Animation.RELATIVE_TO_SELF, 0,
+        Animation.RELATIVE_TO_SELF, 0,
+        Animation.RELATIVE_TO_SELF, 0);
     mPushInFromLeftAnimation.setInterpolator(interpolator);
     mPushInFromLeftAnimation.setDuration(ANIMATION_DURATION);
-    mPullOutFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1
-        , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+    mPullOutFromRightAnimation = new TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, 0,
+        Animation.RELATIVE_TO_SELF, -1,
+        Animation.RELATIVE_TO_SELF, 0,
+        Animation.RELATIVE_TO_SELF, 0);
     mPullOutFromRightAnimation.setInterpolator(interpolator);
     mPullOutFromRightAnimation.setDuration(ANIMATION_DURATION);
   }
 
   @Override
-  public boolean onPushPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
+  public boolean onPushPageAnimation(
+      View oldPageView, View newPageView, AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_RIGHT) {
       if (oldPageView != null) {
         oldPageView.startAnimation(mPullOutFromRightAnimation);
@@ -75,7 +88,8 @@ public final class SlidePageAnimator implements PageAnimator {
   }
 
   @Override
-  public boolean onPopPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
+  public boolean onPopPageAnimation(
+      View oldPageView, View newPageView, AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_LEFT) {
       oldPageView.startAnimation(mPullOutFromLeftAnimation);
       if (newPageView != null) {

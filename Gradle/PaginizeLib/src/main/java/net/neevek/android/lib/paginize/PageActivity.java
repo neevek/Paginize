@@ -56,7 +56,8 @@ public abstract class PageActivity extends Activity {
 
       do {
         if (mPageManager.getPageAnimator() == null) {
-          InjectPageAnimator pamAnnotation = (InjectPageAnimator) clazz.getAnnotation(InjectPageAnimator.class);
+          InjectPageAnimator pamAnnotation =
+              (InjectPageAnimator) clazz.getAnnotation(InjectPageAnimator.class);
           if (pamAnnotation != null) {
             mPageManager.setPageAnimator(pamAnnotation.value().newInstance());
             break;

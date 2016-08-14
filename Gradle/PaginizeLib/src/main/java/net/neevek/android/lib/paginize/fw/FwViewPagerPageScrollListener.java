@@ -22,11 +22,11 @@ package net.neevek.android.lib.paginize.fw;
  */
 
 interface FwViewPagerPageScrollListener {
-    public static final int SCROLL_STATE_IDLE = 0;
-    public static final int SCROLL_STATE_DRAGGING = 1;
-    public static final int SCROLL_STATE_SETTLING = 2;
+  public static final int SCROLL_STATE_IDLE = 0;
+  public static final int SCROLL_STATE_DRAGGING = 1;
+  public static final int SCROLL_STATE_SETTLING = 2;
 
-    void onPageScrolled(int index, float indexOffset, int indexOffsetPixels);
-    void onPageSelected(int position);
-    void onPageScrollStateChanged(int state);
+  void onPageScrolled(int index, float indexOffset, int indexOffsetPixels);
+  void onPageSelected(int position);
+  void onPageScrollStateChanged(int state);
 }

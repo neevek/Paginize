@@ -37,7 +37,8 @@ public final class ZoomPageAnimator implements PageAnimator {
   }
 
   private void initAnimations() {
-    Animation inScaleAnimation = new ScaleAnimation(1.2f, 1, 1.2f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    Animation inScaleAnimation = new ScaleAnimation(
+        1.2f, 1, 1.2f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
     Animation inAlphaAnimation = new AlphaAnimation(0.0f, 1f);
     AnimationSet inAnimationSet = new AnimationSet(true);
     inAnimationSet.setDuration(ANIMATION_DURATION);
@@ -45,7 +46,8 @@ public final class ZoomPageAnimator implements PageAnimator {
     inAnimationSet.addAnimation(inAlphaAnimation);
     mInAnimation = inAnimationSet;
 
-    Animation outScaleAnimation = new ScaleAnimation(1, 1.4f, 1, 1.4f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    Animation outScaleAnimation = new ScaleAnimation(
+        1, 1.4f, 1, 1.4f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
     Animation outAlphaAnimation = new AlphaAnimation(1f, 0f);
     AnimationSet outAnimationSet = new AnimationSet(true);
     outAnimationSet.setDuration(ANIMATION_DURATION);
@@ -55,14 +57,16 @@ public final class ZoomPageAnimator implements PageAnimator {
   }
 
   @Override
-  public boolean onPushPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
+  public boolean onPushPageAnimation(
+      View oldPageView, View newPageView, AnimationDirection animationDirection) {
     newPageView.startAnimation(mInAnimation);
 
     return true;
   }
 
   @Override
-  public boolean onPopPageAnimation(View oldPageView, View newPageView, AnimationDirection animationDirection) {
+  public boolean onPopPageAnimation(
+      View oldPageView, View newPageView, AnimationDirection animationDirection) {
     oldPageView.startAnimation(mOutAnimation);
 
     return true;

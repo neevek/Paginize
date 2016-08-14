@@ -39,44 +39,44 @@ import java.util.List;
  * This class wraps the logics used by ViewPagerPage and ViewPagerInnerPage, both implement InnerPageContainer
  */
 public class ViewPagerPageManager extends InnerPageContainerManager {
-    private final String SAVE_VIEWPAGER_PAGE_MANAGER_KEY = "_paginize_viewpager_page_manager_" + getClass().getName();
+  private final String SAVE_VIEWPAGER_PAGE_MANAGER_KEY = "_paginize_viewpager_page_manager_" + getClass().getName();
 
-    private List<InnerPage> mInnerPageList = new ArrayList<InnerPage>();
-    private PagerAdapter mPagerAdapter;
+  private List<InnerPage> mInnerPageList = new ArrayList<InnerPage>();
+  private PagerAdapter mPagerAdapter;
   private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-    private int mLastSelectedPage;
-    private boolean mAlwaysKeepInnerPagesInViewHierarchy;
+  private ViewPager mViewPager;
+  private int mLastSelectedPage;
+  private boolean mAlwaysKeepInnerPagesInViewHierarchy;
 
-    private ViewPagerPageScrollListener mPageScrollListener;
+  private ViewPagerPageScrollListener mPageScrollListener;
 
-    private InnerPageEventNotifier mInnerPageEventNotifier;
+  private InnerPageEventNotifier mInnerPageEventNotifier;
 
-    public ViewPagerPageManager(ViewWrapper innerPageContainer) {
-        super(innerPageContainer);
-        initViewPager(innerPageContainer.getContext());
-    }
+  public ViewPagerPageManager(ViewWrapper innerPageContainer) {
+    super(innerPageContainer);
+    initViewPager(innerPageContainer.getContext());
+  }
 
-    public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
-        mInnerPageEventNotifier = innerPageEventNotifier;
-    }
+  public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+    mInnerPageEventNotifier = innerPageEventNotifier;
+  }
 
-    private void initViewPager(Context context) {
-        mViewPager = new ViewPager(context);
-        mViewPager.setLayoutParams(new ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT));
+  private void initViewPager(Context context) {
+    mViewPager = new ViewPager(context);
+    mViewPager.setLayoutParams(new ViewGroup.LayoutParams(
+                                 ViewGroup.LayoutParams.MATCH_PARENT,
+                                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        mPagerAdapter = new InnerPagePagerAdapter();
-        mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.addOnPageChangeListener(new InnerPageChangeListener());
+    mPagerAdapter = new InnerPagePagerAdapter();
+    mViewPager.setAdapter(mPagerAdapter);
+    mViewPager.addOnPageChangeListener(new InnerPageChangeListener());
 
-        getContainerView().addView(mViewPager);
-    }
+    getContainerView().addView(mViewPager);
+  }
 
-    public void setAlwaysKeepInnerPagesInViewHierarchy(boolean alwaysKeepInnerPagesInViewHierarchy) {
-        mAlwaysKeepInnerPagesInViewHierarchy = alwaysKeepInnerPagesInViewHierarchy;
-    }
+  public void setAlwaysKeepInnerPagesInViewHierarchy(boolean alwaysKeepInnerPagesInViewHierarchy) {
+    mAlwaysKeepInnerPagesInViewHierarchy = alwaysKeepInnerPagesInViewHierarchy;
+  }
 
   public void setupTabLayout(TabLayout tabLayout, final boolean smoothScroll) {
     mTabLayout = tabLayout;
@@ -139,199 +139,201 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
   }
 
   public void addPage(InnerPage page) {
-        if (getCurrentInnerPage() == null) {
-            setCurrentInnerPage(page);
-        }
-        mInnerPageList.add(page);
-        mPagerAdapter.notifyDataSetChanged();
+    if (getCurrentInnerPage() == null) {
+      setCurrentInnerPage(page);
+    }
+    mInnerPageList.add(page);
+    mPagerAdapter.notifyDataSetChanged();
+  }
+
+  public void removePage(int index) {
+    checkPageIndex(index);
+
+    mInnerPageList.remove(index);
+    if (mLastSelectedPage - 1 >= 0) {
+      mLastSelectedPage -= 1;
+    } else {
+      mLastSelectedPage = 0;
+    }
+    mPagerAdapter.notifyDataSetChanged();
+    setCurrentPage(mLastSelectedPage, false);
+    mTabLayout.removeTabAt(index);
+  }
+
+  public void setCurrentPage(int index, boolean animated) {
+    checkPageIndex(index);
+
+    if (mInnerPageList.size() == 0) {
+      return;
     }
 
-    public void removePage(int index) {
-        if (index > mInnerPageList.size()) {
-            throw new IllegalArgumentException("index is too large: " + index + ", actual: " + mInnerPageList.size());
+    try {
+      mViewPager.setCurrentItem(index, animated);
+      mLastSelectedPage = index;
+    } catch (Exception e) {
+      if (animated) { // ignore animated, which may cause crash
+        try {   // not sure if it would crash
+          mViewPager.setCurrentItem(index, false);
+          mLastSelectedPage = index;
+        } catch (Exception e2) {
+          e2.printStackTrace();
         }
-
-        mInnerPageList.remove(index);
-      if (mLastSelectedPage - 1 >= 0) {
-        mLastSelectedPage -= 1;
-      } else {
-        mLastSelectedPage = 0;
       }
-      mPagerAdapter.notifyDataSetChanged();
-      setCurrentPage(mLastSelectedPage, false);
-      mTabLayout.removeTabAt(index);
+    }
+  }
+
+  public int getCurrentPageIndex() {
+    return mViewPager.getCurrentItem();
+  }
+
+  public InnerPage getPage(int index) {
+    checkPageIndex(index);
+
+    return mInnerPageList.get(index);
+  }
+
+  public int getPageCount() {
+    return mInnerPageList.size();
+  }
+
+  public void setHorizontalFadingEdgeEnabled(boolean enabled) {
+    mViewPager.setHorizontalFadingEdgeEnabled(enabled);
+  }
+
+  public void setFadingEdgeLength(int length) {
+    mViewPager.setFadingEdgeLength(length);
+  }
+
+  public void setPageScrollListener(ViewPagerPageScrollListener pageScrollListener) {
+    mPageScrollListener = pageScrollListener;
+  }
+
+  public void onSaveInstanceState(Bundle outState) {
+    outState.putInt(SAVE_VIEWPAGER_PAGE_MANAGER_KEY, getCurrentPageIndex());
+  }
+
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
+    final int lastShownPageIndex = savedInstanceState.getInt(SAVE_VIEWPAGER_PAGE_MANAGER_KEY);
+    if (lastShownPageIndex < getPageCount()) {
+      setCurrentPage(lastShownPageIndex, false);
+    }
+  }
+
+  private void checkPageIndex(int index) {
+    if (index > mInnerPageList.size()) {
+      throw new IllegalArgumentException("index is too large: " + index +
+          ", actual: " + mInnerPageList.size());
+    }
+  }
+
+  class InnerPagePagerAdapter extends PagerAdapter {
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+      InnerPage innerPage = mInnerPageList.get(position);
+      if (!mAlwaysKeepInnerPagesInViewHierarchy ||
+          container.indexOfChild(innerPage.getView()) == -1) {
+        container.addView(innerPage.getView());
+      }
+
+      return innerPage;
     }
 
-    public void setCurrentPage(int index, boolean animated) {
-        if (index > mInnerPageList.size()) {
-            throw new IllegalArgumentException("index is too large: " + index + ", actual: " + mInnerPageList.size());
-        }
-
-        if (mInnerPageList.size() == 0) {
-            return;
-        }
-
-        try {
-            mViewPager.setCurrentItem(index, animated);
-            mLastSelectedPage = index;
-        } catch (Exception e) {
-            if (animated) { // ignore animated, which may cause crash
-                try {   // not sure if it would crash
-                    mViewPager.setCurrentItem(index, false);
-                    mLastSelectedPage = index;
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-            }
-        }
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+      if (!mAlwaysKeepInnerPagesInViewHierarchy) {
+        InnerPage innerPage = (InnerPage) object;
+        container.removeView(innerPage.getView());
+      }
     }
 
-    public int getCurrentPageIndex() {
-        return mViewPager.getCurrentItem();
+    @Override
+    public int getCount() {
+      return mInnerPageList.size();
     }
 
-    public InnerPage getPage(int index) {
-        if (index > mInnerPageList.size()) {
-            throw new IllegalArgumentException("index is too large: " + index + ", actual: " + mInnerPageList.size());
+    @Override
+    public boolean isViewFromObject(View view, Object o) {
+      InnerPage innerPage = (InnerPage)o;
+      return view == innerPage.getView();
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+      // see http://stackoverflow.com/a/7287121/668963
+      return POSITION_NONE;
+    }
+  }
+
+  class InnerPageChangeListener implements ViewPager.OnPageChangeListener {
+    private boolean markNewPageSelected;
+    private InnerPage oldPage;
+
+    @Override
+    public void onPageScrolled(int index, float indexOffset, int indexOffsetPixels) {
+      if (mPageScrollListener != null) {
+        mPageScrollListener.onPageScrolled(index, indexOffset, indexOffsetPixels);
+      }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+      if (mViewPager.getScrollX() % mViewPager.getWidth() != 0) {
+        markNewPageSelected = true;
+      }
+
+      oldPage = mInnerPageList.get(mLastSelectedPage);
+      oldPage.onHide();
+      if (!markNewPageSelected) {
+        oldPage.onHidden();
+        if (mInnerPageEventNotifier != null) {
+          mInnerPageEventNotifier.onInnerPageHidden(oldPage);
         }
+      }
 
-        return mInnerPageList.get(index);
-    }
+      mLastSelectedPage = position;
 
-    public int getPageCount() {
-        return mInnerPageList.size();
-    }
+      InnerPage newPage = mInnerPageList.get(mLastSelectedPage);
+      setCurrentInnerPage(newPage);
 
-    public void setHorizontalFadingEdgeEnabled(boolean enabled) {
-        mViewPager.setHorizontalFadingEdgeEnabled(enabled);
-    }
-
-    public void setFadingEdgeLength(int length) {
-        mViewPager.setFadingEdgeLength(length);
-    }
-
-    public void setPageScrollListener(ViewPagerPageScrollListener pageScrollListener) {
-        mPageScrollListener = pageScrollListener;
-    }
-
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(SAVE_VIEWPAGER_PAGE_MANAGER_KEY, getCurrentPageIndex());
-    }
-
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        final int lastShownPageIndex = savedInstanceState.getInt(SAVE_VIEWPAGER_PAGE_MANAGER_KEY);
-        if (lastShownPageIndex < getPageCount()) {
-            setCurrentPage(lastShownPageIndex, false);
+      newPage.onShow();
+      if (!markNewPageSelected) {
+        newPage.onShown();
+        if (mInnerPageEventNotifier != null) {
+          mInnerPageEventNotifier.onInnerPageShown(newPage);
         }
+      }
+
+      if (mPageScrollListener != null) {
+        mPageScrollListener.onPageSelected(position);
+      }
     }
 
-    class InnerPagePagerAdapter extends PagerAdapter {
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            InnerPage innerPage = mInnerPageList.get(position);
-            if (!mAlwaysKeepInnerPagesInViewHierarchy || container.indexOfChild(innerPage.getView()) == -1) {
-                container.addView(innerPage.getView());
-            }
+    @Override
+    public void onPageScrollStateChanged(int state) {
+      if (mPageScrollListener != null) {
+        mPageScrollListener.onPageScrollStateChanged(state);
+      }
 
-            return innerPage;
-        }
+      if (markNewPageSelected && state == ViewPager.SCROLL_STATE_IDLE) {
+        markNewPageSelected = false;
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            if (!mAlwaysKeepInnerPagesInViewHierarchy) {
-                InnerPage innerPage = (InnerPage) object;
-                container.removeView(innerPage.getView());
-            }
-        }
+        if (oldPage != null) {
+          oldPage.onHide();
+          oldPage.onHidden();
+          if (mInnerPageEventNotifier != null) {
+            mInnerPageEventNotifier.onInnerPageHidden(oldPage);
+          }
+          InnerPage newPage = mInnerPageList.get(mLastSelectedPage);
 
-        @Override
-        public int getCount() {
-            return mInnerPageList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object o) {
-            InnerPage innerPage = (InnerPage)o;
-            return view == innerPage.getView();
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            // see http://stackoverflow.com/a/7287121/668963
-            return POSITION_NONE;
-        }
-    }
-
-    class InnerPageChangeListener implements ViewPager.OnPageChangeListener {
-        private boolean markNewPageSelected;
-        private InnerPage oldPage;
-
-        @Override
-        public void onPageScrolled(int index, float indexOffset, int indexOffsetPixels) {
-            if (mPageScrollListener != null) {
-                mPageScrollListener.onPageScrolled(index, indexOffset, indexOffsetPixels);
-            }
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            if (mViewPager.getScrollX() % mViewPager.getWidth() != 0) {
-                markNewPageSelected = true;
-            }
-
-            oldPage = mInnerPageList.get(mLastSelectedPage);
-            oldPage.onHide();
-            if (!markNewPageSelected) {
-                oldPage.onHidden();
-                if (mInnerPageEventNotifier != null) {
-                    mInnerPageEventNotifier.onInnerPageHidden(oldPage);
-                }
-            }
-
-            mLastSelectedPage = position;
-
-            InnerPage newPage = mInnerPageList.get(mLastSelectedPage);
-            setCurrentInnerPage(newPage);
-
+          if (newPage != null) {
             newPage.onShow();
-            if (!markNewPageSelected) {
-                newPage.onShown();
-                if (mInnerPageEventNotifier != null) {
-                    mInnerPageEventNotifier.onInnerPageShown(newPage);
-                }
+            newPage.onShown();
+            if (mInnerPageEventNotifier != null) {
+              mInnerPageEventNotifier.onInnerPageShown(newPage);
             }
-
-            if (mPageScrollListener != null) {
-                mPageScrollListener.onPageSelected(position);
-            }
+          }
         }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            if (mPageScrollListener != null) {
-                mPageScrollListener.onPageScrollStateChanged(state);
-            }
-
-            if (markNewPageSelected && state == ViewPager.SCROLL_STATE_IDLE) {
-                markNewPageSelected = false;
-
-                if (oldPage != null) {
-                    oldPage.onHide();
-                    oldPage.onHidden();
-                    if (mInnerPageEventNotifier != null) {
-                        mInnerPageEventNotifier.onInnerPageHidden(oldPage);
-                    }
-                    InnerPage newPage = mInnerPageList.get(mLastSelectedPage);
-
-                    if (newPage != null) {
-                        newPage.onShow();
-                        newPage.onShown();
-                        if (mInnerPageEventNotifier != null) {
-                            mInnerPageEventNotifier.onInnerPageShown(newPage);
-                        }
-                    }
-                }
-            }
-        }
+      }
     }
+  }
 }

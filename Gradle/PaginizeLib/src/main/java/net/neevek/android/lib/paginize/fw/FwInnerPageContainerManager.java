@@ -44,7 +44,8 @@ class FwInnerPageContainerManager {
     try {
       do {
         if (clazz.isAnnotationPresent(InnerPageContainerLayoutResId.class)) {
-          resIdAnnotation = (InnerPageContainerLayoutResId) clazz.getAnnotation(InnerPageContainerLayoutResId.class);
+          resIdAnnotation = (InnerPageContainerLayoutResId)
+              clazz.getAnnotation(InnerPageContainerLayoutResId.class);
           break;
         }
       } while ((clazz = clazz.getSuperclass()) != FwViewWrapper.class);
@@ -55,15 +56,18 @@ class FwInnerPageContainerManager {
     }
 
     if (resIdAnnotation == null) {
-      throw new IllegalStateException("Must specify a layout for InnerPageContainer with the @InnerPageContainerLayoutResId annotation.");
+      throw new IllegalStateException("Must specify a layout for InnerPageContainer with the " +
+          "@InnerPageContainerLayoutResId annotation.");
     }
 
     View container = innerPageContainer.getView().findViewById(resIdAnnotation.value());
     if (container == null) {
-      throw new IllegalStateException("Can not find the layout with the specified resource ID: " + resIdAnnotation.value());
+      throw new IllegalStateException("Can not find the layout with the specified resource ID: " +
+          resIdAnnotation.value());
     }
     if (!(container instanceof ViewGroup)) {
-      throw new IllegalStateException("The specified layout for InnerPageContainer is not of type ViewGroup.");
+      throw new IllegalStateException("The specified layout for InnerPageContainer is not of " +
+          "type ViewGroup.");
     }
 
     mContainerView = (ViewGroup)container;

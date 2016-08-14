@@ -24,5 +24,5 @@ import android.view.ViewGroup;
  */
 
 interface InnerPageContainer {
-    ViewGroup getContainerView();
+  ViewGroup getContainerView();
 }

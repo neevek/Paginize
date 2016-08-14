@@ -34,8 +34,9 @@ import android.view.ViewGroup;
  */
 
 /**
- * ViewPagerInnerPage wraps a ViewPager, manages InnerPages, the main difference between ViewPagerPage
- * and ContainerInnerPage is that this class offers page swiping while ContainerInnerPage does not.
+ * ViewPagerInnerPage wraps a ViewPager, manages InnerPages, the main difference
+ * between ViewPagerPage and ContainerInnerPage is that this class offers page
+ * swiping while ContainerInnerPage does not.
  *
  * @see ViewPagerPageManager
  * @see ViewPagerPage

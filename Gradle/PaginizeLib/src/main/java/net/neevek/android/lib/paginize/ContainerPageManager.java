@@ -28,81 +28,81 @@ import android.view.View;
  */
 class ContainerPageManager extends InnerPageContainerManager {
 //    private final String SAVE_INNER_PAGE_MANAGER_KEY = "_paginize_inner_page_manager_" + getClass().getName();
-    private ViewWrapper mInnerPageContainer;
-    private InnerPageEventNotifier mInnerPageEventNotifier;
+  private ViewWrapper mInnerPageContainer;
+  private InnerPageEventNotifier mInnerPageEventNotifier;
 
-    public ContainerPageManager(ViewWrapper innerPageContainer) {
-        super(innerPageContainer);
-        mInnerPageContainer = innerPageContainer;
+  public ContainerPageManager(ViewWrapper innerPageContainer) {
+    super(innerPageContainer);
+    mInnerPageContainer = innerPageContainer;
+  }
+
+  public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+    mInnerPageEventNotifier = innerPageEventNotifier;
+  }
+
+  public void setPage(InnerPage newPage) {
+    InnerPage oldPage = getCurrentInnerPage();
+    if (newPage == oldPage) {
+      return;
     }
 
-    public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
-        mInnerPageEventNotifier = innerPageEventNotifier;
+    if (oldPage != null) {
+      oldPage.onHide();
+      oldPage.onHidden();
+      oldPage.getView().setVisibility(View.GONE);
+
+      if (mInnerPageEventNotifier != null) {
+        mInnerPageEventNotifier.onInnerPageHidden(oldPage);
+      }
     }
 
-    public void setPage(InnerPage newPage) {
-        InnerPage oldPage = getCurrentInnerPage();
-        if (newPage == oldPage) {
-            return;
-        }
+    if (newPage != null) {
+      View newPageView = newPage.getView();
 
-        if (oldPage != null) {
-            oldPage.onHide();
-            oldPage.onHidden();
-            oldPage.getView().setVisibility(View.GONE);
+      if (getContainerView().indexOfChild(newPageView) == -1) {
+        getContainerView().addView(newPageView);
+      }
 
-            if (mInnerPageEventNotifier != null) {
-                mInnerPageEventNotifier.onInnerPageHidden(oldPage);
-            }
-        }
+      newPageView.bringToFront();
+      newPageView.setVisibility(View.VISIBLE);
+      newPage.onShow();
+      newPage.onShown();
 
-        if (newPage != null) {
-            View newPageView = newPage.getView();
-
-            if (getContainerView().indexOfChild(newPageView) == -1) {
-                getContainerView().addView(newPageView);
-            }
-
-            newPageView.bringToFront();
-            newPageView.setVisibility(View.VISIBLE);
-            newPage.onShow();
-            newPage.onShown();
-
-            if (mInnerPageEventNotifier != null) {
-                mInnerPageEventNotifier.onInnerPageShown(newPage);
-            }
-        } else {
-            getContainerView().setVisibility(View.GONE);
-        }
-
-        setCurrentInnerPage(newPage);
+      if (mInnerPageEventNotifier != null) {
+        mInnerPageEventNotifier.onInnerPageShown(newPage);
+      }
+    } else {
+      getContainerView().setVisibility(View.GONE);
     }
 
-    // this method is rarely needed
-    public void removePage(InnerPage page) {
-        getContainerView().removeView(page.getView());
-    }
+    setCurrentInnerPage(newPage);
+  }
 
-    public void unsetPage() {
-        setPage(null);
-    }
+  // this method is rarely needed
+  public void removePage(InnerPage page) {
+    getContainerView().removeView(page.getView());
+  }
 
-    public void onShow() {
-        // Leave it empty!
-        // For InnerPages in ContainerPage or ContainerInnerPage, do not mirror the onShow() callback
-        // their onShow() callbacks are called when they are set in ContainerPage or ContainerInnerPage
-        // see ContainerPageManager.setPage()
-    }
+  public void unsetPage() {
+    setPage(null);
+  }
 
-    public void onShown() {
-        // Leave it empty!
-        // For InnerPages in ContainerPage or ContainerInnerPage, do not mirror the onShown() callback
-        // their onShown() callbacks are called when they are set in ContainerPage or ContainerInnerPage
-        // see ContainerPageManager.setPage()
-    }
+  public void onShow() {
+    // Leave it empty!
+    // For InnerPages in ContainerPage or ContainerInnerPage, do not mirror the onShow() callback
+    // their onShow() callbacks are called when they are set in ContainerPage or ContainerInnerPage
+    // see ContainerPageManager.setPage()
+  }
 
-    // for ContainerPage or ContainerInnerPage, re-recreating the current inner page may NOT be desired
-    // in most cases, because inner pages are normally created in the subclass.
+  public void onShown() {
+    // Leave it empty!
+    // For InnerPages in ContainerPage or ContainerInnerPage, do not mirror the onShown() callback
+    // their onShown() callbacks are called when they are set in ContainerPage or ContainerInnerPage
+    // see ContainerPageManager.setPage()
+  }
+
+  // for ContainerPage or ContainerInnerPage, re-recreating the current inner page may NOT be desired
+  // in most cases, because inner pages are normally created in the subclass.
 //    public void onSaveInstanceState(Bundle outState) {
 //        InnerPage currentPage = getCurrentInnerPage();
 //        if (currentPage != null && currentPage.shouldSaveInstanceState()) {

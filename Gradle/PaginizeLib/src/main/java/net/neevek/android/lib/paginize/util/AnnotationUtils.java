@@ -49,27 +49,31 @@ public final class AnnotationUtils {
       sSetListenerMethodMap.put(View.OnLayoutChangeListener.class, "addOnLayoutChangeListener");
     }
     if (Build.VERSION.SDK_INT >= 12) {
-      sSetListenerMethodMap.put(View.OnAttachStateChangeListener.class, "addOnAttachStateChangeListener");
+      sSetListenerMethodMap.put(View.OnAttachStateChangeListener.class,
+          "addOnAttachStateChangeListener");
     }
   }
 
-  private static void setListenersForView(View view, Class[] listenerTypes, Object listener) throws InvocationTargetException
-      , IllegalAccessException, NoSuchMethodException, InstantiationException {
+  private static void setListenersForView(View view, Class[] listenerTypes, Object listener) throws
+      InvocationTargetException , IllegalAccessException,
+      NoSuchMethodException, InstantiationException {
 
     for (int j = 0; j < listenerTypes.length; ++j) {
       Class listenerClass = listenerTypes[j];
 
       if (!listenerClass.isAssignableFrom(listener.getClass())) {
-        throw new NotImplementedInterfaceException("When injecting listener for view 0x" + Integer.toHexString(view.getId()) + ", we find that "
-            + listener.getClass().getName() + " does not implement " + listenerClass.getName());
+        throw new NotImplementedInterfaceException("When injecting listener for view 0x" +
+            Integer.toHexString(view.getId()) + ", we find that " +
+            listener.getClass().getName() + " does not implement " + listenerClass.getName());
       }
 
       String methodName = sSetListenerMethodMap.get(listenerClass);
       if (methodName == null) {
         methodName = listenerClass.getSimpleName();
 
-        // for interfaces from android.support.v4.**, Class.getSimpleName() may return names that contain the dollar sign
-        // I have no idea whether this is a bug, the following workaround fixes the problem
+        // for interfaces from android.support.v4.**, Class.getSimpleName()
+        // may return names that contain the dollar sign I have no idea whether this is a bug,
+        // the following workaround fixes the problem
         int index = methodName.lastIndexOf('$');
         if (index != -1) {
           methodName = methodName.substring(index + 1);
@@ -83,14 +87,20 @@ public final class AnnotationUtils {
         Method method = view.getClass().getMethod(methodName, listenerClass);
         method.invoke(view, listener);
       } catch (NoSuchMethodException e) {
-        throw new NoSuchMethodException("No such method: " + listenerClass.getSimpleName() + "." + methodName
-            + ", you have to manually add the set-listener method to sSetListenerMethodMap to support injecting listener for view 0x" + Integer.toHexString(view.getId()));
+        throw new NoSuchMethodException("No such method: " +
+            listenerClass.getSimpleName() + "." + methodName +
+            ", you have to manually add the set-listener method to sSetListenerMethodMap " +
+            "to support injecting listener for view 0x" + Integer.toHexString(view.getId()));
       }
     }
   }
 
-  public static void handleAnnotatedConstructors(Class clazz, Object object, ViewFinder viewFinder, boolean initForLazy) throws InvocationTargetException
-      , IllegalAccessException, NoSuchMethodException, InstantiationException {
+  public static void handleAnnotatedConstructors(Class clazz,
+                                                 Object object,
+                                                 ViewFinder viewFinder,
+                                                 boolean initForLazy) throws
+      InvocationTargetException , IllegalAccessException,
+      NoSuchMethodException, InstantiationException {
 
     Constructor[] constructors = clazz.getConstructors();
     for (int i = 0; i < constructors.length; ++i) {
@@ -115,7 +125,8 @@ public final class AnnotationUtils {
         for (int k = 0; k < setListenerAnnoArray.length; ++k) {
           SetListeners setListenersAnno = (SetListeners) setListenerAnnoArray[k];
 
-          if ((!initForLazy && setListenersAnno.lazy()) || (initForLazy && !setListenersAnno.lazy())) {
+          if ((!initForLazy && setListenersAnno.lazy()) ||
+              (initForLazy && !setListenersAnno.lazy())) {
             continue;
           }
 
@@ -127,25 +138,35 @@ public final class AnnotationUtils {
               continue;
             }
 
-            throw new IllegalArgumentException("The view specified in @SetListeners is not found: 0x" + Integer.toHexString(setListenersAnno.view()) +
-                ", if this field is meant to be injected lazily, remember to specify the 'lazy' attribute.");
+            throw new IllegalArgumentException(
+                "The view specified in @SetListeners is not found: 0x" +
+                    Integer.toHexString(setListenersAnno.view()) +
+                    ", if this field is meant to be injected lazily, " +
+                    "remember to specify the 'lazy' attribute.");
           }
 
-          Object targetListener = getTargetListener(clazz, object, targetListenerCache, setListenersAnno.listener(), "@SetListeners");
+          Object targetListener = getTargetListener(clazz, object, targetListenerCache,
+              setListenersAnno.listener(), "@SetListeners");
 
           if (targetListener == null) {
             targetListener = object;
           }
 
-          AnnotationUtils.setListenersForView(view, setListenersAnno.listenerTypes(), targetListener);
+          AnnotationUtils.setListenersForView(
+              view, setListenersAnno.listenerTypes(), targetListener);
         }
 
       }
     }
   }
 
-  public static void initAnnotatedFields(Class clazz, Object object, ViewFinder viewFinder, boolean initForLazy) throws InvocationTargetException
-      , IllegalAccessException, NoSuchMethodException, InstantiationException {
+  public static void initAnnotatedFields(Class clazz,
+                                         Object object,
+                                         ViewFinder viewFinder,
+                                         boolean initForLazy) throws
+      InvocationTargetException , IllegalAccessException,
+      NoSuchMethodException, InstantiationException {
+
     Field fields[] = clazz.getDeclaredFields();
 
     Map<Class, Object> targetListenerCache = new HashMap<Class, Object>();
@@ -178,8 +199,11 @@ public final class AnnotationUtils {
             continue;
           }
 
-          throw new IllegalArgumentException("View 0x"+ Integer.toHexString(injectViewAnno.value()) +" specified in @InjectView on this field is not found: " + field.getName()
-              + ", if this field is meant to be injected lazily, remember to specify the 'lazy' attribute.");
+          throw new IllegalArgumentException(
+              "View 0x"+ Integer.toHexString(injectViewAnno.value()) +
+                  " specified in @InjectView on this field is not found: " + field.getName() +
+                  ", if this field is meant to be injected lazily, remember to specify " +
+                  "the 'lazy' attribute.");
         }
 
         try {
@@ -189,14 +213,16 @@ public final class AnnotationUtils {
         } catch (IllegalAccessException e) {
           String errMsg = "@InjectView() on '" + field.getName() + "' failed. ";
           if (field.getType() != view.getClass()) {
-            errMsg += (view.getClass().getSimpleName() + " cannot be cast to " + field.getType().getSimpleName());
+            errMsg += (view.getClass().getSimpleName() + " cannot be cast to " +
+                field.getType().getSimpleName());
           }
           throw new IllegalAccessException(errMsg);
 
         } catch (IllegalArgumentException e) {
           String errMsg = "@InjectView() on '" + field.getName() + "' failed. ";
           if (field.getType() != view.getClass()) {
-            errMsg += (view.getClass().getSimpleName() + " cannot be cast to " + field.getType().getSimpleName());
+            errMsg += (view.getClass().getSimpleName() + " cannot be cast to " +
+                field.getType().getSimpleName());
           }
           throw new IllegalArgumentException(errMsg);
         }
@@ -207,7 +233,8 @@ public final class AnnotationUtils {
           continue;
         }
 
-        Object targetListener = getTargetListener(clazz, object, targetListenerCache, injectViewAnno.listener(), "@InjectView");
+        Object targetListener = getTargetListener(clazz, object, targetListenerCache,
+            injectViewAnno.listener(), "@InjectView");
         if (targetListener == null) {
           targetListener = object;
         }
@@ -222,7 +249,7 @@ public final class AnnotationUtils {
                                           Map<Class, Object> targetListenerCache,
                                           Class targetListenerClass,
                                           String tag)
-      throws InstantiationException, IllegalAccessException, InvocationTargetException {
+  throws InstantiationException, IllegalAccessException, InvocationTargetException {
 
     if (targetListenerClass == null || targetListenerClass == void.class) {
       return null;
@@ -246,7 +273,9 @@ public final class AnnotationUtils {
 
         targetListenerCache.put(targetListenerClass, targetListener);
       } catch (NoSuchMethodException e) {
-        throw new IllegalArgumentException("The 'listener' field: '"+ targetListenerClass.getSimpleName() +"' in " + tag + " must contain a default constructor without arguments.");
+        throw new IllegalArgumentException("The 'listener' field: '" +
+            targetListenerClass.getSimpleName() +"' in " + tag +
+            " must contain a default constructor without arguments.");
       }
     }
 
