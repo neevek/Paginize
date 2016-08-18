@@ -31,7 +31,8 @@ import android.view.ViewGroup;
  * @see FwContainerPageManager
  * @see FwContainerPage
  */
-public abstract class FwContainerInnerPage extends FwInnerPage implements FwInnerPageContainer {
+public abstract class FwContainerInnerPage extends FwInnerPage
+    implements FwInnerPageContainer {
   private FwContainerPageManager mContainerPageManager;
 
   public FwContainerInnerPage(FwViewWrapper innerPageContainer) {

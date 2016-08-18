@@ -27,7 +27,7 @@ import android.view.View;
  * This class wraps the logics used by ContainerPage and ContainerInnerPage, both implement InnerPageContainer
  */
 class ContainerPageManager extends InnerPageContainerManager {
-//    private final String SAVE_INNER_PAGE_MANAGER_KEY = "_paginize_inner_page_manager_" + getClass().getName();
+  //    private final String SAVE_INNER_PAGE_MANAGER_KEY = "_paginize_inner_page_manager_" + getClass().getName();
   private ViewWrapper mInnerPageContainer;
   private InnerPageEventNotifier mInnerPageEventNotifier;
 
@@ -36,7 +36,8 @@ class ContainerPageManager extends InnerPageContainerManager {
     mInnerPageContainer = innerPageContainer;
   }
 
-  public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+  public void setInnerPageEventNotifier(
+      InnerPageEventNotifier innerPageEventNotifier) {
     mInnerPageEventNotifier = innerPageEventNotifier;
   }
 

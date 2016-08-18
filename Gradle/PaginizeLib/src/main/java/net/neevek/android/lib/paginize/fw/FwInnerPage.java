@@ -31,7 +31,7 @@ package net.neevek.android.lib.paginize.fw;
  * InnerPage is managed by InnerPageManager, we call InnerPageManager.setPage()
  * method to set an InnerPage as the current page.
  *
- * @see ContainerPage
+ * @see FwContainerPage
  */
 public abstract class FwInnerPage extends FwViewWrapper {
   private FwViewWrapper mInnerPageContainer;

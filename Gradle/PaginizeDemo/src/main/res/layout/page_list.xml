@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.neevek.android.demo.paginize.widget.CustomScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="#ffffffff"
+  android:fitsSystemWindows="true"
+  android:clipToPadding="false"
+  >
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    >
+    <TextView
+      android:id="@+id/tv_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="some text"
+      android:textColor="@color/primary_text"
+      android:textSize="16dp"
+      />
+
+    <android.support.v4.widget.Space
+      android:id="@+id/space_center"
+      android:layout_width="20dp"
+      android:layout_height="0dp"
+      android:layout_centerHorizontal="true"
+      />
+
+    <Button
+      android:id="@+id/btn_open_test_page"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Open Test Page"
+      android:layout_below="@id/tv_text"
+      android:layout_toLeftOf="@id/space_center"
+      android:layout_marginTop="20dp"
+      />
+
+    <Button
+      android:id="@+id/btn_open_tab_page"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Open Tab Page"
+      android:layout_alignTop="@id/btn_open_test_page"
+      android:layout_toRightOf="@id/space_center"
+      />
+  </RelativeLayout>
+</net.neevek.android.demo.paginize.widget.CustomScrollView>

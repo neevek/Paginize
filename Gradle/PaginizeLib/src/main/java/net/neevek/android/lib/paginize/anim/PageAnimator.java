@@ -34,24 +34,31 @@ public interface PageAnimator {
   /**
    * called when a new Page is pushed onto the stack
    *
-   * @param oldPageView the page on top of the stack before the newPage is pushed, may be null
+   * @param oldPageView the page on top of the stack before the newPage is
+   *                    pushed, may be null
    * @param newPageView the new page to be pushed onto the stack
    * @param animationDirection the direction from which the new page is pushed
    * @return true if implemented
    */
   boolean onPushPageAnimation(
-      View oldPageView, View newPageView, AnimationDirection animationDirection);
+      View oldPageView,
+      View newPageView,
+      AnimationDirection animationDirection);
 
   /**
    * called when a Page is popped out from stack
    *
-   * @param oldPageView the page on top of the stack before the oldPage is popped
-   * @param newPageView the page on top of the stack after oldPage is popped, may be null
+   * @param oldPageView the page on top of the stack before the oldPage is
+   *                    popped
+   * @param newPageView the page on top of the stack after oldPage is popped,
+   *                    may be null
    * @param animationDirection the direction from which the new page is pushed
    * @return true if implemented
    */
   boolean onPopPageAnimation(
-      View oldPageView, View newPageView, AnimationDirection animationDirection);
+      View oldPageView,
+      View newPageView,
+      AnimationDirection animationDirection);
 
   int getAnimationDuration();
 }

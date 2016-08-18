@@ -47,30 +47,36 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
   public ViewPagerPage(PageActivity pageActivity) {
     super(pageActivity);
     mViewPagerPageManager = new ViewPagerPageManager(this);
-    mViewPagerPageManager.setPageScrollListener(new ViewPagerPageScrollListener() {
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        ViewPagerPage.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
-      }
+    mViewPagerPageManager.setPageScrollListener(
+        new ViewPagerPageScrollListener() {
+          @Override
+          public void onPageScrolled(int position, float positionOffset,
+                                     int positionOffsetPixels) {
+            ViewPagerPage.this.onPageScrolled(position, positionOffset,
+                positionOffsetPixels);
+          }
 
-      @Override
-      public void onPageSelected(int position) {
-        ViewPagerPage.this.onPageSelected(position);
-      }
+          @Override
+          public void onPageSelected(int position) {
+            ViewPagerPage.this.onPageSelected(position);
+          }
 
-      @Override
-      public void onPageScrollStateChanged(int state) {
-        ViewPagerPage.this.onPageScrollStateChanged(state);
-      }
-    });
+          @Override
+          public void onPageScrollStateChanged(int state) {
+            ViewPagerPage.this.onPageScrollStateChanged(state);
+          }
+        });
   }
 
-  public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+  public void setInnerPageEventNotifier(
+      InnerPageEventNotifier innerPageEventNotifier) {
     mViewPagerPageManager.setInnerPageEventNotifier(innerPageEventNotifier);
   }
 
-  public void setAlwaysKeepInnerPagesInViewHierarchy(boolean alwaysKeepInnerPagesInViewHierarchy) {
-    mViewPagerPageManager.setAlwaysKeepInnerPagesInViewHierarchy(alwaysKeepInnerPagesInViewHierarchy);
+  public void setAlwaysKeepInnerPagesInViewHierarchy(
+      boolean alwaysKeepInnerPagesInViewHierarchy) {
+    mViewPagerPageManager.setAlwaysKeepInnerPagesInViewHierarchy(
+        alwaysKeepInnerPagesInViewHierarchy);
   }
 
   public void setupTabLayout(TabLayout tabLayout, boolean smoothScroll) {
@@ -81,7 +87,8 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
     mViewPagerPageManager.addPage(page, tabText, tabIcon);
   }
 
-  public void addPage(InnerPage page, CharSequence tabText, @DrawableRes int tabIcon) {
+  public void addPage(InnerPage page, CharSequence tabText,
+                      @DrawableRes int tabIcon) {
     mViewPagerPageManager.addPage(page, tabText, tabIcon);
   }
 
@@ -125,7 +132,8 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
     mViewPagerPageManager.setFadingEdgeLength(length);
   }
 
-  protected void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {  }
+  protected void onPageScrolled(int position, float positionOffset,
+                                int positionOffsetPixels) {  }
   protected void onPageSelected(int position) { }
   protected void onPageScrollStateChanged(int state) { }
 

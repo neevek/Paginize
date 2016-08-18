@@ -30,7 +30,8 @@ import java.lang.annotation.Target;
  */
 
 /**
- * Specifies the PageAnimator for all page transitions in the current PageActivity
+ * Specifies the PageAnimator for all page transitions
+ * in the current PageActivity
  *
  * @see net.neevek.android.lib.paginize.ViewWrapper
  * @see net.neevek.android.lib.paginize.util.AnnotationUtils

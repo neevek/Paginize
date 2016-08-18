@@ -41,31 +41,36 @@ import android.view.ViewGroup;
  * @see ViewPagerPageManager
  * @see ViewPagerPage
  */
-public abstract class ViewPagerInnerPage extends InnerPage implements InnerPageContainer {
+public abstract class ViewPagerInnerPage extends InnerPage
+    implements InnerPageContainer {
   private ViewPagerPageManager mViewPagerPageManager;
 
   public ViewPagerInnerPage(ViewWrapper innerPageContainer) {
     super(innerPageContainer);
     mViewPagerPageManager = new ViewPagerPageManager(this);
-    mViewPagerPageManager.setPageScrollListener(new ViewPagerPageScrollListener() {
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        ViewPagerInnerPage.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
-      }
+    mViewPagerPageManager.setPageScrollListener(
+        new ViewPagerPageScrollListener() {
+          @Override
+          public void onPageScrolled(
+              int position, float positionOffset, int positionOffsetPixels) {
+            ViewPagerInnerPage.this.onPageScrolled(position, positionOffset,
+                positionOffsetPixels);
+          }
 
-      @Override
-      public void onPageSelected(int position) {
-        ViewPagerInnerPage.this.onPageSelected(position);
-      }
+          @Override
+          public void onPageSelected(int position) {
+            ViewPagerInnerPage.this.onPageSelected(position);
+          }
 
-      @Override
-      public void onPageScrollStateChanged(int state) {
-        ViewPagerInnerPage.this.onPageScrollStateChanged(state);
-      }
-    });
+          @Override
+          public void onPageScrollStateChanged(int state) {
+            ViewPagerInnerPage.this.onPageScrollStateChanged(state);
+          }
+        });
   }
 
-  public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+  public void setInnerPageEventNotifier(
+      InnerPageEventNotifier innerPageEventNotifier) {
     mViewPagerPageManager.setInnerPageEventNotifier(innerPageEventNotifier);
   }
 
@@ -77,7 +82,8 @@ public abstract class ViewPagerInnerPage extends InnerPage implements InnerPageC
     mViewPagerPageManager.addPage(page, tabText, tabIcon);
   }
 
-  public void addPage(InnerPage page, CharSequence tabText, @DrawableRes int tabIcon) {
+  public void addPage(InnerPage page, CharSequence tabText,
+                      @DrawableRes int tabIcon) {
     mViewPagerPageManager.addPage(page, tabText, tabIcon);
   }
 
@@ -117,7 +123,8 @@ public abstract class ViewPagerInnerPage extends InnerPage implements InnerPageC
     mViewPagerPageManager.setFadingEdgeLength(length);
   }
 
-  protected void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {  }
+  protected void onPageScrolled(int position, float positionOffset,
+                                int positionOffsetPixels) {  }
   protected void onPageSelected(int position) { }
   protected void onPageScrollStateChanged(int state) { }
 

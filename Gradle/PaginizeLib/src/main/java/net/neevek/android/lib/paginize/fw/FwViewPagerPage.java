@@ -32,31 +32,36 @@ import android.view.ViewGroup;
  * @see FwViewPagerPageManager
  * @see FwViewPagerInnerPage
  */
-public abstract class FwViewPagerPage extends FwPage implements FwInnerPageContainer {
+public abstract class FwViewPagerPage extends FwPage
+    implements FwInnerPageContainer {
   private FwViewPagerPageManager mViewPagerPageManager;
 
   public FwViewPagerPage(FwPageManager pageManager) {
     super(pageManager);
     mViewPagerPageManager = new FwViewPagerPageManager(this);
-    mViewPagerPageManager.setPageScrollListener(new FwViewPagerPageScrollListener() {
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        FwViewPagerPage.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
-      }
+    mViewPagerPageManager.setPageScrollListener(
+        new FwViewPagerPageScrollListener() {
+          @Override
+          public void onPageScrolled(int position, float positionOffset,
+                                     int positionOffsetPixels) {
+            FwViewPagerPage.this.onPageScrolled(position, positionOffset,
+                positionOffsetPixels);
+          }
 
-      @Override
-      public void onPageSelected(int position) {
-        FwViewPagerPage.this.onPageSelected(position);
-      }
+          @Override
+          public void onPageSelected(int position) {
+            FwViewPagerPage.this.onPageSelected(position);
+          }
 
-      @Override
-      public void onPageScrollStateChanged(int state) {
-        FwViewPagerPage.this.onPageScrollStateChanged(state);
-      }
-    });
+          @Override
+          public void onPageScrollStateChanged(int state) {
+            FwViewPagerPage.this.onPageScrollStateChanged(state);
+          }
+        });
   }
 
-  public void setAlwaysKeepInnerPagesInViewHierarchy(boolean alwaysKeepInnerPagesInViewHierarchy) {
+  public void setAlwaysKeepInnerPagesInViewHierarchy(
+      boolean alwaysKeepInnerPagesInViewHierarchy) {
     mViewPagerPageManager.setAlwaysKeepInnerPagesInViewHierarchy(alwaysKeepInnerPagesInViewHierarchy);
   }
 
@@ -88,7 +93,8 @@ public abstract class FwViewPagerPage extends FwPage implements FwInnerPageConta
     mViewPagerPageManager.setFadingEdgeLength(length);
   }
 
-  protected void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {  }
+  protected void onPageScrolled(int position, float positionOffset,
+                                int positionOffsetPixels) {  }
   protected void onPageSelected(int position) { }
   protected void onPageScrollStateChanged(int state) { }
 

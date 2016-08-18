@@ -11,16 +11,16 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
 /**
  * Created by xiaohei on 8/14/16.
  */
-@PageLayout(R.layout.page_main_tab_inner_page)
-public class MainTabInnerPage extends InnerPage {
+@PageLayout(R.layout.page_simple_tab_content)
+public class SimpleTabInnerPage extends InnerPage {
   @InjectView(R.id.tv_text)
   private TextView mTvText;
 
-  public MainTabInnerPage(ViewWrapper innerPageContainer) {
+  public SimpleTabInnerPage(ViewWrapper innerPageContainer) {
     super(innerPageContainer);
   }
 
-  public MainTabInnerPage setText(String text) {
+  public SimpleTabInnerPage setText(String text) {
     mTvText.setText(text);
     return this;
   }

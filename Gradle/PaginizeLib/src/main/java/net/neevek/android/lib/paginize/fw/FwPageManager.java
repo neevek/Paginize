@@ -46,7 +46,8 @@ public final class FwPageManager {
   private Context mContext;
   private WindowManager mWindowManager;
   private ViewGroup mContainerView;
-  // a mask view that intercepts all touch events when a page is in a process of pushing or popping
+  // a mask view that intercepts all touch events when a page
+  // is in a process of pushing or popping
   private View mViewTransparentMask;
 
   private boolean mEnableDebug;
@@ -67,7 +68,8 @@ public final class FwPageManager {
     this(context, null, FwWindowType.GLOBAL);
   }
 
-  public FwPageManager(Context context, PageAnimator pageAnimator, FwWindowType windowType) {
+  public FwPageManager(Context context, PageAnimator pageAnimator,
+                       FwWindowType windowType) {
     mPageAnimator = pageAnimator;
     mWindowType = windowType;
 
@@ -77,7 +79,8 @@ public final class FwPageManager {
       mContext = context.getApplicationContext();
     }
 
-    mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
+    mWindowManager = (WindowManager)mContext
+        .getSystemService(Context.WINDOW_SERVICE);
 
     initContainerView();
   }
@@ -110,8 +113,8 @@ public final class FwPageManager {
             WindowManager.LayoutParams.TYPE_SYSTEM_ALERT :
             WindowManager.LayoutParams.TYPE_APPLICATION,
         WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-        | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+            | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
         PixelFormat.TRANSLUCENT);
 
     lp.gravity = Gravity.TOP | Gravity.LEFT;
@@ -119,16 +122,6 @@ public final class FwPageManager {
     mWindowManager.addView(mContainerView, lp);
 
     mViewTransparentMask = new View(mContext);
-//    mViewTransparentMask.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//    mViewTransparentMask.setOnTouchListener(new View.OnTouchListener() {
-//      @Override
-//      public boolean onTouch(View v, MotionEvent event) {
-//        // intercept all touch events
-//        return true;
-//      }
-//    });
-//    mViewTransparentMask.setBackgroundColor(0x00ffffff);
-//    mContainerView.addView(mViewTransparentMask);
   }
 
   public void setUserData(Object userData) {
@@ -155,7 +148,8 @@ public final class FwPageManager {
     return mContext;
   }
 
-  public void setPageManagerListener(FwPageManagerListener fwPageManagerListener) {
+  public void setPageManagerListener(
+      FwPageManagerListener fwPageManagerListener) {
     mFwPageManagerListener = fwPageManagerListener;
   }
 
@@ -184,7 +178,8 @@ public final class FwPageManager {
       pushPageInternal(pages[i], tmpOldPage, null, false, animationDirection);
       tmpOldPage = pages[i];
     }
-    pushPageInternal(pages[pages.length - 1], firstOldPage, arg, animated, animationDirection);
+    pushPageInternal(pages[pages.length - 1], firstOldPage,
+        arg, animated, animationDirection);
   }
 
   public void pushPages(Pair<FwPage, Object>[] pagePacks) {
@@ -209,7 +204,8 @@ public final class FwPageManager {
       if (pagePack.first == null) {
         continue;
       }
-      pushPageInternal(pagePack.first, tmpOldPage, pagePack.second, false, animationDirection);
+      pushPageInternal(pagePack.first, tmpOldPage,
+          pagePack.second, false, animationDirection);
       tmpOldPage = pagePack.first;
     }
 
@@ -228,13 +224,15 @@ public final class FwPageManager {
   }
 
   public void pushPage(FwPage newPage, Object arg, boolean animated) {
-    pushPage(newPage, arg, animated, PageAnimator.AnimationDirection.FROM_RIGHT);
+    pushPage(newPage, arg, animated,
+        PageAnimator.AnimationDirection.FROM_RIGHT);
   }
 
-  public void pushPage(FwPage newPage,
-                       Object arg,
-                       boolean animated,
-                       PageAnimator.AnimationDirection animationDirection) {
+  public void pushPage(
+      FwPage newPage,
+      Object arg,
+      boolean animated,
+      PageAnimator.AnimationDirection animationDirection) {
     if (newPage == mCurPage) {
       return;
     }
@@ -242,11 +240,12 @@ public final class FwPageManager {
     pushPageInternal(newPage, mCurPage, arg, animated, animationDirection);
   }
 
-  private void pushPageInternal(final FwPage newPage,
-                                final FwPage oldPage,
-                                final Object arg,
-                                boolean animated,
-                                PageAnimator.AnimationDirection animationDirection) {
+  private void pushPageInternal(
+      final FwPage newPage,
+      final FwPage oldPage,
+      final Object arg,
+      boolean animated,
+      PageAnimator.AnimationDirection animationDirection) {
     if (animated) {
       mAnimating = true;
     }
@@ -255,8 +254,8 @@ public final class FwPageManager {
 
     if (oldPage != null) {
       if (animated) {
-        // when a new page is being pushed, ensures the oldPage always be visible during the animation
-        // transition if animated is true
+        // when a new page is being pushed, ensures the oldPage always be
+        // visible during the animation transition if animated is true
         oldPage.getView().bringToFront();
       }
 
@@ -279,8 +278,8 @@ public final class FwPageManager {
     if (animated && !newPage.onPushPageAnimation(
         oldPage != null ? oldPage.getView() : null,
         newPage.getView(), animationDirection) && mPageAnimator != null) {
-      mPageAnimator.onPushPageAnimation(
-          oldPage != null ? oldPage.getView() : null, newPage.getView(), animationDirection);
+      mPageAnimator.onPushPageAnimation(oldPage != null ?
+          oldPage.getView() : null, newPage.getView(), animationDirection);
     }
 
     int animationDuration = newPage.getAnimationDuration();
@@ -299,7 +298,8 @@ public final class FwPageManager {
     }
   }
 
-  private void doFinalWorkForPushPage(FwPage oldPage, FwPage newPage, Object arg) {
+  private void doFinalWorkForPushPage(
+      FwPage oldPage, FwPage newPage, Object arg) {
     if (newPage == getTopPage()) {
       newPage.getView().bringToFront();
     }
@@ -324,7 +324,8 @@ public final class FwPageManager {
   /**
    * @param animated true to animate the transition
    */
-  public void popPage(boolean animated, PageAnimator.AnimationDirection animationDirection) {
+  public void popPage(boolean animated,
+                      PageAnimator.AnimationDirection animationDirection) {
     popTopNPages(1, animated, animationDirection);
   }
 
@@ -352,7 +353,8 @@ public final class FwPageManager {
       page.onHidden();
 
       if (mEnableDebug) {
-        Log.d(TAG, String.format(">>>> popPage, pagestack=%d, %s", mPageStack.size(), page));
+        Log.d(TAG, String.format(">>>> popPage, pagestack=%d, %s",
+            mPageStack.size(), page));
       }
     }
 
@@ -377,7 +379,8 @@ public final class FwPageManager {
       return;
     }
     if (destPage == null) {
-      throw new IllegalArgumentException("cannot call popToPage() with null destPage.");
+      throw new IllegalArgumentException(
+          "cannot call popToPage() with null destPage.");
     }
 
     if (mPageStack.size() <= 0 ||
@@ -389,7 +392,8 @@ public final class FwPageManager {
     FwPage oldPage = mPageStack.removeLast();
 
     if (mEnableDebug) {
-      Log.d(TAG, String.format(">>>> popPage, pageStack=%d, %s", mPageStack.size(), oldPage));
+      Log.d(TAG, String.format(">>>> popPage, pageStack=%d, %s",
+          mPageStack.size(), oldPage));
     }
 
     while (mPageStack.size() > 1) {
@@ -421,19 +425,22 @@ public final class FwPageManager {
                          boolean animated,
                          PageAnimator.AnimationDirection animationDirection) {
     if (pageClass == null) {
-      throw new IllegalArgumentException("cannot call popToClass() with null pageClass.");
+      throw new IllegalArgumentException(
+          "cannot call popToClass() with null pageClass.");
     }
 
     popToClasses(new Class[] {pageClass}, animated, animationDirection);
   }
 
-  public void popToClasses(Class<? extends FwPage>[] pageClasses, boolean animated) {
-    popToClasses(pageClasses, animated, PageAnimator.AnimationDirection.FROM_LEFT);
+  public void popToClasses(Class<? extends FwPage>[] pageClasses,
+                           boolean animated) {
+    popToClasses(pageClasses, animated,
+        PageAnimator.AnimationDirection.FROM_LEFT);
   }
 
   /**
-   * "pop" operation ends when one of the classes specified by pageClasses is found,
-   * if none of the classes is found, the method call is a no-op
+   * "pop" operation ends when one of the classes specified by pageClasses is
+   * found, if none of the classes is found, the method call is a no-op
    *
    * @param pageClasses classes of pages as the destination for this pop operation
    * @param animated    true to animate the transition
@@ -501,11 +508,12 @@ public final class FwPageManager {
     popPageInternal(oldPage, animated, animationDirection);
   }
 
-  private void popPageInternal(final FwPage removedPage,
-                               boolean animated,
-                               PageAnimator.AnimationDirection animationDirection) {
+  private void popPageInternal(
+      final FwPage removedPage, boolean animated,
+      PageAnimator.AnimationDirection animationDirection) {
     if (mEnableDebug) {
-      Log.d(TAG, String.format(">>>> popPage, pageStack=%d, %s", mPageStack.size(), removedPage));
+      Log.d(TAG, String.format(">>>> popPage, pageStack=%d, %s",
+          mPageStack.size(), removedPage));
     }
 
     removedPage.onHide();
@@ -515,8 +523,8 @@ public final class FwPageManager {
       prevPage = mPageStack.getLast();
       prevPage.onUncover(removedPage.getReturnData());
 
-      if (animated && !removedPage.onPopPageAnimation(
-          removedPage.getView(), prevPage.getView(), animationDirection) && mPageAnimator != null) {
+      if (animated && !removedPage.onPopPageAnimation(removedPage.getView(),
+          prevPage.getView(), animationDirection) && mPageAnimator != null) {
         mPageAnimator.onPopPageAnimation(
             removedPage.getView(), prevPage.getView(), animationDirection);
       }
@@ -525,10 +533,10 @@ public final class FwPageManager {
     } else {
       prevPage = null;
 
-      if (animated &&
-          !removedPage.onPopPageAnimation(removedPage.getView(), null, animationDirection) &&
-          mPageAnimator != null) {
-        mPageAnimator.onPopPageAnimation(removedPage.getView(), null, animationDirection);
+      if (animated && !removedPage.onPopPageAnimation(removedPage.getView(),
+          null, animationDirection) && mPageAnimator != null) {
+        mPageAnimator.onPopPageAnimation(removedPage.getView(), null,
+            animationDirection);
       }
     }
 
@@ -552,7 +560,8 @@ public final class FwPageManager {
     }
   }
 
-  private void doFinalWorkForPopPageInternal(FwPage removedPage, FwPage prevPage) {
+  private void doFinalWorkForPopPageInternal(FwPage removedPage,
+                                             FwPage prevPage) {
     mContainerView.removeView(removedPage.getView());
     removedPage.onHidden();
 

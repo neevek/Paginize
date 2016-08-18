@@ -50,8 +50,9 @@ public class FwViewPagerPageManager extends FwInnerPageContainerManager {
 
   private void initViewPager(Context context) {
     mViewPager = new ViewPager(context);
-    ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    ViewGroup.LayoutParams lp =
+        new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT);
     mViewPager.setLayoutParams(lp);
 
     mPagerAdapter = new InnerPagePagerAdapter();
@@ -61,7 +62,8 @@ public class FwViewPagerPageManager extends FwInnerPageContainerManager {
     getContainerView().addView(mViewPager);
   }
 
-  public void setAlwaysKeepInnerPagesInViewHierarchy(boolean alwaysKeepInnerPagesInViewHierarchy) {
+  public void setAlwaysKeepInnerPagesInViewHierarchy(
+      boolean alwaysKeepInnerPagesInViewHierarchy) {
     mAlwaysKeepInnerPagesInViewHierarchy = alwaysKeepInnerPagesInViewHierarchy;
   }
 
@@ -123,7 +125,8 @@ public class FwViewPagerPageManager extends FwInnerPageContainerManager {
     mViewPager.setFadingEdgeLength(length);
   }
 
-  public void setPageScrollListener(FwViewPagerPageScrollListener pageScrollListener) {
+  public void setPageScrollListener(
+      FwViewPagerPageScrollListener pageScrollListener) {
     mPageScrollListener = pageScrollListener;
   }
 
@@ -164,9 +167,11 @@ public class FwViewPagerPageManager extends FwInnerPageContainerManager {
     private FwInnerPage oldPage;
 
     @Override
-    public void onPageScrolled(int index, float indexOffset, int indexOffsetPixels) {
+    public void onPageScrolled(int index, float indexOffset,
+                               int indexOffsetPixels) {
       if (mPageScrollListener != null) {
-        mPageScrollListener.onPageScrolled(index, indexOffset, indexOffsetPixels);
+        mPageScrollListener.onPageScrolled(index, indexOffset,
+            indexOffsetPixels);
       }
     }
 

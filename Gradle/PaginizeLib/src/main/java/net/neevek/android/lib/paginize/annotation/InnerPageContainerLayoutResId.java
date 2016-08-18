@@ -27,8 +27,8 @@ import java.lang.annotation.Target;
  */
 
 /**
- * Specifies the resource id of the ViewGroup in the current Page, the ViewGroup
- * will be used as the container for InnerPages to be set through
+ * Specifies the resource id of the ViewGroup in the current Page,
+ * the ViewGroup will be used as the container for InnerPages to be set through
  * InnerPageContainer.setInnerPage()
  *
  * @see net.neevek.android.lib.paginize.ViewWrapper

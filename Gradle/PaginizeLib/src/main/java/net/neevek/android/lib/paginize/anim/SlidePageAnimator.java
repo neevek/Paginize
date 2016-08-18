@@ -71,7 +71,9 @@ public final class SlidePageAnimator implements PageAnimator {
 
   @Override
   public boolean onPushPageAnimation(
-      View oldPageView, View newPageView, AnimationDirection animationDirection) {
+      View oldPageView,
+      View newPageView,
+      AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_RIGHT) {
       if (oldPageView != null) {
         oldPageView.startAnimation(mPullOutFromRightAnimation);
@@ -89,7 +91,9 @@ public final class SlidePageAnimator implements PageAnimator {
 
   @Override
   public boolean onPopPageAnimation(
-      View oldPageView, View newPageView, AnimationDirection animationDirection) {
+      View oldPageView,
+      View newPageView,
+      AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_LEFT) {
       oldPageView.startAnimation(mPullOutFromLeftAnimation);
       if (newPageView != null) {

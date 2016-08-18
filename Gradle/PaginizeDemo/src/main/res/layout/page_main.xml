@@ -11,31 +11,29 @@
   <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
     <android.support.design.widget.AppBarLayout
-      android:id="@+id/appBar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
       >
       <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentScrim="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
         >
         <ImageView
+          android:id="@+id/iv_parallax_image"
           android:layout_width="match_parent"
           android:layout_height="256dp"
           android:scaleType="centerCrop"
           app:layout_collapseMode="parallax"
-          android:src="@drawable/background"/>
-          -->
+          android:background="@color/primary_dark"
+          />
         <android.support.v7.widget.Toolbar
           android:id="@+id/tb_header_bar"
           android:layout_width="match_parent"
@@ -43,20 +41,13 @@
           app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
           app:layout_collapseMode="pin"/>
       </android.support.design.widget.CollapsingToolbarLayout>
-      <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="bottom"
-        android:background="?attr/colorPrimary"
-        app:tabMode="scrollable"/>
     </android.support.design.widget.AppBarLayout>
-    <Button
-      android:id="@+id/btn_open_detail_page"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="打开"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/rv_main_list"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      />
   </android.support.design.widget.CoordinatorLayout>
 
   <android.support.design.widget.NavigationView
@@ -64,9 +55,9 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    app:itemTextColor="@android:color/black"
+    app:itemTextColor="@color/secondary_text"
     app:headerLayout="@layout/drawer_header"
-    app:menu="@menu/drawer"
+    app:menu="@menu/drawer_menu"
     />
 
 </android.support.v4.widget.DrawerLayout>

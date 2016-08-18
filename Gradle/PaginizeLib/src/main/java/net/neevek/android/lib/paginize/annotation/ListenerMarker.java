@@ -28,7 +28,8 @@ import java.lang.annotation.Target;
 
 /**
  * A marker annotation used on listener class for @InjectView and @SetListeners
- * This annotation is supposed to be put in proguard-project.txt to avoid obfuscation
+ * This annotation is supposed to be put in proguard-project.txt to avoid
+ * obfuscation
  *
  * @see SetListeners
  * @see net.neevek.android.lib.paginize.ViewWrapper

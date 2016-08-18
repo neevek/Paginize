@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Window;
+
 import net.neevek.android.lib.paginize.annotation.InjectPageAnimator;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 
@@ -56,8 +57,8 @@ public abstract class PageActivity extends Activity {
 
       do {
         if (mPageManager.getPageAnimator() == null) {
-          InjectPageAnimator pamAnnotation =
-              (InjectPageAnimator) clazz.getAnnotation(InjectPageAnimator.class);
+          InjectPageAnimator pamAnnotation = (InjectPageAnimator)
+              clazz.getAnnotation(InjectPageAnimator.class);
           if (pamAnnotation != null) {
             mPageManager.setPageAnimator(pamAnnotation.value().newInstance());
             break;
@@ -91,7 +92,8 @@ public abstract class PageActivity extends Activity {
   }
 
   @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+  protected void onActivityResult(
+      int requestCode, int resultCode, Intent data) {
     mPageManager.onActivityResult(requestCode, resultCode, data);
   }
 

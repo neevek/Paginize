@@ -33,7 +33,8 @@ import android.view.ViewGroup;
  * @see ContainerPageManager
  * @see ContainerInnerPage
  */
-public abstract class ContainerPage extends Page implements InnerPageContainer {
+public abstract class ContainerPage extends Page
+    implements InnerPageContainer {
   private ContainerPageManager mContainerPageManager;
 
   public ContainerPage(PageActivity pageActivity) {
@@ -41,7 +42,8 @@ public abstract class ContainerPage extends Page implements InnerPageContainer {
     mContainerPageManager = new ContainerPageManager(this);
   }
 
-  public void setInnerPageEventNotifier(InnerPageEventNotifier innerPageEventNotifier) {
+  public void setInnerPageEventNotifier(
+      InnerPageEventNotifier innerPageEventNotifier) {
     mContainerPageManager.setInnerPageEventNotifier(innerPageEventNotifier);
   }
 

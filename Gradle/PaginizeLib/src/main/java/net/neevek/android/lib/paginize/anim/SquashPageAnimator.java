@@ -39,30 +39,30 @@ public final class SquashPageAnimator implements PageAnimator {
 
   private void initAnimations() {
     DecelerateInterpolator interpolator = new DecelerateInterpolator(3.0f);
-    mExpandInFromRightAnimation = new ScaleAnimation(
-        0, 1, 1, 1, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+    mExpandInFromRightAnimation = new ScaleAnimation(0, 1, 1, 1,
+        Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
     mExpandInFromRightAnimation.setInterpolator(interpolator);
     mExpandInFromRightAnimation.setDuration(ANIMATION_DURATION);
 
-    mShrinkOutFromRightAnimation = new ScaleAnimation(
-        1, 0, 1, 1, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
+    mShrinkOutFromRightAnimation = new ScaleAnimation(1, 0, 1, 1,
+        Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
     mShrinkOutFromRightAnimation.setInterpolator(interpolator);
     mShrinkOutFromRightAnimation.setDuration(ANIMATION_DURATION);
 
-    mExpanndInFromLeftAnimation = new ScaleAnimation(
-        0, 1, 1, 1, Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
+    mExpanndInFromLeftAnimation = new ScaleAnimation(0, 1, 1, 1,
+        Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0);
     mExpanndInFromLeftAnimation.setInterpolator(interpolator);
     mExpanndInFromLeftAnimation.setDuration(ANIMATION_DURATION);
 
-    mShrinkOutFromLeftAnimation = new ScaleAnimation(
-        1, 0, 1, 1, Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+    mShrinkOutFromLeftAnimation = new ScaleAnimation(1, 0, 1, 1,
+        Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
     mShrinkOutFromLeftAnimation.setInterpolator(interpolator);
     mShrinkOutFromLeftAnimation.setDuration(ANIMATION_DURATION);
   }
 
   @Override
-  public boolean onPushPageAnimation(
-      View oldPageView, View newPageView, AnimationDirection animationDirection) {
+  public boolean onPushPageAnimation(View oldPageView, View newPageView,
+                                     AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_RIGHT) {
       if (oldPageView != null) {
         oldPageView.startAnimation(mShrinkOutFromRightAnimation);
@@ -81,7 +81,9 @@ public final class SquashPageAnimator implements PageAnimator {
 
   @Override
   public boolean onPopPageAnimation(
-      View oldPageView, View newPageView, AnimationDirection animationDirection) {
+      View oldPageView,
+      View newPageView,
+      AnimationDirection animationDirection) {
     if (animationDirection == AnimationDirection.FROM_LEFT) {
       oldPageView.startAnimation(mShrinkOutFromLeftAnimation);
       if (newPageView != null) {

@@ -65,14 +65,14 @@ public abstract class ViewWrapper {
         list.add(clazz);
 
         if (mView == null && clazz.isAnnotationPresent(PageLayout.class)) {
-          mView = mContext.getLayoutInflater().inflate(
-              ((PageLayout) clazz.getAnnotation(PageLayout.class)).value(), null);
+          mView = mContext.getLayoutInflater().inflate(((PageLayout)
+              clazz.getAnnotation(PageLayout.class)).value(), null);
         }
       } while ((clazz = clazz.getSuperclass()) != ViewWrapper.class);
 
       if (mView == null) {
-        throw new IllegalArgumentException("Must specify a layout resource with the " +
-            "@PageLayout annotation on " + clazz.getName());
+        throw new IllegalArgumentException("Must specify a layout resource" +
+            " with the @PageLayout annotation on " + clazz.getName());
       }
 
       if (list.size() > 1) {
@@ -84,12 +84,14 @@ public abstract class ViewWrapper {
             InsertPageLayout insertPageLayoutAnno =
                 (InsertPageLayout) clazz.getAnnotation(InsertPageLayout.class);
             if (insertPageLayoutAnno.parent() != -1) {
-              ViewGroup root = (ViewGroup) mView.findViewById(insertPageLayoutAnno.parent());
+              ViewGroup root = (ViewGroup)
+                  mView.findViewById(insertPageLayoutAnno.parent());
               if (root == null) {
                 throw new IllegalArgumentException("The parent specified in " +
                     "@InsertPageLayout is not found.");
               }
-              mContext.getLayoutInflater().inflate(insertPageLayoutAnno.value(), root, true);
+              mContext.getLayoutInflater()
+                  .inflate(insertPageLayoutAnno.value(), root, true);
             } else {
               mContext.getLayoutInflater().inflate(
                   insertPageLayoutAnno.value(), (ViewGroup) mView, true);
@@ -105,8 +107,10 @@ public abstract class ViewWrapper {
       };
 
       for (int i = list.size() - 1; i >= 0; --i) {
-        AnnotationUtils.initAnnotatedFields(list.get(i), this, viewFinder, false);
-        AnnotationUtils.handleAnnotatedConstructors(list.get(i), this, viewFinder, false);
+        AnnotationUtils.initAnnotatedFields(
+            list.get(i), this, viewFinder, false);
+        AnnotationUtils.handleAnnotatedConstructors(
+            list.get(i), this, viewFinder, false);
       }
 
     } catch (Exception e) {
@@ -119,7 +123,8 @@ public abstract class ViewWrapper {
    * inject views after the ViewWrapper is constructed
    */
   protected View lazyInitializeLayout(int layoutResId) {
-    final View view = mContext.getLayoutInflater().inflate(layoutResId, null, false);
+    final View view = mContext.getLayoutInflater()
+        .inflate(layoutResId, null, false);
     ViewFinder viewFinder = new ViewFinder() {
       public View findViewById(int id) {
         return view.findViewById(id);
@@ -128,7 +133,8 @@ public abstract class ViewWrapper {
 
     try {
       AnnotationUtils.initAnnotatedFields(getClass(), this, viewFinder, true);
-      AnnotationUtils.handleAnnotatedConstructors(getClass(), this, viewFinder, true);
+      AnnotationUtils.handleAnnotatedConstructors(
+          getClass(), this, viewFinder, true);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -269,8 +275,8 @@ public abstract class ViewWrapper {
   }
 
   /**
-   * onMenuPressed is called when KeyEvent for onKeyDown() is KEYCODE_MENU, only the current
-   * page(on top of the stack) receives this call
+   * onMenuPressed is called when KeyEvent for onKeyDown() is KEYCODE_MENU,
+   * only the current page(on top of the stack) receives this call
    *
    * @see PageManager
    */

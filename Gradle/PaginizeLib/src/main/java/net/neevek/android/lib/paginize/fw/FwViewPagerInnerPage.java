@@ -26,34 +26,39 @@ import android.view.ViewGroup;
  */
 
 /**
- * ViewPagerInnerPage wraps a ViewPager, manages InnerPages, the main difference between ViewPagerPage
- * and ContainerInnerPage is that this class offers page swiping while ContainerInnerPage does not.
+ * ViewPagerInnerPage wraps a ViewPager, manages InnerPages, the main difference
+ * between ViewPagerPage and ContainerInnerPage is that this class offers page
+ * swiping while ContainerInnerPage does not.
  *
  * @see FwViewPagerPageManager
  * @see FwViewPagerPage
  */
-public abstract class FwViewPagerInnerPage extends FwInnerPage implements FwInnerPageContainer {
+public abstract class FwViewPagerInnerPage extends FwInnerPage
+    implements FwInnerPageContainer {
   private FwViewPagerPageManager mViewPagerPageManager;
 
   public FwViewPagerInnerPage(FwViewWrapper innerPageContainer) {
     super(innerPageContainer);
     mViewPagerPageManager = new FwViewPagerPageManager(this);
-    mViewPagerPageManager.setPageScrollListener(new FwViewPagerPageScrollListener() {
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        FwViewPagerInnerPage.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
-      }
+    mViewPagerPageManager.setPageScrollListener(
+        new FwViewPagerPageScrollListener() {
+          @Override
+          public void onPageScrolled(int position, float positionOffset,
+                                     int positionOffsetPixels) {
+            FwViewPagerInnerPage.this.onPageScrolled(position, positionOffset,
+                positionOffsetPixels);
+          }
 
-      @Override
-      public void onPageSelected(int position) {
-        FwViewPagerInnerPage.this.onPageSelected(position);
-      }
+          @Override
+          public void onPageSelected(int position) {
+            FwViewPagerInnerPage.this.onPageSelected(position);
+          }
 
-      @Override
-      public void onPageScrollStateChanged(int state) {
-        FwViewPagerInnerPage.this.onPageScrollStateChanged(state);
-      }
-    });
+          @Override
+          public void onPageScrollStateChanged(int state) {
+            FwViewPagerInnerPage.this.onPageScrollStateChanged(state);
+          }
+        });
   }
 
   public void addPage(FwInnerPage page) {
@@ -80,7 +85,8 @@ public abstract class FwViewPagerInnerPage extends FwInnerPage implements FwInne
     mViewPagerPageManager.setFadingEdgeLength(length);
   }
 
-  protected void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {  }
+  protected void onPageScrolled(int position, float positionOffset,
+                                int positionOffsetPixels) {  }
   protected void onPageSelected(int position) { }
   protected void onPageScrollStateChanged(int state) { }
 
