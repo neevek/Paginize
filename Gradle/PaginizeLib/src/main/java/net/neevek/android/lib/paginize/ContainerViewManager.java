@@ -274,7 +274,9 @@ class ContainerViewManager {
             post(new Runnable() {
               @Override
               public void run() {
+                mShadowViewLP.leftMargin = -mShadowView.getWidth();
                 mShadowView.setVisibility(VISIBLE);
+                mShadowView.requestLayout();
               }
             });
             return true;
