@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<net.neevek.android.demo.paginize.widget.CustomLinearLayout
+<android.support.design.widget.CoordinatorLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical"
   android:background="#ffffffff"
   android:fitsSystemWindows="true"
-  android:clipToPadding="false"
   >
 
   <android.support.design.widget.AppBarLayout
@@ -27,8 +25,9 @@
   <FrameLayout
     android:id="@+id/layout_content_container"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:layout_marginBottom="?attr/actionBarSize"
     />
 
   <android.support.design.widget.TabLayout
@@ -36,10 +35,11 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
+    android:layout_gravity="bottom"
     app:tabTextAppearance="@style/TextAppearance.PaginizeDemo.Tab"
     app:tabPadding="4dp"
     app:tabMode="fixed"
     app:tabIndicatorColor="#fff"
-    app:tabSelectedTextColor="#ffffff"
+    app:tabSelectedTextColor="@android:color/white"
     />
-</net.neevek.android.demo.paginize.widget.CustomLinearLayout>
+</android.support.design.widget.CoordinatorLayout>

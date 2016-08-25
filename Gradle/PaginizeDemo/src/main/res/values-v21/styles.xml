@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.PaginizeDemo" parent="Base.Theme.PaginizeDemo">
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:textColorSecondary">@android:color/black</item>
-    </style>
+  <style name="Theme.PaginizeDemo" parent="Base.Theme.PaginizeDemo">
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+  </style>
 </resources>

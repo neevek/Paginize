@@ -17,12 +17,13 @@ import android.widget.LinearLayout;
 import net.neevek.android.demo.paginize.R;
 
 /**
- * A custom LinearLayout that
+ * A custom LinearLayout that draws colorPrimaryDark for the status bar
  * Created by neevek on 8/13/16.
  */
 public class CustomLinearLayout extends LinearLayout {
   private Rect mInsets;
   private boolean mPaddingSet;
+  private boolean mUseDefaultStatusBarBackground = true;
   private Drawable mStatusBarBackground;
 
   public CustomLinearLayout(Context context) {
@@ -35,6 +36,7 @@ public class CustomLinearLayout extends LinearLayout {
     applyFitsSystemWindowIfNeeded();
   }
 
+  @TargetApi(11)
   public CustomLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     applyFitsSystemWindowIfNeeded();
@@ -44,6 +46,11 @@ public class CustomLinearLayout extends LinearLayout {
   public CustomLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     applyFitsSystemWindowIfNeeded();
+  }
+
+  public void setStatusBarBackground(Drawable statusBarBackground) {
+    mUseDefaultStatusBarBackground = false;
+    mStatusBarBackground = statusBarBackground;
   }
 
   private void applyFitsSystemWindowIfNeeded() {
@@ -80,9 +87,11 @@ public class CustomLinearLayout extends LinearLayout {
   @Override
   protected void onDraw(Canvas c) {
     super.onDraw(c);
-    if (mInsets != null && mInsets.top > 0) {
-      if (mStatusBarBackground == null) {
-        TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.colorPrimaryDark});
+    if (mInsets != null && mInsets.top > 0 &&
+        (mStatusBarBackground != null || mUseDefaultStatusBarBackground)) {
+      if (mStatusBarBackground == null && mUseDefaultStatusBarBackground) {
+        TypedArray a = getContext().getTheme()
+            .obtainStyledAttributes(new int[]{R.attr.colorPrimaryDark});
         mStatusBarBackground = new ColorDrawable(a.getColor(0, 0));
         a.recycle();
       }

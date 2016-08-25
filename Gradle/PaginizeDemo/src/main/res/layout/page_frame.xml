@@ -2,11 +2,10 @@
 <android.support.design.widget.CoordinatorLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/layout_container"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="#fff"
   android:fitsSystemWindows="true"
+  android:background="#fff"
   >
   <android.support.design.widget.AppBarLayout
     android:id="@+id/appBar"
@@ -21,4 +20,29 @@
       app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
       />
   </android.support.design.widget.AppBarLayout>
+
+  <FrameLayout
+    android:id="@+id/layout_content_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    />
+
+  <ViewStub
+    android:id="@+id/stub_loading_layout"
+    android:layout="@layout/layout_loading"
+    android:inflatedId="@+id/layout_loading"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    />
+
+  <ViewStub
+    android:id="@+id/stub_error_layout"
+    android:layout="@layout/layout_error"
+    android:inflatedId="@+id/layout_error"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    />
 </android.support.design.widget.CoordinatorLayout>

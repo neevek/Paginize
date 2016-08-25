@@ -12,15 +12,15 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.WindowInsets;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import net.neevek.android.demo.paginize.R;
 
 /**
- * A custom LinearLayout that
- * Created by neevek on 8/13/16.
+ * A custom ScrollView that draws colorPrimaryDark for the status bar
+ * Created by neevek on 8/18/16.
  */
-public class CustomScrollView extends LinearLayout {
+public class CustomScrollView extends ScrollView {
   private Rect mInsets;
   private boolean mPaddingSet;
   private Drawable mStatusBarBackground;

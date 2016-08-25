@@ -1,21 +1,16 @@
-package net.neevek.android.demo.paginize.pages.main;
+package net.neevek.android.demo.paginize.pages;
 
 import android.app.WallpaperManager;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.neevek.android.demo.paginize.R;
 import net.neevek.android.demo.paginize.util.ToolbarHelper;
@@ -30,54 +25,40 @@ import java.util.List;
 /**
  * Created by neevek on 3/16/14.
  */
-@PageLayout(R.layout.page_main)
-public class MainPage extends Page {
-  @InjectView(R.id.drawer_layout)
-  private DrawerLayout mDrawerLayout;
+@PageLayout(R.layout.page_list)
+public class ListPage extends Page {
   @InjectView(R.id.tb_header_bar)
   private Toolbar mTbHeaderBar;
-  @InjectView(R.id.navigation_view)
-  private NavigationView mNaviView;
   @InjectView(R.id.iv_parallax_image)
   private ImageView mIvParallaxImage;
   @InjectView(R.id.rv_main_list)
   private RecyclerView mRvMainList;
 
-  public MainPage(PageActivity pageActivity) {
+  public ListPage(PageActivity pageActivity) {
     super(pageActivity);
 
     setupToolbar();
-    setupNavigationView();
-    setupRecyclerView();
     setParallaxImage();
   }
 
-  private void setupToolbar() {
-    setupDrawerToggle();
-    mTbHeaderBar.setTitle("Paginize · Demo");
-    ToolbarHelper.setupMenu(mTbHeaderBar, R.menu.menu_main, new Toolbar.OnMenuItemClickListener() {
-      @Override
-      public boolean onMenuItemClick(MenuItem item) {
-        Toast.makeText(getContext(), "Hello Settings.", Toast.LENGTH_SHORT).show();
-        return false;
-      }
-    });
+  @Override
+  public void onShown() {
+    super.onShown();
+    // loading data and rendering the RecyclerView may somewhat slow down the
+    // UI thread, so do it in onShown(), which is called after the transition
+    // animation is done
+    setupRecyclerView();
   }
 
-  private void setupNavigationView() {
-    mNaviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-      @Override
-      public boolean onNavigationItemSelected(MenuItem menuItem) {
-        menuItem.setChecked(false);
-        mDrawerLayout.closeDrawers();
-
-        switch (menuItem.getItemId()) {
-          case R.id.mi_main_tab_page:
-            new MainTabPage(getContext()).show(true);
-        }
-        return true;
-      }
-    });
+  private void setupToolbar() {
+    mTbHeaderBar.setTitle("ListPage");
+    ToolbarHelper.setNavigationIconEnabled(
+        mTbHeaderBar, true, new View.OnClickListener () {
+          @Override
+          public void onClick(View v) {
+            hide(true);
+          }
+        });
   }
 
   private void setupRecyclerView() {
@@ -94,20 +75,6 @@ public class MainPage extends Page {
     if (wallpager != null) {
       mIvParallaxImage.setImageDrawable(wallpager);
     }
-  }
-
-  private void setupDrawerToggle() {
-    ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
-        getContext(),
-        mDrawerLayout,
-        mTbHeaderBar,
-        R.string.app_name,
-        R.string.app_name
-    );
-
-    mDrawerToggle.setDrawerIndicatorEnabled(true);
-    mDrawerLayout.addDrawerListener(mDrawerToggle);
-    mDrawerToggle.syncState();
   }
 
   private class MainListItemAdapter extends RecyclerView.Adapter<MainListItemAdapter.ViewHolder> {

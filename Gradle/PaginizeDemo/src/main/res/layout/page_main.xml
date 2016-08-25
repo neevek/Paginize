@@ -8,56 +8,104 @@
   android:fitsSystemWindows="true"
   >
 
-  <android.support.design.widget.CoordinatorLayout
+  <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
-
     <android.support.design.widget.AppBarLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
       >
-      <android.support.design.widget.CollapsingToolbarLayout
+      <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_header_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:contentScrim="?attr/colorPrimary"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        >
-        <ImageView
-          android:id="@+id/iv_parallax_image"
-          android:layout_width="match_parent"
-          android:layout_height="256dp"
-          android:scaleType="centerCrop"
-          app:layout_collapseMode="parallax"
-          android:background="@color/primary_dark"
-          />
-        <android.support.v7.widget.Toolbar
-          android:id="@+id/tb_header_bar"
-          android:layout_width="match_parent"
-          android:layout_height="?attr/actionBarSize"
-          app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-          app:layout_collapseMode="pin"/>
-      </android.support.design.widget.CollapsingToolbarLayout>
+        android:layout_height="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_collapseMode="pin"
+        />
     </android.support.design.widget.AppBarLayout>
-    <android.support.v7.widget.RecyclerView
-      android:id="@+id/rv_main_list"
+
+    <ScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior"
-      />
-  </android.support.design.widget.CoordinatorLayout>
+      >
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <TextView
+          android:id="@+id/tv_text"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="some text"
+          android:textColor="@color/primary_text"
+          />
+
+        <Button
+          android:id="@+id/btn_swipeable_tab_page"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:minWidth="300dp"
+          android:text="Swipeable Tab Page"
+          android:layout_marginTop="10dp"
+          android:textColor="@color/primary_text"
+          />
+
+        <Button
+          android:id="@+id/btn_simple_tab_page"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:minWidth="300dp"
+          android:text="Simple Tab Page"
+          android:textColor="@color/primary_text"
+          />
+
+        <Button
+          android:id="@+id/btn_list_page"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:minWidth="300dp"
+          android:text="List Page"
+          android:textColor="@color/primary_text"
+          />
+
+        <Button
+          android:id="@+id/btn_cta_page"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:minWidth="300dp"
+          android:text="Custom Transition Animation Page"
+          android:textColor="@color/primary_text"
+          />
+
+        <Button
+          android:id="@+id/btn_custom_page"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:minWidth="300dp"
+          android:text="Custom Page"
+          android:textColor="@color/primary_text"
+          />
+      </LinearLayout>
+    </ScrollView>
+  </LinearLayout>
 
   <android.support.design.widget.NavigationView
     android:id="@+id/navigation_view"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    app:itemTextColor="@color/secondary_text"
+    app:itemTextColor="@color/primary_text"
     app:headerLayout="@layout/drawer_header"
-    app:menu="@menu/drawer_menu"
+    app:itemBackground="@drawable/drawer_menu_item_bg_selector"
+    app:menu="@menu/menu_drawer"
     />
 
 </android.support.v4.widget.DrawerLayout>

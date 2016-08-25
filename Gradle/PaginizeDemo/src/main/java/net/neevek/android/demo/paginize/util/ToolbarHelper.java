@@ -8,7 +8,7 @@ import android.view.View;
 import net.neevek.android.demo.paginize.R;
 
 /**
- * Created by xiaohei on 8/13/16.
+ * Created by neevek on 8/13/16.
  */
 public class ToolbarHelper {
   public static void setupMenu(Toolbar toolbar,

@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_delete_tab"
-          android:title="删除TAB"
+          android:title="Delete Tab"
           android:orderInCategory="100"
           app:showAsAction="never" />
 </menu>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+      android:checkableBehavior="single">
+
+        <item
+          android:id="@+id/mi_main_tab_page"
+          android:title="Main Tab Page"/>
+        <item
+          android:id="@+id/mi_simple_tab_page"
+          android:title="Simple Tab Page"/>
+        <item
+          android:id="@+id/mi_list_page"
+          android:title="List Page"/>
+        <item
+          android:id="@+id/mi_cta_page"
+          android:title="Custom Transition Animation Page"
+          />
+        <item
+          android:id="@+id/mi_custom_page"
+          android:title="Custom Page"
+          />
+    </group>
+</menu>
