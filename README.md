@@ -2,7 +2,9 @@
 
 Demo
 ====
-Install the demo APK and get a feel of how it works!
+Scan the QRCode to install the demo APK and get a feel of how it works!
+
+![PaginizeDemo](https://github.com/neevek/Paginize/raw/master/DemoAPK/paginize_demo.gif)
 
 [![PaginizeDemo](https://github.com/neevek/Paginize/raw/master/DemoAPK/PaginizeQRCode.png)](https://github.com/neevek/Paginize/raw/master/DemoAPK/PaginizeDemo.apk)
 
