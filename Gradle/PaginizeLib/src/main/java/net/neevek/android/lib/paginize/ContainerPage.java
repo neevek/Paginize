@@ -28,7 +28,7 @@ import android.view.ViewGroup;
  */
 
 /**
- * An InnerPageContainer is a Page that is used to hold & manage InnerPages
+ * An InnerPageContainer is a Page that is used to hold and manage InnerPages
  *
  * @see ContainerPageManager
  * @see ContainerInnerPage

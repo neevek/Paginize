@@ -444,6 +444,7 @@ public final class FwPageManager {
    *
    * @param pageClasses classes of pages as the destination for this pop operation
    * @param animated    true to animate the transition
+   * @param animationDirection the transition animation start direction
    */
   public void popToClasses(Class<? extends FwPage>[] pageClasses,
                            boolean animated,

@@ -3,8 +3,6 @@ package net.neevek.android.lib.paginize;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -107,7 +105,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
   }
 
   public void addPage(InnerPage page, CharSequence tabText,
-                      @DrawableRes int tabIcon) {
+                      int tabIcon) {
     if (tabText != null || tabIcon > 0) {
       checkTabLayout();
 
@@ -130,7 +128,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     addPage(page);
   }
 
-  public void addPage(InnerPage page, @LayoutRes int tabView) {
+  public void addPage(InnerPage page, int tabView) {
     checkTabLayout();
     mTabLayout.addTab(mTabLayout.newTab().setCustomView(tabView));
     addPage(page);

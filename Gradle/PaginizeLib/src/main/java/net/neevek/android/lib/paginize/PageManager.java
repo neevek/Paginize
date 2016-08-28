@@ -125,7 +125,7 @@ public final class PageManager {
 
   /**
    * calling this method will override whatever PageAnimator specified with
-   * @InjectPageAnimator annotation, and use the swipe page transition effect
+   * InjectPageAnimator annotation, and use the swipe page transition effect
    */
   public void useSwipePageTransitionEffect() {
     enableSwipeToHide();

@@ -26,7 +26,7 @@ import android.view.ViewGroup;
  */
 
 /**
- * An FwInnerPageContainer is a FwPage that is used to hold & manage FwInnerPages
+ * An FwInnerPageContainer is a FwPage that is used to hold and manage FwInnerPages
  *
  * @see FwContainerPageManager
  * @see FwContainerInnerPage

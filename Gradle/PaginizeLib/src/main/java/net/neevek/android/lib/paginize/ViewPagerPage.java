@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
 import android.support.design.widget.TabLayout;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -88,7 +86,7 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
   }
 
   public void addPage(InnerPage page, CharSequence tabText,
-                      @DrawableRes int tabIcon) {
+                      int tabIcon) {
     mViewPagerPageManager.addPage(page, tabText, tabIcon);
   }
 
@@ -100,7 +98,7 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
     mViewPagerPageManager.addPage(page, tabView);
   }
 
-  public void addPage(InnerPage page, @LayoutRes int tabView) {
+  public void addPage(InnerPage page, int tabView) {
     mViewPagerPageManager.addPage(page, tabView);
   }
 

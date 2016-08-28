@@ -27,16 +27,16 @@ import net.neevek.android.lib.paginize.anim.PageAnimator;
 /**
  * A FwPage encapsulates a View(usually a layout with complex UI components),
  * which is to be put into a ViewGroup and finally be shown on screen.
- * <p/>
+ * <p>
  * FwPage is managed by PageManager, we call variants of the PageManager.pushPage()
  * method to put a FwPage in a stack, which is maintained by PageManager
- * <p/>
+ * <p>
  * A FwPage is designed to wrap a full screen View(the status bar is not counted
  * in here), as compared to InnerPage, which wraps a View that occupies only part
  * of the screen.
  *
- * @see ContainerPage
- * @see InnerPage
+ * @see FwContainerPage
+ * @see FwInnerPage
  */
 public abstract class FwPage extends FwViewWrapper implements PageAnimator {
   // default page type should be normal here.

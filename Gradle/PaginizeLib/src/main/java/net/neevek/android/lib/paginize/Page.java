@@ -28,10 +28,10 @@ import net.neevek.android.lib.paginize.anim.PageAnimator;
 /**
  * A Page encapsulates a View(usually a layout with complex UI components),
  * which is to be put into a ViewGroup and finally be shown on screen.
- * <p/>
+ * <p>
  * Page is managed by PageManager, we call variants of the PageManager.pushPage()
  * method to put a Page in a stack, which is maintained by PageManager
- * <p/>
+ * <p>
  * A Page is designed to wrap a full screen View(the status bar is not counted
  * in here), as compared to InnerPage, which wraps a View that occupies only part
  * of the screen.
