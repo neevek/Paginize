@@ -1,16 +1,22 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Paginize-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1545)
 
 Paginize
-====
+========
 Scan the QRCode to install the demo APK and get a feel of how it works!
 
 ![PaginizeDemo](https://github.com/neevek/Paginize/raw/master/DemoAPK/paginize_demo.gif)
 
 [![PaginizeDemo](https://github.com/neevek/Paginize/raw/master/DemoAPK/PaginizeQRCode.png)](https://github.com/neevek/Paginize/raw/master/DemoAPK/PaginizeDemo.apk)
 
+Installation
+============
+```
+compile 'net.neevek.android:paginize:0.6.0'
+```
+
 Description
 ========
-Paginize is a light-weight application framework for Android, it provides an intuitive programming model for writing Android applications. Paginize models a screen as a `Page` or part of the screen as an `InnerPage`, which in essence are just view wrappers. Paginize breaks down complex user interfaces into smaller units, provides APIs for easily handling page navigations, and offers flexibility for Page inheritance and **layout inheritance**, which pushes code reuse in Android to another level.
+Paginize is a light-weight application framework for Android. It was designed to accelerate development cycles and make maintenance easier, it provides an intuitive programming model for writing Android applications. Paginize models a screen as a `Page` or part of the screen as an `InnerPage`, which in essence are just view wrappers. Paginize breaks down complex user interfaces into smaller units, provides APIs for easily handling page navigations, and offers flexibility for Page inheritance and **layout inheritance**, which pushes code reuse in Android to another level.
 
 Documentation
 =============
@@ -234,7 +240,6 @@ To prevent annotated classes and fields from being stripped away, the following 
 }
 
 ```
-
 Note
 ====
 The project is still *NOT* stable, APIs may change(but not significantly).
@@ -248,7 +253,7 @@ Please fork this repository and contribute back using [pull requests](https://gi
 
 Under MIT license
 =================
-
 ```
 Copyright (c) 2014 - 2016 neevek <i@neevek.net>
 See the file license.txt for copying permission.
+```
