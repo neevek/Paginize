@@ -37,7 +37,8 @@ import java.util.List;
  * This class wraps the logics used by ViewPagerPage and ViewPagerInnerPage, both implement InnerPageContainer
  */
 public class ViewPagerPageManager extends InnerPageContainerManager {
-  private final String SAVE_VIEWPAGER_PAGE_MANAGER_KEY = "_paginize_viewpager_page_manager_" + getClass().getName();
+  private final String SAVE_VIEWPAGER_PAGE_MANAGER_KEY =
+      "_paginize_viewpager_page_manager_" + getClass().getName();
 
   private List<InnerPage> mInnerPageList = new ArrayList<InnerPage>();
   private PagerAdapter mPagerAdapter;
@@ -78,11 +79,16 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     mAlwaysKeepInnerPagesInViewHierarchy = alwaysKeepInnerPagesInViewHierarchy;
   }
 
+  public void setupTabLayout(int tabLayoutResId, final boolean smoothScroll) {
+    setupTabLayout((TabLayout) getInnerPageContainer()
+        .findViewById(tabLayoutResId), smoothScroll);
+  }
+
   public void setupTabLayout(TabLayout tabLayout, final boolean smoothScroll) {
-    mTabLayout = tabLayout;
-    if (mTabLayout == null) {
-      return;
+    if (tabLayout == null) {
+      throw new IllegalArgumentException("The specified TabLayout is null");
     }
+    mTabLayout = tabLayout;
     mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       public void onTabSelected(TabLayout.Tab tab) {
         if (tab != null) {
@@ -166,11 +172,11 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
   }
 
   public void setCurrentPage(int index, boolean animated) {
-    checkPageIndex(index);
-
     if (mInnerPageList.size() == 0) {
       return;
     }
+
+    checkPageIndex(index);
 
     try {
       mViewPager.setCurrentItem(index, animated);
@@ -227,7 +233,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
   }
 
   private void checkPageIndex(int index) {
-    if (index > mInnerPageList.size()) {
+    if (index >= mInnerPageList.size()) {
       throw new IllegalArgumentException("index is too large: " + index +
           ", actual: " + mInnerPageList.size());
     }

@@ -36,10 +36,12 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
  * ViewPagerInnerPage )
  */
 class InnerPageContainerManager {
+  private ViewWrapper mInnerPageContainer;
   private ViewGroup mContainerView;
   private InnerPage mCurrentInnerPage;
 
   public InnerPageContainerManager(ViewWrapper innerPageContainer) {
+    mInnerPageContainer = innerPageContainer;
     Class clazz = innerPageContainer.getClass();
 
     InnerPageContainerLayoutResId resIdAnnotation = null;
@@ -76,6 +78,10 @@ class InnerPageContainerManager {
     }
 
     mContainerView = (ViewGroup)container;
+  }
+
+  public ViewWrapper getInnerPageContainer() {
+    return mInnerPageContainer;
   }
 
   public ViewGroup getContainerView() {

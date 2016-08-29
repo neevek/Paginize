@@ -4,6 +4,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutResId;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 
@@ -34,10 +35,12 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
  * FwViewPagerPage, FwViewPagerInnerPage )
  */
 class FwInnerPageContainerManager {
+  private FwViewWrapper mInnerPageContainer;
   private ViewGroup mContainerView;
   private FwInnerPage mCurrentInnerPage;
 
   public FwInnerPageContainerManager(FwViewWrapper innerPageContainer) {
+    mInnerPageContainer = innerPageContainer;
     Class clazz = innerPageContainer.getClass();
 
     InnerPageContainerLayoutResId resIdAnnotation = null;
@@ -74,6 +77,10 @@ class FwInnerPageContainerManager {
     }
 
     mContainerView = (ViewGroup)container;
+  }
+
+  public FwViewWrapper getInnerPageContainer() {
+    return mInnerPageContainer;
   }
 
   public ViewGroup getContainerView() {
