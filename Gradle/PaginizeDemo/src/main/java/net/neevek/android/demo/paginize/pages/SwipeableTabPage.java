@@ -1,6 +1,5 @@
 package net.neevek.android.demo.paginize.pages;
 
-import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,16 +21,14 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
 public class SwipeableTabPage extends ViewPagerPage {
   private static final String TAG = SwipeableTabPage.class.getName();
 
-  @InjectView(R.id.layout_tab_container)
-  private TabLayout mLayoutTabContainer;
   @InjectView(R.id.tb_header_bar)
   private Toolbar mTbHeaderBar;
 
-  @SuppressWarnings("deprecation")
   public SwipeableTabPage(PageActivity pageActivity) {
     super(pageActivity);
 
     setupHeaderBar();
+    setupTabLayout(R.id.layout_tab_container, true);
     setupInnerPages();
   }
 
@@ -41,7 +38,9 @@ public class SwipeableTabPage extends ViewPagerPage {
         new Toolbar.OnMenuItemClickListener() {
       @Override
       public boolean onMenuItemClick(MenuItem item) {
-        removePage(0);
+        if (getPageCount() > 0) {
+          removePage(0);
+        }
         return true;
       }
     });
@@ -55,7 +54,6 @@ public class SwipeableTabPage extends ViewPagerPage {
   }
 
   private void setupInnerPages() {
-    setupTabLayout(mLayoutTabContainer, true);
     addPage(new SimpleInnerPage(this).setName("SimpleInnerPage for Tab1").setHtml(
         "This is an <b>InnerPage</b> put inside of an <b>ViewPagerPage</b>, " +
             "which uses <i>ViewPager</i> internally to support swipe for switching " +

@@ -38,7 +38,7 @@ public class CustomPage extends Page {
     super(pageActivity);
     mTvTitle.setText("Custom Page");
     mTvText.setText(Html.fromHtml(
-        "This page demonstrates an implementation of a page with a customized" +
+        "This page demonstrates an implementation of a page with a customized " +
         "header bar without using any widgets from the support library."));
   }
 
