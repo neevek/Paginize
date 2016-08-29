@@ -8,15 +8,18 @@ Scan the QRCode to install the demo APK and get a feel of how it works!
 
 [![PaginizeDemo](https://github.com/neevek/Paginize/raw/master/DemoAPK/PaginizeQRCode.png)](https://github.com/neevek/Paginize/raw/master/DemoAPK/PaginizeDemo.apk)
 
-Installation
-============
-```
-compile 'net.neevek.android:paginize:0.6.0'
-```
-
 Description
 ========
 Paginize is a light-weight application framework for Android. It was designed to accelerate development cycles and make maintenance easier, it provides an intuitive programming model for writing Android applications. Paginize models a screen as a `Page` or part of the screen as an `InnerPage`, which in essence are just view wrappers. Paginize breaks down complex user interfaces into smaller units, provides APIs for easily handling page navigations, and offers flexibility for Page inheritance and **layout inheritance**, which pushes code reuse in Android to another level.
+
+
+Installation
+============
+```
+dependencies {
+  compile 'net.neevek.android:paginize:0.6.1'
+}
+```
 
 Documentation
 =============
