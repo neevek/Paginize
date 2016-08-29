@@ -11,7 +11,9 @@ Scan the QRCode to install the demo APK and get a feel of how it works!
 Installation
 ============
 ```
-compile 'net.neevek.android:paginize:0.6.0'
+dependencies {
+  compile 'net.neevek.android:paginize:0.6.0'
+}
 ```
 
 Description

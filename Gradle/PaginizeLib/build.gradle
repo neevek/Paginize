@@ -32,7 +32,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 6000
-        versionName "0.6.0"
+        versionName "0.6.1"
         setProperty("archivesBaseName", "paginize")
     }
     buildTypes {
