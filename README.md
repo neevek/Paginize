@@ -10,7 +10,7 @@ Scan the QRCode to install the demo APK and get a feel of how it works!
 
 Description
 ========
-Paginize is a light-weight application framework for Android. It was designed to accelerate development cycles and make maintenance easier, it provides an intuitive programming model for writing Android applications. Paginize models a screen as a `Page` or part of the screen as an `InnerPage`, which in essence are just view wrappers. Paginize breaks down complex user interfaces into smaller units, provides APIs for easily handling page navigations, and offers flexibility for Page inheritance and **layout inheritance**, which pushes code reuse in Android to another level.
+Paginize is a light-weight application framework for Android. It was designed to accelerate development cycles and make maintenance easier, it provides an intuitive programming model for writing Android applications. Paginize models a screen as a `Page` or part of the screen as an `InnerPage`, which in essence are just view wrappers. Paginize breaks down complex user interfaces into smaller units, provides APIs for easily handling page navigations, and offers flexibility for page inheritance and **layout inheritance**, which pushes code reuse in Android to another level.
 
 
 Installation
@@ -150,7 +150,7 @@ public abstract class FramePage extends Page {
 ```java
 // here we inherit the layout from FramePage, i.e. R.layout.page_frame,
 // insert R.layout.page_test into the R.id.container element of the parent
-// layout. Since we subclass FramePage, we also inheritance code for handling
+// layout. Since we subclass FramePage, we also inherit the code for handling
 // the BACK button press
 @InsertPageLayout(value = R.layout.page_test, parent = R.id.layout_content_container)
 public class TestPage extends FramePage {
@@ -187,7 +187,7 @@ complicated applications, you see the advantages of it when you use it to struct
 
 ####<a name="header2"></a> 2. The lifecycle methods
 
-Page (including Page, InnerPage) subclasses `ViewWrapper`, lifecycle methods are declared in this class:
+Page (including Page and InnerPage) subclasses `ViewWrapper`, lifecycle methods are declared in this class:
 
 * onShow()
     - The page is ready to be shown, but not yet attached to the view hierarchy
@@ -229,7 +229,10 @@ Paginize takes advantage of Java Annotations to make use of the framework easier
 
 ####<a name="header4"></a> 4. Argument passing between pages
 
-`onShow()` and `onShown()` take an object as argument, which is passed from the `show()` method call. `onUncover()` and `onUncovered()` take an object argument as well, which is passed from the top page by calling `setReturnData()` before it is popped from the page stack. This is all that Paginize offers for argument passing between pages. But, you are not limited to that, and I recommend against using `show()` to pass arguments(hmmm, the mechanism exists for historical reasons). I recommend simply put methods like `setArgumentXYZ` in the destination page, call these methods to pass arguments to the page, (you can even pass a callback to the destination page, which in some cases may be very useful), this is more intuitive. And if you stick to a certain pattern or naming convention, code will be more manageable with this approach.
+Passing arguments between pages is easy.
+For navigating to a new page, simply put methods like `setArgumentXYZ` in the destination page, call these methods to pass arguments to the page, better if **this** is returned from those `setArgumentXYZ` methods so setting multiple arguments can be *chained*. (you can even pass a callback to the destination page, which in some cases may be very useful), this is more intuitive. And if you stick to a certain pattern or naming convention, code will be more manageable with this approach.
+For navigating back from a page, `onUncover()` and `onUncovered()` can be used to receive arguments from the popped page, these two methods take an object as argument, which is passed from the top page set with `setReturnData()` before it is popped from the page stack.
+
 
 ####<a name="header5"></a> 5. Proguard rules
 
