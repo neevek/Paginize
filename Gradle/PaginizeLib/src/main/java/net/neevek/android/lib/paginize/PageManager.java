@@ -207,7 +207,7 @@ public final class PageManager {
     mViewTransparentMask.bringToFront();
 
     if (mEnableDebug) {
-      Log.d(TAG, String.format(">>>> pushPage, pageStack=%d, %s=%s",
+      Log.d(TAG, String.format(">>>> pushPage, pageStack=%d, %s",
           mPageStack.size(), newPage));
     }
 
