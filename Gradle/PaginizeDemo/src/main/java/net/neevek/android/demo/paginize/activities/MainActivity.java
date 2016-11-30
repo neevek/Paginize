@@ -13,6 +13,7 @@ public class MainActivity extends PageActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    getPageManager().setDebug(true);
     getPageManager().enableSwipeToHide();
     // this method call overrides the PageAnimator specified with @InjectPageAnimator
     getPageManager().useSwipePageTransitionEffect();
