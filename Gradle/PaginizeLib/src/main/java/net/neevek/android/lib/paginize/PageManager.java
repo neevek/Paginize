@@ -261,6 +261,36 @@ public final class PageManager {
     }
   }
 
+  /**
+   * Be cautious using this method, which will silently delete
+   * Page that is not on the top, onUncover() and onUncovered() for
+   * the previous page will NOT be called
+   * @param index - index of the page to delete
+     */
+  public void deletePage(int index) {
+    if (index < 0 || index >= getPageCount()) {
+      return;
+    }
+    if (index == getPageCount() - 1) {
+      popPage(false);
+      return;
+    }
+
+    Page removedPage = mPageStack.remove(index);
+    removedPage.onHide();
+    mContainerView.removeView(removedPage.getView());
+    removedPage.onHidden();
+
+    if (mPageEventNotifier != null) {
+      mPageEventNotifier.onPageHidden(removedPage);
+    }
+
+    if (mEnableDebug) {
+      Log.d(TAG, String.format(">>>> deletePage(%d), pageStack=%d, %s",
+              index, mPageStack.size(), mCurPage));
+    }
+  }
+
   public void popPage(boolean animated) {
     popTopNPages(1, animated);
   }
@@ -742,6 +772,14 @@ public final class PageManager {
 
   public int getPageCount() {
     return mPageStack.size();
+  }
+
+  public Page getPage(int index) {
+    if (index < 0 || index >= mPageStack.size()) {
+      throw new IllegalArgumentException("invalid index");
+    }
+
+    return mPageStack.get(index);
   }
 
   boolean isPageKeptInStack(Page page) {
