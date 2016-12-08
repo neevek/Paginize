@@ -51,7 +51,6 @@ class ContainerViewManager {
 
   private PageManager mPageManager;
   private SwipeableContainerView mSwipeableContainerView;
-
   private Map<String, Animation> mAnimationCache = new HashMap<String,Animation>();
 
   ContainerViewManager(PageManager pageManager) {
@@ -170,9 +169,9 @@ class ContainerViewManager {
     return mSwipeableContainerView;
   }
 
-  void enableSwipeToHide() {
+  void enableSwipeToHide(boolean applyInsetsToShadow) {
     if (mSwipeableContainerView != null) {
-      mSwipeableContainerView.enableSwipeToHide();
+      mSwipeableContainerView.enableSwipeToHide(applyInsetsToShadow);
     }
   }
 
@@ -196,6 +195,7 @@ class ContainerViewManager {
     private int mSwipeToHideThreshold;
 
     private boolean mSwipeToHide;
+    private boolean mApplyInsetsToShadow;
 
     public SwipeableContainerView(Context context) {
       super(context);
@@ -209,6 +209,13 @@ class ContainerViewManager {
     @TargetApi(20)
     public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) {
       if (insets != null) {
+        if (mApplyInsetsToShadow && mShadowView != null) {
+          MarginLayoutParams lp = (MarginLayoutParams)mShadowView.getLayoutParams();
+          if (lp.topMargin != insets.getSystemWindowInsetTop()) {
+            lp.topMargin = insets.getSystemWindowInsetTop();
+          }
+        }
+
         final int childCount = getChildCount();
         for (int i = 0; i < childCount; ++i) {
           getChildAt(i).dispatchApplyWindowInsets(insets);
@@ -217,9 +224,10 @@ class ContainerViewManager {
       return insets;
     }
 
-    public void enableSwipeToHide() {
+    public void enableSwipeToHide(boolean applyInsetsToShadow) {
       if (!mSwipeToHide) {
         mSwipeToHide = true;
+        mApplyInsetsToShadow = applyInsetsToShadow;
 
         mShadowView = new ShadowView(getContext());
         addView(mShadowView, new MarginLayoutParams(
@@ -368,7 +376,7 @@ class ContainerViewManager {
     private void setGradientBackground() {
       GradientDrawable bg = new GradientDrawable(
           GradientDrawable.Orientation.LEFT_RIGHT,
-          new int[] { 0x00000000, 0x15000000 });
+          new int[] { 0x00000000, 0x20000000 });
       if (Build.VERSION.SDK_INT >= 16) {
         setBackground(bg);
       } else {

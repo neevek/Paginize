@@ -119,8 +119,25 @@ public final class PageManager {
     return 0;
   }
 
+  /**
+   * when "swipeToHide" is enabled, PageAnimator annotated on the PageActivity
+   * will be disabled, the builtin swipe-to-hide transition effect will be used
+   */
   public void enableSwipeToHide() {
-    mContainerViewManager.enableSwipeToHide();
+    enableSwipeToHide(false);
+  }
+
+  /**
+   * when "swipeToHide" is enabled, PageAnimator annotated on the PageActivity
+   * will be disabled, the builtin swipe-to-hide transition effect will be used
+   *
+   * @param applyInsetsToShadow whether to apply the insets(currently only top
+   *                            inset) to the shadow view, which appears when
+   *                            the current page is being "dragged" or "swiped"
+   *                            to hide.
+   */
+  public void enableSwipeToHide(boolean applyInsetsToShadow) {
+    mContainerViewManager.enableSwipeToHide(applyInsetsToShadow);
   }
 
   /**
