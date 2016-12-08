@@ -119,12 +119,18 @@ public abstract class ViewWrapper {
     }
   }
 
+  protected View lazyInitializeLayout(int layoutResId) {
+    return lazyInitializeLayout(layoutResId, null, false);
+  }
+
   /**
    * inject views after the ViewWrapper is constructed
    */
-  protected View lazyInitializeLayout(int layoutResId) {
+  protected View lazyInitializeLayout(int layoutResId,
+                                      ViewGroup root,
+                                      boolean attachToRoot) {
     final View view = mContext.getLayoutInflater()
-        .inflate(layoutResId, null, false);
+        .inflate(layoutResId, root, attachToRoot);
     ViewFinder viewFinder = new ViewFinder() {
       public View findViewById(int id) {
         return view.findViewById(id);
