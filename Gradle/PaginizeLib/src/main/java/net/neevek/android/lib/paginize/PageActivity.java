@@ -1,9 +1,9 @@
 package net.neevek.android.lib.paginize;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Window;
@@ -38,7 +38,7 @@ import net.neevek.android.lib.paginize.exception.InjectFailedException;
  *
  * @see net.neevek.android.lib.paginize.PageManager
  */
-public abstract class PageActivity extends Activity {
+public abstract class PageActivity extends AppCompatActivity {
   private PageManager mPageManager;
 
   @Override
