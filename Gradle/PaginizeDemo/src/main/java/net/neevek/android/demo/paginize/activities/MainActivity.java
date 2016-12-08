@@ -4,17 +4,17 @@ import android.os.Bundle;
 
 import net.neevek.android.demo.paginize.pages.MainPage;
 import net.neevek.android.lib.paginize.PageActivity;
-import net.neevek.android.lib.paginize.anim.SlidePageAnimator;
+import net.neevek.android.lib.paginize.anim.ZoomPageAnimator;
 import net.neevek.android.lib.paginize.annotation.InjectPageAnimator;
 
-@InjectPageAnimator(SlidePageAnimator.class)
+@InjectPageAnimator(ZoomPageAnimator.class)
 public class MainActivity extends PageActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     getPageManager().setDebug(true);
-    getPageManager().enableSwipeToHide();
+    getPageManager().enableSwipeToHide(true);
     // this method call overrides the PageAnimator specified with @InjectPageAnimator
     getPageManager().useSwipePageTransitionEffect();
 

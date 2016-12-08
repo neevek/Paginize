@@ -11,12 +11,12 @@
     android:id="@+id/appBar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     >
     <android.support.v7.widget.Toolbar
       android:id="@+id/tb_header_bar"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
+      android:theme="@style/ThemeOverlay.AppCompat.Dark"
       app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
       />
   </android.support.design.widget.AppBarLayout>

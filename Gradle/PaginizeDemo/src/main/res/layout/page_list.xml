@@ -11,9 +11,8 @@
   <android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    android:fitsSystemWindows="true"
     android:background="?attr/colorPrimaryDark"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
     >
     <android.support.design.widget.CollapsingToolbarLayout
       android:layout_width="match_parent"

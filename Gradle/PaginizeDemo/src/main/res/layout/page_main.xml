@@ -5,25 +5,25 @@
   android:id="@+id/drawer_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:fitsSystemWindows="true"
   >
 
-  <LinearLayout
+  <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     >
+
     <android.support.design.widget.AppBarLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
       >
       <android.support.v7.widget.Toolbar
         android:id="@+id/tb_header_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_collapseMode="pin"
         />
@@ -32,6 +32,7 @@
     <ScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:layout_marginTop="?attr/actionBarSize"
       >
       <LinearLayout
         android:layout_width="match_parent"
@@ -95,7 +96,7 @@
           />
       </LinearLayout>
     </ScrollView>
-  </LinearLayout>
+  </android.support.design.widget.CoordinatorLayout>
 
   <android.support.design.widget.NavigationView
     android:id="@+id/navigation_view"
