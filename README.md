@@ -17,7 +17,7 @@ Installation
 ============
 ```
 dependencies {
-  compile 'net.neevek.android:paginize:0.6.3'
+  compile 'net.neevek.android:paginize:0.6.4'
 }
 ```
 
@@ -260,6 +260,6 @@ Please fork this repository and contribute back using [pull requests](https://gi
 Under MIT license
 =================
 ```
-Copyright (c) 2014 - 2016 neevek <i@neevek.net>
+Copyright (c) 2014 neevek <i@neevek.net>
 See the file license.txt for copying permission.
 ```
