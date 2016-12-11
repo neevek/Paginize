@@ -768,6 +768,7 @@ public final class PageManager {
       for (int i = 0; i < clazzArray.length; ++i) {
         clazz = Class.forName(clazzArray[i]);
         Constructor ctor = clazz.getDeclaredConstructor(PageActivity.class);
+        ctor.setAccessible(true);
         Page p = (Page) ctor.newInstance(mPageActivity);
         pushPage(p);
 
