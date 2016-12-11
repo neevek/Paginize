@@ -33,7 +33,6 @@ public class SwipeableTabPage extends ViewPagerPage {
   }
 
   private void setupHeaderBar() {
-    mTbHeaderBar.setTitle("SwipeableTabPage");
     ToolbarHelper.setupMenu(mTbHeaderBar, R.menu.menu_for_main_tab_page,
         new Toolbar.OnMenuItemClickListener() {
       @Override
@@ -77,6 +76,11 @@ public class SwipeableTabPage extends ViewPagerPage {
   public void onShow() {
     super.onShow();
     Log.i(TAG, "SwipeableTabPage onShow()");
+
+    // start using getBundle() in onShow() or onShown()
+    // this demonstrates use of getBundle() to get the args passed by setBundle()
+    // passing args with setBundle() will make the args survive page recreation
+    mTbHeaderBar.setTitle(getBundle().getString("title"));
   }
 
   @Override
