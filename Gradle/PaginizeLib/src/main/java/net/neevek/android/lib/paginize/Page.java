@@ -1,5 +1,6 @@
 package net.neevek.android.lib.paginize;
 
+import android.os.Bundle;
 import android.view.View;
 
 import net.neevek.android.lib.paginize.anim.PageAnimator;
@@ -45,6 +46,7 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
   // this is passed as the argument for onUncover/onUncovered
   private Object mReturnData;
   private Object mArgument;
+  private Bundle mBundle;
 
   private int mDefaultPageCountToPop = 1;
 
@@ -73,11 +75,28 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
     return mReturnData;
   }
 
+  public Page setBundle(Bundle bundle) {
+    mBundle = bundle;
+    return this;
+  }
+
+  public Bundle getBundle() {
+    return mBundle;
+  }
+
+  /*
+   * use setBundle() instead
+   */
+  @Deprecated
   public Page setArgument(Object argument) {
     mArgument = argument;
     return this;
   }
 
+  /*
+   * use getBundle() instead
+   */
+  @Deprecated
   public Object getArgument() {
     return mArgument;
   }
