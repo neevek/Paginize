@@ -1,7 +1,6 @@
 package net.neevek.android.demo.paginize.pages;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -129,10 +128,10 @@ public class MainPage extends Page implements View.OnClickListener {
 
         switch (menuItem.getItemId()) {
           case R.id.mi_main_tab_page: {
-            Bundle bundle = new Bundle();
-            bundle.putString("title", "SwipeableTabPage:-)");
-            // pass args with setBundle()
-            new SwipeableTabPage(getContext()).setBundle(bundle).show(true);
+            SwipeableTabPage page = new SwipeableTabPage(getContext());
+            // pass args with getBundle()
+            page.getBundle().putString("title", "SwipeableTabPage:-)");
+            page.show(true);
             break;
           }
           case R.id.mi_simple_tab_page:
@@ -181,10 +180,10 @@ public class MainPage extends Page implements View.OnClickListener {
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.btn_swipeable_tab_page: {
-        Bundle bundle = new Bundle();
-        bundle.putString("title", "SwipeableTabPage:-)");
-        // pass args with setBundle()
-        new SwipeableTabPage(getContext()).setBundle(bundle).show(true);
+        SwipeableTabPage page = new SwipeableTabPage(getContext());
+        // pass args with getBundle()
+        page.getBundle().putString("title", "SwipeableTabPage:-)");
+        page.show(true);
         break;
       }
       case R.id.btn_cta_page:
