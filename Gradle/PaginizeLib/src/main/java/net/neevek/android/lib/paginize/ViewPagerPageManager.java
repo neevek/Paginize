@@ -2,12 +2,14 @@ package net.neevek.android.lib.paginize;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +50,8 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
   private boolean mAlwaysKeepInnerPagesInViewHierarchy;
 
   private ViewPagerPageScrollListener mPageScrollListener;
-
   private InnerPageEventNotifier mInnerPageEventNotifier;
+  private SetCurrentPageTask mSetCurrentPageTask;
 
   public ViewPagerPageManager(ViewWrapper innerPageContainer) {
     super(innerPageContainer);
@@ -171,29 +173,33 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     setCurrentPage(mLastSelectedPage, false);
   }
 
-  public void setCurrentPage(int index, boolean animated) {
+  public void setCurrentPage(final int index, final boolean animated) {
+    if (mSetCurrentPageTask != null) {
+      return;
+    }
+
+    if (mViewPager.getWidth() == 0) {
+      mSetCurrentPageTask = new SetCurrentPageTask(index, animated);
+      mViewPager.getViewTreeObserver().addOnGlobalLayoutListener(mSetCurrentPageTask);
+    } else {
+      setCurrentPageInternal(index, animated);
+    }
+  }
+
+  private void setCurrentPageInternal(final int index, final boolean animated) {
     if (mInnerPageList.size() == 0) {
       return;
     }
 
     checkPageIndex(index);
-
-    try {
-      mViewPager.setCurrentItem(index, animated);
-      mLastSelectedPage = index;
-    } catch (Exception e) {
-      if (animated) { // ignore animated, which may cause crash
-        try {   // not sure if it would crash
-          mViewPager.setCurrentItem(index, false);
-          mLastSelectedPage = index;
-        } catch (Exception e2) {
-          e2.printStackTrace();
-        }
-      }
-    }
+    mViewPager.setCurrentItem(index, animated);
+    mLastSelectedPage = index;
   }
 
   public int getCurrentPageIndex() {
+    if (mSetCurrentPageTask != null) {
+      return mSetCurrentPageTask.getPendingPageIndex();
+    }
     return mViewPager.getCurrentItem();
   }
 
@@ -347,6 +353,33 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
             }
           }
         }
+      }
+    }
+  }
+
+  class SetCurrentPageTask implements ViewTreeObserver.OnGlobalLayoutListener {
+    private int index;
+    private boolean animated;
+    public SetCurrentPageTask(int index, boolean animated) {
+      this.index = index;
+      this.animated = animated;
+    }
+
+    public int getPendingPageIndex() {
+      return index;
+    }
+
+    @Override
+    public void onGlobalLayout() {
+      if (mViewPager.getWidth() > 0) {
+        if (Build.VERSION.SDK_INT >= 16) {
+          mViewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        } else {
+          mViewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+        }
+
+        mSetCurrentPageTask = null;
+        setCurrentPageInternal(index, animated);
       }
     }
   }
