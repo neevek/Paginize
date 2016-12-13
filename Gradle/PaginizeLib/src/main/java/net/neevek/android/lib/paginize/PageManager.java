@@ -65,8 +65,8 @@ public final class PageManager {
   // the PageAnimator to animate transitions when swapping pages
   private PageAnimator mPageAnimator;
   private boolean mAnimating;
-  private ContainerViewManager mContainerViewManager;
   private boolean mUseSwipePageTransitionEffect;
+  private ContainerViewManager mContainerViewManager;
 
   private PageEventNotifier mPageEventNotifier;
 

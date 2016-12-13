@@ -42,7 +42,7 @@ class InnerPageContainerManager {
   private ViewGroup mContainerView;
   private InnerPage mCurrentInnerPage;
 
-  public InnerPageContainerManager(ViewWrapper innerPageContainer) {
+  InnerPageContainerManager(ViewWrapper innerPageContainer) {
     mInnerPageContainer = innerPageContainer;
     Class clazz = innerPageContainer.getClass();
 
@@ -82,23 +82,23 @@ class InnerPageContainerManager {
     mContainerView = (ViewGroup)container;
   }
 
-  public ViewWrapper getInnerPageContainer() {
+  ViewWrapper getInnerPageContainer() {
     return mInnerPageContainer;
   }
 
-  public ViewGroup getContainerView() {
+  ViewGroup getContainerView() {
     return mContainerView;
   }
 
-  public void setCurrentInnerPage(InnerPage page) {
+  void setCurrentInnerPage(InnerPage page) {
     mCurrentInnerPage = page;
   }
 
-  public InnerPage getCurrentInnerPage() {
+  InnerPage getCurrentInnerPage() {
     return mCurrentInnerPage;
   }
 
-  public boolean onBackPressed() {
+  boolean onBackPressed() {
     if (mCurrentInnerPage != null) {
       return mCurrentInnerPage.onBackPressed();
     }
@@ -106,25 +106,25 @@ class InnerPageContainerManager {
     return false;
   }
 
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+  void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onActivityResult(requestCode, resultCode, data);
     }
   }
 
-  public void onPause() {
+  void onPause() {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onPause();
     }
   }
 
-  public void onResume() {
+  void onResume() {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onResume();
     }
   }
 
-  public boolean onKeyDown(int keyCode, KeyEvent event) {
+  boolean onKeyDown(int keyCode, KeyEvent event) {
     if (mCurrentInnerPage != null) {
       if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0) {
         return mCurrentInnerPage.onMenuPressed();
@@ -136,82 +136,82 @@ class InnerPageContainerManager {
     return false;
   }
 
-  public boolean onKeyUp(int keyCode, KeyEvent event) {
+  boolean onKeyUp(int keyCode, KeyEvent event) {
     if (mCurrentInnerPage != null) {
       return mCurrentInnerPage.onKeyUp(keyCode, event);
     }
     return false;
   }
 
-  public boolean onTouchEvent(MotionEvent event) {
+  boolean onTouchEvent(MotionEvent event) {
     if (mCurrentInnerPage != null) {
       return mCurrentInnerPage.onTouchEvent(event);
     }
     return false;
   }
 
-  public void onConfigurationChanged(Configuration newConfig) {
+  void onConfigurationChanged(Configuration newConfig) {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onConfigurationChanged(newConfig);
     }
   }
 
-  public void onShow() {
+  void onShow() {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onShow();
     }
   }
 
-  public void onShown() {
+  void onShown() {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onShown();
     }
   }
 
-  public void onHide() {
+  void onHide() {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onHide();
     }
   }
 
-  public void onHidden() {
+  void onHidden() {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onHidden();
     }
   }
 
-  public void onCover() {
+  void onCover() {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onCover();
     }
   }
 
-  public void onCovered() {
+  void onCovered() {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onCovered();
     }
   }
 
-  public void onUncover(Object arg) {
+  void onUncover(Object arg) {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onUncover(arg);
     }
   }
 
-  public void onUncovered(Object arg) {
+  void onUncovered(Object arg) {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onUncovered(arg);
     }
   }
 
 
-  public void onSaveInstanceState(Bundle outState) {
+  void onSaveInstanceState(Bundle outState) {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onSaveInstanceState(outState);
     }
   }
 
-  public void onRestoreInstanceState(Bundle savedInstanceState) {
+  void onRestoreInstanceState(Bundle savedInstanceState) {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onRestoreInstanceState(savedInstanceState);
     }

@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * This class wraps the logics used by ViewPagerPage and ViewPagerInnerPage, both implement InnerPageContainer
  */
-public class ViewPagerPageManager extends InnerPageContainerManager {
+class ViewPagerPageManager extends InnerPageContainerManager {
   private final String SAVE_VIEWPAGER_PAGE_MANAGER_KEY =
       "_paginize_viewpager_page_manager_" + getClass().getName();
 
@@ -53,12 +53,12 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
   private InnerPageEventNotifier mInnerPageEventNotifier;
   private SetCurrentPageTask mSetCurrentPageTask;
 
-  public ViewPagerPageManager(ViewWrapper innerPageContainer) {
+  ViewPagerPageManager(ViewWrapper innerPageContainer) {
     super(innerPageContainer);
     initViewPager(innerPageContainer.getContext());
   }
 
-  public void setInnerPageEventNotifier(
+  void setInnerPageEventNotifier(
       InnerPageEventNotifier innerPageEventNotifier) {
     mInnerPageEventNotifier = innerPageEventNotifier;
   }
@@ -76,17 +76,17 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     getContainerView().addView(mViewPager);
   }
 
-  public void setAlwaysKeepInnerPagesInViewHierarchy(
+  void setAlwaysKeepInnerPagesInViewHierarchy(
       boolean alwaysKeepInnerPagesInViewHierarchy) {
     mAlwaysKeepInnerPagesInViewHierarchy = alwaysKeepInnerPagesInViewHierarchy;
   }
 
-  public void setupTabLayout(int tabLayoutResId, final boolean smoothScroll) {
+  void setupTabLayout(int tabLayoutResId, final boolean smoothScroll) {
     setupTabLayout((TabLayout) getInnerPageContainer()
         .findViewById(tabLayoutResId), smoothScroll);
   }
 
-  public void setupTabLayout(TabLayout tabLayout, final boolean smoothScroll) {
+  void setupTabLayout(TabLayout tabLayout, final boolean smoothScroll) {
     if (tabLayout == null) {
       throw new IllegalArgumentException("The specified TabLayout is null");
     }
@@ -104,7 +104,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
         new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
   }
 
-  public void addPage(InnerPage page, CharSequence tabText, Drawable tabIcon) {
+  void addPage(InnerPage page, CharSequence tabText, Drawable tabIcon) {
     if (tabText != null || tabIcon != null) {
       checkTabLayout();
       mTabLayout.addTab(mTabLayout.newTab().setText(tabText).setIcon(tabIcon));
@@ -112,7 +112,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     addPage(page);
   }
 
-  public void addPage(InnerPage page, CharSequence tabText,
+  void addPage(InnerPage page, CharSequence tabText,
                       int tabIcon) {
     if (tabText != null || tabIcon > 0) {
       checkTabLayout();
@@ -126,17 +126,17 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     addPage(page);
   }
 
-  public void addPage(InnerPage page, CharSequence tabText) {
+  void addPage(InnerPage page, CharSequence tabText) {
     addPage(page, tabText, null);
   }
 
-  public void addPage(InnerPage page, View tabView) {
+  void addPage(InnerPage page, View tabView) {
     checkTabLayout();
     mTabLayout.addTab(mTabLayout.newTab().setCustomView(tabView));
     addPage(page);
   }
 
-  public void addPage(InnerPage page, int tabView) {
+  void addPage(InnerPage page, int tabView) {
     checkTabLayout();
     mTabLayout.addTab(mTabLayout.newTab().setCustomView(tabView));
     addPage(page);
@@ -149,7 +149,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     }
   }
 
-  public void addPage(InnerPage page) {
+  void addPage(InnerPage page) {
     if (getCurrentInnerPage() == null) {
       setCurrentInnerPage(page);
     }
@@ -157,7 +157,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     mPagerAdapter.notifyDataSetChanged();
   }
 
-  public void removePage(int index) {
+  void removePage(int index) {
     checkPageIndex(index);
 
     mInnerPageList.remove(index);
@@ -173,7 +173,7 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     setCurrentPage(mLastSelectedPage, false);
   }
 
-  public void setCurrentPage(final int index, final boolean animated) {
+  void setCurrentPage(final int index, final boolean animated) {
     if (mSetCurrentPageTask != null) {
       return;
     }
@@ -196,44 +196,44 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
     mLastSelectedPage = index;
   }
 
-  public int getCurrentPageIndex() {
+  int getCurrentPageIndex() {
     if (mSetCurrentPageTask != null) {
       return mSetCurrentPageTask.getPendingPageIndex();
     }
     return mViewPager.getCurrentItem();
   }
 
-  public InnerPage getPage(int index) {
+  InnerPage getPage(int index) {
     checkPageIndex(index);
 
     return mInnerPageList.get(index);
   }
 
-  public int getPageCount() {
+  int getPageCount() {
     return mInnerPageList.size();
   }
 
-  public void setHorizontalFadingEdgeEnabled(boolean enabled) {
+  void setHorizontalFadingEdgeEnabled(boolean enabled) {
     mViewPager.setHorizontalFadingEdgeEnabled(enabled);
   }
 
-  public void setFadingEdgeLength(int length) {
+  void setFadingEdgeLength(int length) {
     mViewPager.setFadingEdgeLength(length);
   }
 
-  public void setPageScrollListener(
+  void setPageScrollListener(
       ViewPagerPageScrollListener pageScrollListener) {
     mPageScrollListener = pageScrollListener;
   }
 
-  public void onSaveInstanceState(Bundle outState) {
+  void onSaveInstanceState(Bundle outState) {
     outState.putInt(SAVE_VIEWPAGER_PAGE_MANAGER_KEY, getCurrentPageIndex());
     for (int i = 0; i < mInnerPageList.size(); ++i) {
       mInnerPageList.get(i).onSaveInstanceState(outState);
     }
   }
 
-  public void onRestoreInstanceState(Bundle savedInstanceState) {
+  void onRestoreInstanceState(Bundle savedInstanceState) {
     final int lastShownPageIndex =
         savedInstanceState.getInt(SAVE_VIEWPAGER_PAGE_MANAGER_KEY);
     if (lastShownPageIndex < getPageCount()) {
@@ -366,12 +366,12 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
   class SetCurrentPageTask implements ViewTreeObserver.OnGlobalLayoutListener {
     private int index;
     private boolean animated;
-    public SetCurrentPageTask(int index, boolean animated) {
+    SetCurrentPageTask(int index, boolean animated) {
       this.index = index;
       this.animated = animated;
     }
 
-    public int getPendingPageIndex() {
+    int getPendingPageIndex() {
       return index;
     }
 

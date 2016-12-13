@@ -29,16 +29,16 @@ import android.view.View;
 class ContainerPageManager extends InnerPageContainerManager {
   private InnerPageEventNotifier mInnerPageEventNotifier;
 
-  public ContainerPageManager(ViewWrapper innerPageContainer) {
+  ContainerPageManager(ViewWrapper innerPageContainer) {
     super(innerPageContainer);
   }
 
-  public void setInnerPageEventNotifier(
+  void setInnerPageEventNotifier(
       InnerPageEventNotifier innerPageEventNotifier) {
     mInnerPageEventNotifier = innerPageEventNotifier;
   }
 
-  public void setPage(InnerPage newPage) {
+  void setPage(InnerPage newPage) {
     InnerPage oldPage = getCurrentInnerPage();
     if (newPage == oldPage) {
       return;
@@ -77,22 +77,22 @@ class ContainerPageManager extends InnerPageContainerManager {
   }
 
   // this method is rarely needed
-  public void removePage(InnerPage page) {
+  void removePage(InnerPage page) {
     getContainerView().removeView(page.getView());
   }
 
-  public void unsetPage() {
+  void unsetPage() {
     setPage(null);
   }
 
-  public void onShow() {
+  void onShow() {
     // Leave it empty!
     // For InnerPages in ContainerPage or ContainerInnerPage, do not mirror the onShow() callback
     // their onShow() callbacks are called when they are set in ContainerPage or ContainerInnerPage
     // see ContainerPageManager.setPage()
   }
 
-  public void onShown() {
+  void onShown() {
     // Leave it empty!
     // For InnerPages in ContainerPage or ContainerInnerPage, do not mirror the onShown() callback
     // their onShown() callbacks are called when they are set in ContainerPage or ContainerInnerPage
