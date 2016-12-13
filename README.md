@@ -229,7 +229,7 @@ Paginize takes advantage of Java Annotations to make use of the framework easier
 
 ####<a name="header4"></a> 4. Argument passing between pages
 
-For passing arguments to a newly created page, use `setBundle` and `getBundle`. Paginize will save the bundle set with `setBundle` in `onSaveInstanceState`, and restore it in `onRestoreInstanceState`, which means no extra work needed for saving and restoring arguments during page recreation, the bundle will be ready in `onShow` and lifecycle methods after that.
+For passing arguments to a newly created page, use `getBundle`, and set arguments in the returned bundle. Paginize will save the bundle associated with each Page during `onSaveInstanceState`, and restore it during `onRestoreInstanceState`, which means no extra work needed for saving and restoring arguments during page recreation, the bundle will be ready in `onShow` and lifecycle methods after that.
 For navigating back from a page, `onUncover()` and `onUncovered()` can be used to receive arguments from the popped page, these two methods take an object as argument, which is passed from the top page set with `setReturnData()` before it is popped from the page stack.
 
 
