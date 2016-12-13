@@ -251,6 +251,10 @@ class ViewPagerPageManager extends InnerPageContainerManager {
     }
   }
 
+  int indexOf(InnerPage innerPage) {
+    return mInnerPageList.indexOf(innerPage);
+  }
+
   class InnerPagePagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {

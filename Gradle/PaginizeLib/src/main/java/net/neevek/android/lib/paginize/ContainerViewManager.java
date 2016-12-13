@@ -57,7 +57,7 @@ class ContainerViewManager {
     mPageManager = pageManager;
   }
 
-  void animateView(View view, int fromXType, float fromXValue,
+  private void animateView(View view, int fromXType, float fromXValue,
                    int toXType, float toXValue,
                    Animation.AnimationListener animationListener) {
     animateView(view, fromXType, fromXValue, toXType, toXValue, false,
@@ -75,13 +75,14 @@ class ContainerViewManager {
 
     Animation animation = null;
     if (cacheAnimationObj) {
-      String key = new StringBuilder().append(fromXType).append(fromXValue)
-          .append(toXType).append(toXValue).toString();
+      String key = new StringBuilder()
+              .append(fromXType).append('-').append(fromXValue).append(',')
+              .append(toXType).append('-').append(toXValue).toString();
       animation = mAnimationCache.get(key);
       if (animation == null) {
         animation = createAnimation(fromXType, fromXValue, toXType, toXValue,
             animationListener);
-        mAnimationCache.put(key.toString(), animation);
+        mAnimationCache.put(key, animation);
       }
     }
 

@@ -126,6 +126,10 @@ public abstract class ViewPagerInnerPage extends InnerPage
   protected void onPageSelected(int position) { }
   protected void onPageScrollStateChanged(int state) { }
 
+  public int indexOf(InnerPage innerPage) {
+    return mViewPagerPageManager.indexOf(innerPage);
+  }
+
   @Override
   public ViewGroup getContainerView() {
     return mViewPagerPageManager.getContainerView();

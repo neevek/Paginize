@@ -813,6 +813,10 @@ public final class PageManager {
     return mPageStack.get(index);
   }
 
+  public int indexOfPage(Page page) {
+    return mPageStack.indexOf(page);
+  }
+
   boolean isPageKeptInStack(Page page) {
     return mPageStack.indexOf(page) != -1;
   }
