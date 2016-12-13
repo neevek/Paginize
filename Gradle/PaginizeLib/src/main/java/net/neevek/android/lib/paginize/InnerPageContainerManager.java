@@ -2,10 +2,12 @@ package net.neevek.android.lib.paginize;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutResId;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 
@@ -199,6 +201,19 @@ class InnerPageContainerManager {
   public void onUncovered(Object arg) {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onUncovered(arg);
+    }
+  }
+
+
+  public void onSaveInstanceState(Bundle outState) {
+    if (mCurrentInnerPage != null) {
+      mCurrentInnerPage.onSaveInstanceState(outState);
+    }
+  }
+
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
+    if (mCurrentInnerPage != null) {
+      mCurrentInnerPage.onRestoreInstanceState(savedInstanceState);
     }
   }
 }

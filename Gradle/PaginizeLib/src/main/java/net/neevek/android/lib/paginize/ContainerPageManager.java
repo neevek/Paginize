@@ -27,13 +27,10 @@ import android.view.View;
  * This class wraps the logics used by ContainerPage and ContainerInnerPage, both implement InnerPageContainer
  */
 class ContainerPageManager extends InnerPageContainerManager {
-  //    private final String SAVE_INNER_PAGE_MANAGER_KEY = "_paginize_inner_page_manager_" + getClass().getName();
-  private ViewWrapper mInnerPageContainer;
   private InnerPageEventNotifier mInnerPageEventNotifier;
 
   public ContainerPageManager(ViewWrapper innerPageContainer) {
     super(innerPageContainer);
-    mInnerPageContainer = innerPageContainer;
   }
 
   public void setInnerPageEventNotifier(
@@ -101,35 +98,4 @@ class ContainerPageManager extends InnerPageContainerManager {
     // their onShown() callbacks are called when they are set in ContainerPage or ContainerInnerPage
     // see ContainerPageManager.setPage()
   }
-
-  // for ContainerPage or ContainerInnerPage, re-recreating the current inner page may NOT be desired
-  // in most cases, because inner pages are normally created in the subclass.
-//    public void onSaveInstanceState(Bundle outState) {
-//        InnerPage currentPage = getCurrentInnerPage();
-//        if (currentPage != null && currentPage.shouldSaveInstanceState()) {
-//            currentPage.onSaveInstanceState(outState);
-//
-//            outState.putString(SAVE_INNER_PAGE_MANAGER_KEY, currentPage.getClass().getName());
-//        }
-//    }
-//
-//    public void onRestoreInstanceState(Bundle savedInstanceState) {
-//        String clazzString = savedInstanceState.getString(SAVE_INNER_PAGE_MANAGER_KEY);
-//
-//        Class clazz = null;
-//        try {
-//            clazz = Class.forName(clazzString);
-//            Constructor ctor = clazz.getDeclaredConstructor(ViewWrapper.class);
-//            InnerPage p = (InnerPage) ctor.newInstance(mInnerPageContainer);
-//            setPage(p, null);
-//
-//            p.onRestoreInstanceState(savedInstanceState);
-//        } catch (NoSuchMethodException e) {
-//            Log.e("Paginize", "No <init>(PageActivity) constructor in InnerPage: " + clazz.getName()
-//                    + ", which is required for page restore/recovery to work.");
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

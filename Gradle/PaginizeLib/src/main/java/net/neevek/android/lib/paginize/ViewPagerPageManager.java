@@ -228,6 +228,9 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
 
   public void onSaveInstanceState(Bundle outState) {
     outState.putInt(SAVE_VIEWPAGER_PAGE_MANAGER_KEY, getCurrentPageIndex());
+    for (int i = 0; i < mInnerPageList.size(); ++i) {
+      mInnerPageList.get(i).onSaveInstanceState(outState);
+    }
   }
 
   public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -235,6 +238,9 @@ public class ViewPagerPageManager extends InnerPageContainerManager {
         savedInstanceState.getInt(SAVE_VIEWPAGER_PAGE_MANAGER_KEY);
     if (lastShownPageIndex < getPageCount()) {
       setCurrentPage(lastShownPageIndex, false);
+    }
+    for (int i = 0; i < mInnerPageList.size(); ++i) {
+      mInnerPageList.get(i).onRestoreInstanceState(savedInstanceState);
     }
   }
 
