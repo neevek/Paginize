@@ -750,44 +750,46 @@ public final class PageManager {
   }
 
   public void onSaveInstanceState(Bundle outState) {
-    final String[] classArray = new String[mPageStack.size()];
+    final String[] clsArray = new String[mPageStack.size()];
     for (int i = 0; i < mPageStack.size(); ++i) {
       final Page p = mPageStack.get(i);
-      if (p.shouldSaveInstanceState()) {
-        p.onSaveInstanceState(outState);
+      p.onSaveInstanceState(outState);
 
-        final String className = p.getClass().getName();
-        classArray[i] = className;
+      final String clsName = p.getClass().getName();
+      clsArray[i] = clsName;
 
-        if (p.getBundle() != null) {
-          final String key = SAVE_PAGE_BUNDLE_KEY + i + className;
-          outState.putBundle(key, p.getBundle());
-        }
+      if (p.getBundle() != null) {
+        final String key = SAVE_PAGE_BUNDLE_KEY + i + clsName;
+        outState.putBundle(key, p.getBundle());
       }
     }
-    outState.putStringArray(SAVE_PAGE_STACK_KEY, classArray);
+    outState.putStringArray(SAVE_PAGE_STACK_KEY, clsArray);
   }
 
   public void onRestoreInstanceState(Bundle savedInstanceState) {
-    final String[] classArray = savedInstanceState.getStringArray(SAVE_PAGE_STACK_KEY);
-    Class clazz = null;
-    try {
-      for (int i = 0; i < classArray.length; ++i) {
-        final String className = classArray[i];
-        final String key = SAVE_PAGE_BUNDLE_KEY + i + className;
+    final String[] clsArray = savedInstanceState.getStringArray(SAVE_PAGE_STACK_KEY);
+    if (clsArray == null) {
+      return;
+    }
 
-        clazz = Class.forName(className);
-        final Constructor ctor = clazz.getDeclaredConstructor(PageActivity.class);
+    Class cls = null;
+    try {
+      for (int i = 0; i < clsArray.length; ++i) {
+        final String clsName = clsArray[i];
+        final String key = SAVE_PAGE_BUNDLE_KEY + i + clsName;
+
+        cls = Class.forName(clsName);
+        final Constructor ctor = cls.getDeclaredConstructor(PageActivity.class);
         ctor.setAccessible(true);
         final Page p = (Page) ctor.newInstance(mPageActivity);
         p.setBundle(savedInstanceState.getBundle(key));
-        pushPage(p);
-
         p.onRestoreInstanceState(savedInstanceState);
+
+        pushPage(p);
       }
     } catch (NoSuchMethodException e) {
       Log.e("PageManager", "No <init>(PageActivity) constructor in Page: " +
-          clazz.getName() +
+          cls.getName() +
           ", which is required for page restore/recovery to work.");
 
     } catch (Exception e) {
