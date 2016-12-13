@@ -46,8 +46,8 @@ import java.util.LinkedList;
  * @see PageAnimator
  */
 public final class PageManager {
-  private final String SAVE_PAGE_STACK_KEY = "_paginize_page_stack";
-  private final String SAVE_PAGE_BUNDLE_KEY = "_paginize_page_bundle_";
+  private final String SAVED_PAGE_STACK = "_paginize_page_stack";
+  private final String SAVED_PAGE_BUNDLE = "_paginize_page_bundle_";
   private final String TAG = PageManager.class.getSimpleName();
 
   private PageActivity mPageActivity;
@@ -753,21 +753,19 @@ public final class PageManager {
     final String[] clsArray = new String[mPageStack.size()];
     for (int i = 0; i < mPageStack.size(); ++i) {
       final Page p = mPageStack.get(i);
-      p.onSaveInstanceState(outState);
+      p.onSaveInstanceState(p.getBundle());
 
       final String clsName = p.getClass().getName();
       clsArray[i] = clsName;
 
-      if (p.getBundle() != null) {
-        final String key = SAVE_PAGE_BUNDLE_KEY + i + clsName;
-        outState.putBundle(key, p.getBundle());
-      }
+      final String key = SAVED_PAGE_BUNDLE + i + clsName;
+      outState.putBundle(key, p.getBundle());
     }
-    outState.putStringArray(SAVE_PAGE_STACK_KEY, clsArray);
+    outState.putStringArray(SAVED_PAGE_STACK, clsArray);
   }
 
   public void onRestoreInstanceState(Bundle savedInstanceState) {
-    final String[] clsArray = savedInstanceState.getStringArray(SAVE_PAGE_STACK_KEY);
+    final String[] clsArray = savedInstanceState.getStringArray(SAVED_PAGE_STACK);
     if (clsArray == null) {
       return;
     }
@@ -776,14 +774,15 @@ public final class PageManager {
     try {
       for (int i = 0; i < clsArray.length; ++i) {
         final String clsName = clsArray[i];
-        final String key = SAVE_PAGE_BUNDLE_KEY + i + clsName;
+        final String key = SAVED_PAGE_BUNDLE + i + clsName;
 
         cls = Class.forName(clsName);
         final Constructor ctor = cls.getDeclaredConstructor(PageActivity.class);
         ctor.setAccessible(true);
         final Page p = (Page) ctor.newInstance(mPageActivity);
-        p.setBundle(savedInstanceState.getBundle(key));
-        p.onRestoreInstanceState(savedInstanceState);
+        Bundle bundle = savedInstanceState.getBundle(key);
+        p.setBundle(bundle);
+        p.onRestoreInstanceState(bundle);
 
         pushPage(p);
       }

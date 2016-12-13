@@ -75,12 +75,14 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
     return mReturnData;
   }
 
-  public Page setBundle(Bundle bundle) {
+  void setBundle(Bundle bundle) {
     mBundle = bundle;
-    return this;
   }
 
   public Bundle getBundle() {
+    if (mBundle == null) {
+      mBundle = new Bundle();
+    }
     return mBundle;
   }
 
