@@ -106,7 +106,7 @@ public final class AnnotationUtils {
       InvocationTargetException , IllegalAccessException,
       NoSuchMethodException, InstantiationException {
 
-    Constructor[] constructors = clazz.getConstructors();
+    Constructor[] constructors = clazz.getDeclaredConstructors();
     for (int i = 0; i < constructors.length; ++i) {
 
       Constructor constructor = constructors[i];
