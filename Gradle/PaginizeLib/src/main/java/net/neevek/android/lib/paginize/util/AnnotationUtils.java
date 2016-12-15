@@ -4,6 +4,7 @@ import android.os.Build;
 import android.text.TextWatcher;
 import android.view.View;
 import net.neevek.android.lib.paginize.annotation.InjectView;
+import net.neevek.android.lib.paginize.annotation.InjectViewByName;
 import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
 import net.neevek.android.lib.paginize.exception.NotImplementedInterfaceException;
@@ -187,19 +188,37 @@ public final class AnnotationUtils {
       for (int j = 0; j < annotations.length; ++j) {
         Annotation anno = annotations[j];
 
-        if (!InjectView.class.isAssignableFrom(anno.getClass())) {
+        int resId;
+        Class[] listenerTypes;
+        Class listener;
+        boolean lazy;
+
+        if (InjectView.class.isAssignableFrom(anno.getClass())) {
+          InjectView injectViewAnno = (InjectView) anno;
+          resId = injectViewAnno.value();
+          listenerTypes =  injectViewAnno.listenerTypes();
+          listener = injectViewAnno.listener();
+          lazy = injectViewAnno.lazy();
+
+        } else if (InjectViewByName.class.isAssignableFrom(anno.getClass())) {
+          InjectViewByName injectViewByNameAnno = (InjectViewByName) anno;
+          resId = viewFinder.findViewIdByName(injectViewByNameAnno.value());
+          listenerTypes =  injectViewByNameAnno.listenerTypes();
+          listener = injectViewByNameAnno.listener();
+          lazy = injectViewByNameAnno.lazy();
+
+        } else {
           continue;
         }
 
-        InjectView injectViewAnno = (InjectView) anno;
-        if ((!initForLazy && injectViewAnno.lazy()) ||
-            (initForLazy && !injectViewAnno.lazy())) {
+        if ((!initForLazy && lazy) ||
+            (initForLazy && !lazy)) {
           continue;
         }
 
-        View view = viewFinder.findViewById(injectViewAnno.value());
+        View view = viewFinder.findViewById(resId);
         if (view == null) {
-          if (initForLazy && injectViewAnno.lazy()) {
+          if (initForLazy && lazy) {
             // view == null is tolerable in this case, we assume that this field
             // be injected later with another call to
             // ViewWrapper.lazyInitializeLayout().
@@ -207,8 +226,8 @@ public final class AnnotationUtils {
           }
 
           throw new IllegalArgumentException(
-              "View 0x"+ Integer.toHexString(injectViewAnno.value()) +
-                  " specified in @InjectView on this field is not found: " +
+              "View 0x"+ Integer.toHexString(resId) +
+                  " specified in @" + anno.getClass().getName() + " on this field is not found: " +
                   field.getName() + ", if this field is meant to be injected " +
                   "lazily, remember to specify " +
                   "the 'lazy' attribute.");
@@ -219,7 +238,7 @@ public final class AnnotationUtils {
           field.set(object, view);
 
         } catch (IllegalAccessException e) {
-          String errMsg = "@InjectView() on '" + field.getName() + "' failed. ";
+          String errMsg = "@" + anno.getClass().getName() + " on '" + field.getName() + "' failed. ";
           if (field.getType() != view.getClass()) {
             errMsg += (view.getClass().getSimpleName() + " cannot be cast to " +
                 field.getType().getSimpleName());
@@ -227,7 +246,7 @@ public final class AnnotationUtils {
           throw new IllegalAccessException(errMsg);
 
         } catch (IllegalArgumentException e) {
-          String errMsg = "@InjectView() on '" + field.getName() + "' failed. ";
+          String errMsg = "@" + anno.getClass().getName() + " on '" + field.getName() + "' failed. ";
           if (field.getType() != view.getClass()) {
             errMsg += (view.getClass().getSimpleName() + " cannot be cast to " +
                 field.getType().getSimpleName());
@@ -236,18 +255,17 @@ public final class AnnotationUtils {
         }
 
 
-        Class[] listenerTypes = injectViewAnno.listenerTypes();
-        if (listenerTypes == null || listenerTypes.length == 0) {
+        if (listenerTypes.length == 0) {
           continue;
         }
 
         Object targetListener = getTargetListener(clazz, object,
-            targetListenerCache, injectViewAnno.listener(), "@InjectView");
+            targetListenerCache, listener, "@" + anno.getClass().getName());
         if (targetListener == null) {
           targetListener = object;
         }
         AnnotationUtils.setListenersForView(
-            view, injectViewAnno.listenerTypes(), targetListener);
+            view, listenerTypes, targetListener);
 
       }
     }

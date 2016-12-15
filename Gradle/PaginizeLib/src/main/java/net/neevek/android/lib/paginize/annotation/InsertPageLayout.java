@@ -39,5 +39,5 @@ public @interface InsertPageLayout {
 
   // -1 if the specified layout is to be appended to parent
   // of the inherited layout
-  int parent() default -1;
+  int parent() default 0;
 }

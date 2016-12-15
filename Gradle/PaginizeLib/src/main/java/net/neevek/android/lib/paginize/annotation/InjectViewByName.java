@@ -1,6 +1,9 @@
-package net.neevek.android.lib.paginize.util;
+package net.neevek.android.lib.paginize.annotation;
 
-import android.view.View;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>
@@ -24,11 +27,29 @@ import android.view.View;
  */
 
 /**
- * Utility interface to decouple ViewWrappers and AnnotationUtils
+ * Injects views in ViewWrapper, specifies listenerTypes, the current ViewWrapper
+ * is assumed the listener.
  *
+ * @see net.neevek.android.lib.paginize.ViewWrapper
  * @see net.neevek.android.lib.paginize.util.AnnotationUtils
  */
-public interface ViewFinder {
-  View findViewById(int id);
-  int findViewIdByName(String name);
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface InjectViewByName {
+  // this is used in Library Projects, because in Library project
+  // resource ids(R.id.*) will be non-final, we cannot use the id
+  // directly, we have to use string representation of the id, and
+  // Paginize will use res.getIdentifier(value(), "id", packageName)
+  // to get the id
+  String value();
+
+  // what kind of events to listen
+  Class[] listenerTypes() default {};
+
+  // the object for listening for events
+  Class listener() default void.class;
+
+  // should the view be injected when the ViewWrapper is constructed or
+  // the injection be triggered lazily with ViewWrapper.lazyInitializeLayout()
+  boolean lazy() default false;
 }

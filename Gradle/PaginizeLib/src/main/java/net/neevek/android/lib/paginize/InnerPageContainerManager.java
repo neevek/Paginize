@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutName;
 import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutResId;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 
@@ -46,13 +47,18 @@ class InnerPageContainerManager {
     mInnerPageContainer = innerPageContainer;
     Class clazz = innerPageContainer.getClass();
 
-    InnerPageContainerLayoutResId resIdAnnotation = null;
-
+    int resId = 0;
     try {
       do {
         if (clazz.isAnnotationPresent(InnerPageContainerLayoutResId.class)) {
-          resIdAnnotation = (InnerPageContainerLayoutResId)
-              clazz.getAnnotation(InnerPageContainerLayoutResId.class);
+          resId = ((InnerPageContainerLayoutResId)
+              clazz.getAnnotation(InnerPageContainerLayoutResId.class)).value();
+          break;
+        } else if (clazz.isAnnotationPresent(InnerPageContainerLayoutName.class)) {
+          String name = ((InnerPageContainerLayoutName)
+              clazz.getAnnotation(InnerPageContainerLayoutName.class)).value();
+          resId = innerPageContainer.getResources().getIdentifier(
+                  name, "id", innerPageContainer.getContext().getPackageName());
           break;
         }
       } while ((clazz = clazz.getSuperclass()) != ViewWrapper.class);
@@ -62,17 +68,17 @@ class InnerPageContainerManager {
       throw new InjectFailedException(e);
     }
 
-    if (resIdAnnotation == null) {
-      throw new IllegalStateException("Must specify a layout for " +
+    if (resId == 0) {
+      throw new IllegalStateException("Must specify a valid layout for " +
           "InnerPageContainer with the @InnerPageContainerLayoutResId " +
-          "annotation.");
+          "or @InnerPageContainerLayoutName annotation.");
     }
 
     View container =
-        innerPageContainer.getView().findViewById(resIdAnnotation.value());
+        innerPageContainer.getView().findViewById(resId);
     if (container == null) {
       throw new IllegalStateException("Can not find the layout with the " +
-          "specified resource ID: " + resIdAnnotation.value());
+          "specified resource ID: " + resId);
     }
     if (!(container instanceof ViewGroup)) {
       throw new IllegalStateException("The specified layout for " +

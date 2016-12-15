@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import net.neevek.android.lib.paginize.annotation.InsertPageLayout;
+import net.neevek.android.lib.paginize.annotation.InsertPageLayoutByName;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
+import net.neevek.android.lib.paginize.annotation.PageLayoutName;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
 import net.neevek.android.lib.paginize.util.AnnotationUtils;
 import net.neevek.android.lib.paginize.util.ViewFinder;
@@ -56,67 +60,130 @@ public abstract class ViewWrapper {
   }
 
   private void init() {
-    Class clazz = getClass();
-
     try {
-      List<Class> list = new ArrayList<Class>(4);
-
-      do {
-        list.add(clazz);
-
-        if (mView == null && clazz.isAnnotationPresent(PageLayout.class)) {
-          mView = mContext.getLayoutInflater().inflate(((PageLayout)
-              clazz.getAnnotation(PageLayout.class)).value(), null);
-        }
-      } while ((clazz = clazz.getSuperclass()) != ViewWrapper.class);
-
-      if (mView == null) {
-        throw new IllegalArgumentException("Must specify a layout resource" +
-            " with the @PageLayout annotation on " + clazz.getName());
+      List<Class> classList = loadAnnotatedLayoutAndCollectPageClasses();
+      if (classList.size() > 1) {
+        resolveLayoutInheritanceIfNeeded(classList);
       }
 
-      if (list.size() > 1) {
-        // -2 because a Page with @PageLayout should not have @InsertPageLayout,
-        // which will be silently ignored.
-        for (int i = list.size() - 2; i >= 0; --i) {
-          clazz = list.get(i);
-          if (clazz.isAnnotationPresent(InsertPageLayout.class)) {
-            InsertPageLayout insertPageLayoutAnno =
-                (InsertPageLayout) clazz.getAnnotation(InsertPageLayout.class);
-            if (insertPageLayoutAnno.parent() != -1) {
-              ViewGroup root = (ViewGroup)
-                  mView.findViewById(insertPageLayoutAnno.parent());
-              if (root == null) {
-                throw new IllegalArgumentException("The parent specified in " +
-                    "@InsertPageLayout is not found.");
-              }
-              mContext.getLayoutInflater()
-                  .inflate(insertPageLayoutAnno.value(), root, true);
-            } else {
-              mContext.getLayoutInflater().inflate(
-                  insertPageLayoutAnno.value(), (ViewGroup) mView, true);
-            }
-          }
-        }
-      }
-
-      ViewFinder viewFinder = new ViewFinder() {
-        public View findViewById(int id) {
-          return ViewWrapper.this.findViewById(id);
-        }
-      };
-
-      for (int i = list.size() - 1; i >= 0; --i) {
+      final ViewFinder viewFinder = getViewFinder();
+      for (int i = classList.size() - 1; i >= 0; --i) {
         AnnotationUtils.initAnnotatedFields(
-            list.get(i), this, viewFinder, false);
+            classList.get(i), this, viewFinder, false);
         AnnotationUtils.handleAnnotatedConstructors(
-            list.get(i), this, viewFinder, false);
+            classList.get(i), this, viewFinder, false);
       }
 
     } catch (Exception e) {
       e.printStackTrace();
       throw new InjectFailedException(e);
     }
+  }
+
+  private void resolveLayoutInheritanceIfNeeded(List<Class> classList) {
+    // -2 because a Page with @PageLayout should not have @InsertPageLayout,
+    // or @InsertPageLayoutByName, which will be silently ignored.
+    for (int i = classList.size() - 2; i >= 0; --i) {
+      Class cls = classList.get(i);
+      int layoutResId = 0;
+      int parentLayoutId = 0;
+
+      if (cls.isAnnotationPresent(InsertPageLayout.class)) {
+        InsertPageLayout anno =
+            (InsertPageLayout) cls.getAnnotation(InsertPageLayout.class);
+        layoutResId = anno.value();
+        parentLayoutId = anno.parent();
+
+        if (layoutResId == 0) {
+          throw new IllegalArgumentException("The layout name '"+ anno.value() +
+                  "' specified in @InsertPageLayout is not found.");
+        }
+
+      } else if (cls.isAnnotationPresent(InsertPageLayoutByName.class)) {
+        InsertPageLayoutByName anno =
+                (InsertPageLayoutByName) cls.getAnnotation(InsertPageLayoutByName.class);
+        if (anno.value().length() > 0) {
+          layoutResId = getResources().getIdentifier(
+                  anno.value(), "layout", getContext().getPackageName());
+        }
+        if (layoutResId == 0) {
+          throw new IllegalArgumentException("The layout name '"+ anno.value() +
+                  "' specified in @InsertPageLayoutByName is not found.");
+        }
+
+        if (anno.parent().length() > 0) {
+          parentLayoutId = getResources().getIdentifier(
+                  anno.parent(), "id", getContext().getPackageName());
+          if (parentLayoutId == 0) {
+            throw new IllegalArgumentException("The parent '"+ anno.parent() +
+                    "' specified in @InsertPageLayoutByName is not found.");
+          }
+        }
+      } else {
+
+        continue;
+      }
+
+      if (parentLayoutId != 0) {
+        ViewGroup root = (ViewGroup)
+                mView.findViewById(parentLayoutId);
+        if (root == null) {
+          throw new IllegalArgumentException("The parent specified in " +
+                  "@InsertPageLayout or @InsertPageLayoutByName is not found.");
+        }
+        mContext.getLayoutInflater()
+                .inflate(layoutResId, root, true);
+      } else {
+        mContext.getLayoutInflater().inflate(
+                layoutResId, (ViewGroup) mView, true);
+      }
+
+    }
+  }
+
+  @NonNull
+  private List<Class> loadAnnotatedLayoutAndCollectPageClasses() {
+    List<Class> list = new ArrayList<Class>(4);
+
+    Class clazz  = getClass();
+    do {
+      list.add(clazz);
+
+      if (mView == null) {
+        int resId = 0;
+        if (clazz.isAnnotationPresent(PageLayout.class)) {
+          resId = ((PageLayout) clazz.getAnnotation(PageLayout.class)).value();
+        } else if (clazz.isAnnotationPresent(PageLayoutName.class)) {
+          String name = ((PageLayoutName) clazz.getAnnotation(PageLayoutName.class)).value();
+          resId = getResources().getIdentifier(name, "layout", getContext().getPackageName());
+        }
+
+        if (resId != 0) {
+          mView = mContext.getLayoutInflater().inflate(resId, null);
+        }
+      }
+    } while ((clazz = clazz.getSuperclass()) != ViewWrapper.class);
+
+    if (mView == null) {
+      throw new IllegalArgumentException("Must specify a layout resource" +
+          " with the @PageLayout or @PageLayoutName annotation on " + clazz.getName());
+    }
+    return list;
+  }
+
+  @NonNull
+  private ViewFinder getViewFinder() {
+    final String packageName = getContext().getPackageName();
+    return new ViewFinder() {
+      public View findViewById(int id) {
+        return ViewWrapper.this.findViewById(id);
+      }
+
+      @Override
+      public int findViewIdByName(String name) {
+        return getResources().getIdentifier(name, "id", packageName);
+      }
+    };
   }
 
   protected View lazyInitializeLayout(int layoutResId) {
@@ -131,9 +198,16 @@ public abstract class ViewWrapper {
                                       boolean attachToRoot) {
     final View view = mContext.getLayoutInflater()
         .inflate(layoutResId, root, attachToRoot);
-    ViewFinder viewFinder = new ViewFinder() {
+
+    final String packageName = getContext().getPackageName();
+    final ViewFinder viewFinder = new ViewFinder() {
       public View findViewById(int id) {
         return view.findViewById(id);
+      }
+
+      @Override
+      public int findViewIdByName(String name) {
+        return getResources().getIdentifier(name, "id", packageName);
       }
     };
 
