@@ -162,9 +162,6 @@ public final class PageManager {
     pushPages(pages, animated, PageAnimator.AnimationDirection.FROM_RIGHT);
   }
 
-  /**
-   * 'arg' will be passed to the last page in the array
-   **/
   public void pushPages(Page[] pages, boolean animated,
                         PageAnimator.AnimationDirection animationDirection) {
     if (pages == null || pages.length == 0) {

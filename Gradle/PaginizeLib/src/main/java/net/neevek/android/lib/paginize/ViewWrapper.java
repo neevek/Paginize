@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -141,7 +140,6 @@ public abstract class ViewWrapper {
     }
   }
 
-  @NonNull
   private List<Class> loadAnnotatedLayoutAndCollectPageClasses() {
     List<Class> list = new ArrayList<Class>(4);
 
@@ -171,7 +169,6 @@ public abstract class ViewWrapper {
     return list;
   }
 
-  @NonNull
   private ViewFinder getViewFinder() {
     final String packageName = getContext().getPackageName();
     return new ViewFinder() {
@@ -414,7 +411,7 @@ public abstract class ViewWrapper {
   }
 
   /**
-   * onResume mirrors Activity.onKeyDown
+   * onKeyDown mirrors Activity.onKeyDown
    *
    * @see PageManager
    */
@@ -423,7 +420,7 @@ public abstract class ViewWrapper {
   }
 
   /**
-   * onResume mirrors Activity.onKeyUp
+   * onKeyUp mirrors Activity.onKeyUp
    *
    * @see PageManager
    */
@@ -432,7 +429,7 @@ public abstract class ViewWrapper {
   }
 
   /**
-   * onResume mirrors Activity.onTouchEvent
+   * onTouchEvent mirrors Activity.onTouchEvent
    *
    * @see PageManager
    */
@@ -441,7 +438,7 @@ public abstract class ViewWrapper {
   }
 
   /**
-   * onResume mirrors Activity.onConfigurationChanged
+   * onConfigurationChanged mirrors Activity.onConfigurationChanged
    *
    * @see PageManager
    */
@@ -449,7 +446,7 @@ public abstract class ViewWrapper {
   }
 
   /**
-   * onResume mirrors Activity.onSaveInstanceState
+   * onSaveInstanceState mirrors Activity.onSaveInstanceState
    *
    * @see PageManager
    */
@@ -457,7 +454,7 @@ public abstract class ViewWrapper {
   }
 
   /**
-   * onResume mirrors Activity.onRestoreInstanceState
+   * onRestoreInstanceState mirrors Activity.onRestoreInstanceState
    *
    * @see PageManager
    */

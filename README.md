@@ -17,7 +17,7 @@ Installation
 ============
 ```
 dependencies {
-  compile 'net.neevek.android:paginize:0.6.8'
+  compile 'net.neevek.android:paginize:0.6.9'
 }
 ```
 
