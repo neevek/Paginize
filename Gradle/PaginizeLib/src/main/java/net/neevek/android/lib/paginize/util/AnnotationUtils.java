@@ -3,14 +3,21 @@ package net.neevek.android.lib.paginize.util;
 import android.os.Build;
 import android.text.TextWatcher;
 import android.view.View;
+
 import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.annotation.InjectViewByName;
 import net.neevek.android.lib.paginize.annotation.ListenerDefs;
+import net.neevek.android.lib.paginize.annotation.ListenerDefs2;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
+import net.neevek.android.lib.paginize.annotation.SetListeners2;
 import net.neevek.android.lib.paginize.exception.NotImplementedInterfaceException;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -109,60 +116,119 @@ public final class AnnotationUtils {
 
     Constructor[] constructors = clazz.getDeclaredConstructors();
     for (int i = 0; i < constructors.length; ++i) {
-
       Constructor constructor = constructors[i];
       Annotation[] annotations = constructor.getAnnotations();
       for (int j = 0; j < annotations.length; ++j) {
 
         Annotation anno = annotations[j];
-        if (!(anno instanceof ListenerDefs)) {
-          continue;
-        }
+        if (anno instanceof ListenerDefs) {
+          handleListenerDefs(clazz, object, viewFinder, initForLazy, (ListenerDefs) anno);
 
-        ListenerDefs annoContainer = (ListenerDefs) anno;
-        if (annoContainer.value().length == 0) {
-          continue;
-        }
-
-        Map<Class, Object> targetListenerCache = new HashMap<Class, Object>();
-
-        Annotation[] setListenerAnnoArray = annoContainer.value();
-        for (int k = 0; k < setListenerAnnoArray.length; ++k) {
-          SetListeners setListenersAnno = (SetListeners)setListenerAnnoArray[k];
-
-          if ((!initForLazy && setListenersAnno.lazy()) ||
-              (initForLazy && !setListenersAnno.lazy())) {
-            continue;
-          }
-
-          View view = viewFinder.findViewById(setListenersAnno.view());
-          if (view == null) {
-            if (initForLazy && setListenersAnno.lazy()) {
-              // view == null is tolerable in this case, we assume that this
-              // field be injected later with another call to
-              // ViewWrapper.lazyInitializeLayout().
-              continue;
-            }
-
-            throw new IllegalArgumentException(
-                "The view specified in @SetListeners is not found: 0x" +
-                    Integer.toHexString(setListenersAnno.view()) +
-                    ", if this field is meant to be injected lazily, " +
-                    "remember to specify the 'lazy' attribute.");
-          }
-
-          Object targetListener = getTargetListener(clazz, object,
-              targetListenerCache, setListenersAnno.listener(), "@SetListeners");
-
-          if (targetListener == null) {
-            targetListener = object;
-          }
-
-          AnnotationUtils.setListenersForView(
-              view, setListenersAnno.listenerTypes(), targetListener);
+        } else if (anno instanceof ListenerDefs2) {
+          handleListenerDefs2(clazz, object, viewFinder, initForLazy, (ListenerDefs2) anno);
         }
 
       }
+    }
+  }
+
+  private static void handleListenerDefs(Class clazz,
+                                         Object object,
+                                         ViewFinder viewFinder,
+                                         boolean initForLazy,
+                                         ListenerDefs annoContainer) throws
+          InstantiationException, IllegalAccessException,
+          InvocationTargetException, NoSuchMethodException {
+    if (annoContainer.value().length == 0) {
+      return;
+    }
+
+    Map<Class, Object> targetListenerCache = new HashMap<Class, Object>();
+
+    Annotation[] setListenerAnnoArray = annoContainer.value();
+    for (int k = 0; k < setListenerAnnoArray.length; ++k) {
+      SetListeners setListenersAnno = (SetListeners)setListenerAnnoArray[k];
+
+      if ((!initForLazy && setListenersAnno.lazy()) ||
+          (initForLazy && !setListenersAnno.lazy())) {
+        continue;
+      }
+
+      View view = viewFinder.findViewById(setListenersAnno.view());
+      if (view == null) {
+        if (initForLazy && setListenersAnno.lazy()) {
+          // view == null is tolerable in this case, we assume that this
+          // field be injected later with another call to
+          // ViewWrapper.lazyInitializeLayout().
+          continue;
+        }
+
+        throw new IllegalArgumentException(
+            "The view specified in @SetListeners is not found: 0x" +
+                Integer.toHexString(setListenersAnno.view()) +
+                ", if this field is meant to be injected lazily, " +
+                "remember to specify the 'lazy' attribute.");
+      }
+
+      Object targetListener = getTargetListener(clazz, object,
+          targetListenerCache, setListenersAnno.listener(), "@SetListeners");
+
+      if (targetListener == null) {
+        targetListener = object;
+      }
+
+      AnnotationUtils.setListenersForView(
+              view, setListenersAnno.listenerTypes(), targetListener);
+    }
+  }
+
+  private static void handleListenerDefs2(Class clazz,
+                                          Object object,
+                                          ViewFinder viewFinder,
+                                          boolean initForLazy,
+                                          ListenerDefs2 annoContainer) throws
+          InstantiationException, IllegalAccessException,
+          InvocationTargetException, NoSuchMethodException {
+    if (annoContainer.value().length == 0) {
+      return;
+    }
+
+    Map<Class, Object> targetListenerCache = new HashMap<Class, Object>();
+
+    Annotation[] setListenerAnnoArray = annoContainer.value();
+    for (int k = 0; k < setListenerAnnoArray.length; ++k) {
+      SetListeners2 setListenersAnno = (SetListeners2)setListenerAnnoArray[k];
+
+      if ((!initForLazy && setListenersAnno.lazy()) ||
+              (initForLazy && !setListenersAnno.lazy())) {
+        continue;
+      }
+
+      View view = viewFinder.findViewById(viewFinder.findViewIdByName(setListenersAnno.viewName()));
+      if (view == null) {
+        if (initForLazy && setListenersAnno.lazy()) {
+          // view == null is tolerable in this case, we assume that this
+          // field be injected later with another call to
+          // ViewWrapper.lazyInitializeLayout().
+          continue;
+        }
+
+        throw new IllegalArgumentException(
+                "The viewName specified in @SetListeners2 is not found: " +
+                        setListenersAnno.viewName() +
+                        ", if this field is meant to be injected lazily, " +
+                        "remember to specify the 'lazy' attribute.");
+      }
+
+      Object targetListener = getTargetListener(clazz, object,
+              targetListenerCache, setListenersAnno.listener(), "@SetListeners2");
+
+      if (targetListener == null) {
+        targetListener = object;
+      }
+
+      AnnotationUtils.setListenersForView(
+              view, setListenersAnno.listenerTypes(), targetListener);
     }
   }
 
@@ -218,13 +284,6 @@ public final class AnnotationUtils {
 
         View view = viewFinder.findViewById(resId);
         if (view == null) {
-          if (initForLazy && lazy) {
-            // view == null is tolerable in this case, we assume that this field
-            // be injected later with another call to
-            // ViewWrapper.lazyInitializeLayout().
-            continue;
-          }
-
           throw new IllegalArgumentException(
               "View 0x"+ Integer.toHexString(resId) +
                   " specified in @" + anno.getClass().getName() + " on this field is not found: " +
