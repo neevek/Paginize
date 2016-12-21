@@ -152,4 +152,9 @@ public abstract class ContainerPage extends Page
   public void onUncovered(Object arg) {
     mContainerPageManager.onUncovered(arg);
   }
+
+  @Override
+  public void onDestroy() {
+    mContainerPageManager.onDestroy();
+  }
 }

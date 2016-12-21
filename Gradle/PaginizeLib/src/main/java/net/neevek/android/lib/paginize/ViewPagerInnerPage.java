@@ -224,4 +224,9 @@ public abstract class ViewPagerInnerPage extends InnerPage
   public void onUncovered(Object arg) {
     mViewPagerPageManager.onUncovered(arg);
   }
+
+  @Override
+  public void onDestroy() {
+    mViewPagerPageManager.onDestroy();
+  }
 }

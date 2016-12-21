@@ -210,7 +210,6 @@ class InnerPageContainerManager {
     }
   }
 
-
   void onSaveInstanceState(Bundle outState) {
     if (mCurrentInnerPage != null) {
       mCurrentInnerPage.onSaveInstanceState(outState);

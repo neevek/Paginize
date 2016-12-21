@@ -2,6 +2,9 @@ package net.neevek.android.lib.paginize;
 
 import android.view.View;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,6 +31,8 @@ import android.view.View;
  */
 class ContainerPageManager extends InnerPageContainerManager {
   private InnerPageEventNotifier mInnerPageEventNotifier;
+
+  private Set<InnerPage> mInnerPageSet = new HashSet<InnerPage>();
 
   ContainerPageManager(ViewWrapper innerPageContainer) {
     super(innerPageContainer);
@@ -74,6 +79,10 @@ class ContainerPageManager extends InnerPageContainerManager {
     }
 
     setCurrentInnerPage(newPage);
+
+    if (!mInnerPageSet.contains(newPage)) {
+      mInnerPageSet.add(newPage);
+    }
   }
 
   // this method is rarely needed
@@ -97,5 +106,11 @@ class ContainerPageManager extends InnerPageContainerManager {
     // For InnerPages in ContainerPage or ContainerInnerPage, do not mirror the onShown() callback
     // their onShown() callbacks are called when they are set in ContainerPage or ContainerInnerPage
     // see ContainerPageManager.setPage()
+  }
+
+  void onDestroy() {
+    for (InnerPage innerPage : mInnerPageSet) {
+      innerPage.onDestroy();
+    }
   }
 }

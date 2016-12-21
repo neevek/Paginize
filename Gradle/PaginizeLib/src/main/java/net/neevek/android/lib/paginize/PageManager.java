@@ -295,6 +295,7 @@ public final class PageManager {
     removedPage.onHide();
     mContainerView.removeView(removedPage.getView());
     removedPage.onHidden();
+    removedPage.onDestroy();
 
     if (mPageEventNotifier != null) {
       mPageEventNotifier.onPageHidden(removedPage);
@@ -339,6 +340,7 @@ public final class PageManager {
       page.onHide();
       mContainerView.removeView(page.getView());
       page.onHidden();
+      page.onDestroy();
 
       if (mPageEventNotifier != null) {
         mPageEventNotifier.onPageHidden(page);
@@ -396,6 +398,7 @@ public final class PageManager {
       page.onHide();
       mContainerView.removeView(page.getView());
       page.onHidden();
+      page.onDestroy();
 
       if (mPageEventNotifier != null) {
         mPageEventNotifier.onPageHidden(page);
@@ -495,6 +498,7 @@ public final class PageManager {
       page.onHide();
       mContainerView.removeView(page.getView());
       page.onHidden();
+      page.onDestroy();
 
       if (mPageEventNotifier != null) {
         mPageEventNotifier.onPageHidden(page);
@@ -570,6 +574,7 @@ public final class PageManager {
   private void doFinalWorkForPopPageInternal(Page removedPage, Page prevPage) {
     mContainerView.removeView(removedPage.getView());
     removedPage.onHidden();
+    removedPage.onDestroy();
     if (mPageEventNotifier != null) {
       mPageEventNotifier.onPageHidden(removedPage);
     }
@@ -706,6 +711,7 @@ public final class PageManager {
       mCurPage.onHide();
       // we do not pop the top page, we simply call onHidden on it
       mCurPage.onHidden();
+      mCurPage.onDestroy();
 
       if (mPageEventNotifier != null) {
         mPageEventNotifier.onPageHidden(mCurPage);

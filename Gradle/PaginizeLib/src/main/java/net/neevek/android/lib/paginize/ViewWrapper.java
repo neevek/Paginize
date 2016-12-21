@@ -324,6 +324,14 @@ public abstract class ViewWrapper {
   }
 
   /**
+   * onDestroy is called after onHidden()
+   *
+   * @see PageManager
+   */
+  public void onDestroy() {
+  }
+
+  /**
    * onCover is called for the current ViewWrapper before a new
    * ViewWrapper is pushed on the page stack
    *

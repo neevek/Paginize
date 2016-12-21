@@ -160,7 +160,11 @@ class ViewPagerPageManager extends InnerPageContainerManager {
   void removePage(int index) {
     checkPageIndex(index);
 
-    mInnerPageList.remove(index);
+    InnerPage removedPage = mInnerPageList.remove(index);
+    removedPage.onHide();
+    removedPage.onHidden();
+    removedPage.onDestroy();
+
     if (mLastSelectedPage - 1 >= 0) {
       mLastSelectedPage -= 1;
     } else {
@@ -253,6 +257,12 @@ class ViewPagerPageManager extends InnerPageContainerManager {
 
   int indexOf(InnerPage innerPage) {
     return mInnerPageList.indexOf(innerPage);
+  }
+
+  void onDestroy() {
+    for (InnerPage innerPage : mInnerPageList) {
+      innerPage.onDestroy();
+    }
   }
 
   class InnerPagePagerAdapter extends PagerAdapter {
