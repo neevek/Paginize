@@ -80,7 +80,7 @@ class ContainerPageManager extends InnerPageContainerManager {
 
     setCurrentInnerPage(newPage);
 
-    if (!mInnerPageSet.contains(newPage)) {
+    if (newPage != null && !mInnerPageSet.contains(newPage)) {
       mInnerPageSet.add(newPage);
     }
   }
@@ -110,7 +110,9 @@ class ContainerPageManager extends InnerPageContainerManager {
 
   void onDestroy() {
     for (InnerPage innerPage : mInnerPageSet) {
-      innerPage.onDestroy();
+      if (innerPage != null) {
+        innerPage.onDestroy();
+      }
     }
   }
 }

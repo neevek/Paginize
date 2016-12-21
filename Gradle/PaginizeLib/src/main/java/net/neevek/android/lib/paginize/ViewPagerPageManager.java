@@ -261,7 +261,9 @@ class ViewPagerPageManager extends InnerPageContainerManager {
 
   void onDestroy() {
     for (InnerPage innerPage : mInnerPageList) {
-      innerPage.onDestroy();
+      if (innerPage != null) {
+        innerPage.onDestroy();
+      }
     }
   }
 
