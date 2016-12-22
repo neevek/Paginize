@@ -291,9 +291,15 @@ public final class PageManager {
       return;
     }
 
-    Page removedPage = mPageStack.remove(index);
+    final Page removedPage = mPageStack.remove(index);
     removedPage.onHide();
-    mContainerView.removeView(removedPage.getView());
+    // without using post here, removeView will cause flicker
+    removedPage.getView().post(new Runnable() {
+        @Override
+        public void run() {
+          mContainerView.removeView(removedPage.getView());
+        }
+    });
     removedPage.onHidden();
     removedPage.onDestroy();
 
