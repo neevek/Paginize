@@ -30,9 +30,8 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 6011
-        versionName "0.6.11"
+        versionCode 6012
+        versionName "0.6.12"
         setProperty("archivesBaseName", "paginize")
     }
     buildTypes {
