@@ -530,7 +530,9 @@ public final class PageManager {
       prevPage.onUncover(removedPage.getReturnData());
 
       if (animated) {
-        if (mContainerViewManager.canSwipeToHide() &&
+        // for TYPE_DIALOG, only custom animation is used
+        if (removedPage.getType() != Page.TYPE.TYPE_DIALOG &&
+            mContainerViewManager.canSwipeToHide() &&
             removedPage.getView().getLeft() > 0) {
           swipeToHide(removedPage.getView(), prevPage.getView(),
               animationDirection, false);
@@ -550,8 +552,10 @@ public final class PageManager {
     } else {
       prevPage = null;
 
+      // the order matters here
       if (animated &&
           !removedPage.onPopPageAnimation(removedPage.getView(), null, animationDirection) &&
+          removedPage.getType() != Page.TYPE.TYPE_DIALOG &&
           mPageAnimator != null) {
         mPageAnimator.onPopPageAnimation( removedPage.getView(), null, animationDirection);
       }
@@ -680,14 +684,7 @@ public final class PageManager {
 
     // we do not pop the last page, let the activity handle this BACK-press
     if (getPageCount() > 1) {
-      if (mCurPage.getType() == Page.TYPE.TYPE_DIALOG) {
-        // for pages of DIALOG type, do not apply animation.
-        popTopNPages(mCurPage.getDefaultPageCountToPop(), false);
-
-      } else {
-        popTopNPages(mCurPage.getDefaultPageCountToPop(), true);
-      }
-
+      popTopNPages(mCurPage.getDefaultPageCountToPop(), true);
       return true;
     }
 

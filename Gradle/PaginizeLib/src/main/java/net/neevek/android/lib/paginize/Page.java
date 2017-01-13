@@ -108,7 +108,7 @@ public abstract class Page extends ViewWrapper implements PageAnimator {
   }
 
   public void show() {
-    show(false);
+    show(true);
   }
 
   public void show(boolean animated) {
