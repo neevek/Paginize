@@ -77,6 +77,10 @@ public abstract class ViewPagerPage extends Page implements InnerPageContainer {
         alwaysKeepInnerPagesInViewHierarchy);
   }
 
+  public void setPageSmoothScrollEnabled(boolean enabled) {
+    mViewPagerPageManager.setPageSmoothScrollEnabled(enabled);
+  }
+
   public void setupTabLayout(int tabLayoutResId, boolean smoothScroll) {
     mViewPagerPageManager.setupTabLayout(tabLayoutResId, smoothScroll);
   }

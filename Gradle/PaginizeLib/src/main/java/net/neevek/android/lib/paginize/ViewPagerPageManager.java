@@ -36,7 +36,8 @@ import java.util.List;
  */
 
 /**
- * This class wraps the logics used by ViewPagerPage and ViewPagerInnerPage, both implement InnerPageContainer
+ * This class wraps the logics used by ViewPagerPage and ViewPagerInnerPage,
+ * both implement InnerPageContainer
  */
 class ViewPagerPageManager extends InnerPageContainerManager {
   private final String SAVE_VIEWPAGER_PAGE_MANAGER_KEY =
@@ -52,6 +53,8 @@ class ViewPagerPageManager extends InnerPageContainerManager {
   private ViewPagerPageScrollListener mPageScrollListener;
   private InnerPageEventNotifier mInnerPageEventNotifier;
   private SetCurrentPageTask mSetCurrentPageTask;
+
+  private boolean mPageSmoothScroll = true;
 
   ViewPagerPageManager(ViewWrapper innerPageContainer) {
     super(innerPageContainer);
@@ -81,6 +84,10 @@ class ViewPagerPageManager extends InnerPageContainerManager {
     mAlwaysKeepInnerPagesInViewHierarchy = alwaysKeepInnerPagesInViewHierarchy;
   }
 
+  void setPageSmoothScrollEnabled(boolean enabled) {
+    mPageSmoothScroll = enabled;
+  }
+
   void setupTabLayout(int tabLayoutResId, final boolean smoothScroll) {
     setupTabLayout((TabLayout) getInnerPageContainer()
         .findViewById(tabLayoutResId), smoothScroll);
@@ -91,10 +98,11 @@ class ViewPagerPageManager extends InnerPageContainerManager {
       throw new IllegalArgumentException("The specified TabLayout is null");
     }
     mTabLayout = tabLayout;
+    mPageSmoothScroll = smoothScroll;
     mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       public void onTabSelected(TabLayout.Tab tab) {
         if (tab != null) {
-          mViewPager.setCurrentItem(tab.getPosition(), smoothScroll);
+          mViewPager.setCurrentItem(tab.getPosition(), mPageSmoothScroll);
         }
       }
       public void onTabUnselected(TabLayout.Tab tab) { }

@@ -72,6 +72,10 @@ public abstract class ViewPagerInnerPage extends InnerPage
     mViewPagerPageManager.setInnerPageEventNotifier(innerPageEventNotifier);
   }
 
+  public void setPageSmoothScrollEnabled(boolean enabled) {
+    mViewPagerPageManager.setPageSmoothScrollEnabled(enabled);
+  }
+
   public void setupTabLayout(TabLayout tabLayout, boolean smoothScroll) {
     mViewPagerPageManager.setupTabLayout(tabLayout, smoothScroll);
   }
