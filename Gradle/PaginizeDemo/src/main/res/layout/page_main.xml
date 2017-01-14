@@ -94,6 +94,15 @@
           android:text="Custom Page"
           android:textColor="@color/primary_text"
           />
+
+        <Button
+          android:id="@+id/btn_contrib_page"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:minWidth="300dp"
+          android:text="PaginizeContrib Page"
+          android:textColor="@color/primary_text"
+          />
       </LinearLayout>
     </ScrollView>
   </android.support.design.widget.CoordinatorLayout>

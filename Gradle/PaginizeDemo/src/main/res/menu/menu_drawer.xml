@@ -21,5 +21,9 @@
           android:id="@+id/mi_custom_page"
           android:title="Custom Page"
           />
+        <item
+          android:id="@+id/mi_contrib_page"
+          android:title="PaginizeContrib Page"
+          />
     </group>
 </menu>

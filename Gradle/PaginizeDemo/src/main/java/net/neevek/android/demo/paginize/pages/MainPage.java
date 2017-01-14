@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.neevek.android.demo.paginize.R;
+import net.neevek.android.demo.paginize.paginizecontrib.PaginizeContribMainPage;
 import net.neevek.android.demo.paginize.util.ToolbarHelper;
 import net.neevek.android.lib.paginize.Page;
 import net.neevek.android.lib.paginize.PageActivity;
@@ -67,6 +68,8 @@ public class MainPage extends Page implements View.OnClickListener {
       @SetListeners(view = R.id.btn_cta_page,
           listenerTypes = View.OnClickListener.class),
       @SetListeners(view = R.id.btn_custom_page,
+          listenerTypes = View.OnClickListener.class),
+      @SetListeners(view = R.id.btn_contrib_page,
           listenerTypes = View.OnClickListener.class),
   })
   @SuppressWarnings("deprecation")
@@ -146,6 +149,9 @@ public class MainPage extends Page implements View.OnClickListener {
           case R.id.mi_custom_page:
             new CustomPage(getContext()).show(true);
             break;
+          case R.id.mi_contrib_page:
+            new PaginizeContribMainPage(getContext()).show(true);
+            break;
         }
         return true;
       }
@@ -191,6 +197,9 @@ public class MainPage extends Page implements View.OnClickListener {
         break;
       case R.id.btn_custom_page:
         new CustomPage(getContext()).show(true);
+        break;
+      case R.id.btn_contrib_page:
+        new PaginizeContribMainPage(getContext()).show(true);
         break;
     }
   }
