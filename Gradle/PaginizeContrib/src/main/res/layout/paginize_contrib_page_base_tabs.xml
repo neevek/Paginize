@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/paginize_contrib_window_background"
+  android:fitsSystemWindows="true"
+  >
+
+  <ViewStub
+    android:id="@+id/paginize_contrib_stub_layout_toolbar"
+    android:layout="@layout/paginize_contrib_layout_toolbar"
+    android:inflatedId="@+id/paginize_contrib_layout_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    />
+
+  <FrameLayout
+    android:id="@+id/paginize_contrib_layout_content_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="?attr/actionBarSize"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    />
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="1px"
+    android:layout_gravity="bottom"
+    android:background="@color/paginize_contrib_divider"
+    android:layout_marginBottom="?attr/actionBarSize"
+    />
+
+  <android.support.design.widget.TabLayout
+    android:id="@+id/paginize_contrib_layout_tab_container"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/paginize_contrib_window_background"
+    android:layout_gravity="bottom"
+    app:tabPadding="0dp"
+    app:tabMode="fixed"
+    app:tabIndicatorColor="#0000"
+    />
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:gravity="center_vertical"
+  >
+
+  <ImageView
+    android:id="@+id/paginize_contrib_iv_error"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:src="@drawable/paginize_contrib_ic_warning_black_48dp"
+    />
+
+  <TextView
+    android:id="@+id/paginize_contrib_tv_error_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/paginize_contrib_iv_error"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:gravity="center"
+    android:textSize="14dp"
+    android:textColor="@color/paginize_contrib_secondary_text"
+    tools:text="Error happened"
+    />
+
+  <Button
+    android:id="@+id/paginize_contrib_btn_retry"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/paginize_contrib_tv_error_text"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:textSize="14dp"
+    android:text="@string/paginize_contrib_retry"
+    />
+
+</RelativeLayout>

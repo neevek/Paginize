@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:gravity="center_vertical"
+  >
+
+  <ProgressBar
+    android:id="@+id/paginize_contrib_pb_loading"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    />
+
+  <TextView
+    android:id="@+id/paginize_contrib_tv_loading_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/paginize_contrib_pb_loading"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:textColor="@color/paginize_contrib_secondary_text"
+    android:gravity="center"
+    android:textSize="14dp"
+    android:visibility="gone"
+    tools:visibility="visible"
+    tools:text="@string/paginize_contrib_loading"
+    />
+
+</RelativeLayout>

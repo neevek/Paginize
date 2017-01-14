@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/paginize_contrib_window_background"
+  android:fitsSystemWindows="true"
+  >
+
+  <ViewStub
+    android:id="@+id/paginize_contrib_stub_layout_toolbar"
+    android:layout="@layout/paginize_contrib_layout_toolbar"
+    android:inflatedId="@+id/paginize_contrib_layout_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    />
+
+  <FrameLayout
+    android:id="@+id/paginize_contrib_layout_content_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    />
+
+  <ViewStub
+    android:id="@+id/paginize_contrib_stub_loading_layout"
+    android:layout="@layout/paginize_contrib_layout_loading"
+    android:inflatedId="@+id/paginize_contrib_layout_loading"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    />
+
+  <ViewStub
+    android:id="@+id/paginize_contrib_stub_error_layout"
+    android:layout="@layout/paginize_contrib_layout_error"
+    android:inflatedId="@+id/paginize_contrib_layout_error"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    />
+</android.support.design.widget.CoordinatorLayout>

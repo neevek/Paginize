@@ -1,0 +1,15 @@
+<resources>
+  <color name="paginize_contrib_window_background">#fff</color>
+
+  <color name="paginize_contrib_primary">#009688</color>
+  <color name="paginize_contrib_primary_dark">#00796B</color>
+  <color name="paginize_contrib_primary_light">#B2DFDB</color>
+  <color name="paginize_contrib_accent">#009688</color>
+  <color name="paginize_contrib_primary_text">#212121</color>
+  <color name="paginize_contrib_secondary_text">#757575</color>
+  <color name="paginize_contrib_icons">#FFFFFF</color>
+  <color name="paginize_contrib_divider">#BDBDBD</color>
+
+  <color name="paginize_contrib_light_gray">#BDBDBD</color>
+  <color name="paginize_contrib_highlighted">#CDCDCD</color>
+</resources>

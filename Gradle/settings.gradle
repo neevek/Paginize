@@ -1,1 +1,1 @@
-include ':PaginizeDemo', ':PaginizeLib'
+include ':PaginizeDemo', ':PaginizeLib', ':PaginizeContrib'

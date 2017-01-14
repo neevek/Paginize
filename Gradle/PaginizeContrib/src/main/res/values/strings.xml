@@ -1,0 +1,5 @@
+<resources>
+  <string name="paginize_contrib_app_name">PaginizeContrib</string>
+  <string name="paginize_contrib_retry">Retry</string>
+  <string name="paginize_contrib_loading">Loading...</string>
+</resources>
