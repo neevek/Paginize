@@ -2,6 +2,7 @@ package net.neevek.android.lib.paginizecontrib.page;
 
 import android.animation.ObjectAnimator;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.support.v4.util.Pair;
 import android.view.Gravity;
 import android.view.View;
@@ -43,6 +44,9 @@ public class OptionMenuPage extends Page implements View.OnClickListener {
     setType(TYPE.TYPE_DIALOG);
     getView().setOnClickListener(this);
 
+    if (Build.VERSION.SDK_INT >= 21) {
+      mScrollView.setClipToOutline(true);
+    }
     setMenuItemContainerWidth();
   }
 
@@ -135,7 +139,7 @@ public class OptionMenuPage extends Page implements View.OnClickListener {
     button.setSingleLine();
     button.setId(MENU_ITEM_ID);
     button.setGravity(Gravity.CENTER_VERTICAL);
-    button.setBackgroundResource(R.drawable.paginize_contrib_white_item_selector);
+    button.setBackgroundResource(R.drawable.paginize_contrib_item_selector);
     button.setTextColor(getResources().getColor(R.color.paginize_contrib_primary_text));
     button.setTextSize(ITEM_TEXT_SIZE);
     button.setText(title);

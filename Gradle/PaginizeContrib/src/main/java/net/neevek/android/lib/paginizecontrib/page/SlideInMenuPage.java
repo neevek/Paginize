@@ -35,6 +35,8 @@ public class SlideInMenuPage extends Page implements View.OnClickListener {
   private ScrollView mScrollView;
   @InjectViewByName(P.id.paginize_contrib_layout_option_menu_item_container)
   private LinearLayout mMenuItemContainer;
+  @InjectViewByName(P.id.paginize_contrib_semi_transparent_background)
+  private View mViewSemiTransparentBackground;
 
   private OnMenuItemClickListener mListener;
 
@@ -126,7 +128,7 @@ public class SlideInMenuPage extends Page implements View.OnClickListener {
     button.setSingleLine();
     button.setId(MENU_ITEM_ID);
     button.setGravity(Gravity.CENTER);
-    button.setBackgroundResource(R.drawable.paginize_contrib_white_item_selector);
+    button.setBackgroundResource(R.drawable.paginize_contrib_item_selector);
     button.setTextColor(getResources().getColor(R.color.paginize_contrib_primary_text));
     button.setTextSize(ITEM_TEXT_SIZE);
     button.setText(title);
@@ -188,8 +190,8 @@ public class SlideInMenuPage extends Page implements View.OnClickListener {
 
     mMenuItemContainer.startAnimation(translateAnim);
 
-    getView().setAlpha(0);
-    getView().animate().alpha(1).setDuration(getAnimationDuration()).start();
+    mViewSemiTransparentBackground.setAlpha(0);
+    mViewSemiTransparentBackground.animate().alpha(1).setDuration(getAnimationDuration()).start();
     return true;
   }
 
@@ -204,7 +206,7 @@ public class SlideInMenuPage extends Page implements View.OnClickListener {
     anim.setInterpolator(new DecelerateInterpolator());
     mMenuItemContainer.startAnimation(anim);
 
-    getView().animate().alpha(0).setDuration(getAnimationDuration()).start();
+    mViewSemiTransparentBackground.animate().alpha(0).setDuration(getAnimationDuration()).start();
     return true;
   }
 

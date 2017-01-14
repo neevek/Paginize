@@ -14,10 +14,10 @@
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="0.75"
+      android:background="@drawable/paginize_contrib_round_rect"
       >
         <LinearLayout
           android:id="@+id/paginize_contrib_layout_option_menu_item_container"
-          android:background="@color/paginize_contrib_window_background"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="vertical">

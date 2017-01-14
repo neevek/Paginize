@@ -17,6 +17,8 @@
     <item name="colorPrimaryDark">@color/paginize_contrib_primary_dark</item>
     <item name="colorPrimary">@color/paginize_contrib_primary</item>
     <item name="colorAccent">@color/paginize_contrib_accent</item>
+    <item name="colorControlHighlight">@color/paginize_contrib_highlighted</item>
+
 
     <item name="colorControlActivated">@color/paginize_contrib_accent</item>
     <item name="colorControlNormal">@color/paginize_contrib_light_gray</item>

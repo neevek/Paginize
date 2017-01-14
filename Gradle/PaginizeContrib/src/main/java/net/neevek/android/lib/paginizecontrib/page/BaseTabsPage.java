@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.StringRes;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewStub;
 
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.ViewPagerPage;
+import net.neevek.android.lib.paginize.annotation.InjectViewByName;
 import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutName;
 import net.neevek.android.lib.paginize.annotation.PageLayoutName;
 import net.neevek.android.lib.paginizecontrib.P;
@@ -26,9 +28,12 @@ public class BaseTabsPage extends ViewPagerPage {
   private View mViewToolbarContainer;
   private Toolbar mToolbar;
 
+  @InjectViewByName(P.id.paginize_contrib_layout_tab_container)
+  private TabLayout mTabLayout;
+
   public BaseTabsPage(PageActivity pageActivity) {
     super(pageActivity);
-    setupTabLayout(R.id.paginize_contrib_layout_tab_container, true);
+    setupTabLayout(mTabLayout, true);
     setHorizontalFadingEdgeEnabled(false);
   }
 
@@ -61,6 +66,10 @@ public class BaseTabsPage extends ViewPagerPage {
     } else if (mViewToolbarContainer != null) {
       mViewToolbarContainer.setVisibility(View.GONE);
     }
+  }
+
+  protected TabLayout getTabLayout() {
+    return mTabLayout;
   }
 
   protected final void setMenu(@MenuRes int menuResId) {

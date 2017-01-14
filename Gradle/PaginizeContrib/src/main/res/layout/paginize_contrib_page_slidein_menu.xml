@@ -4,14 +4,19 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="#66000000"
-  android:gravity="bottom"
   >
+    <View
+      android:id="@+id/paginize_contrib_semi_transparent_background"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="#66000000"
+      />
 
     <ScrollView
       android:id="@+id/paginize_contrib_layout_option_menu_scroll_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
       >
         <LinearLayout
           android:id="@+id/paginize_contrib_layout_option_menu_item_container"

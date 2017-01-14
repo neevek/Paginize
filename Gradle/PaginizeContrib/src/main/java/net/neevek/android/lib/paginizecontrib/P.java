@@ -14,6 +14,7 @@ public final class P {
         public static final String paginize_contrib_layout_tab_container="paginize_contrib_layout_tab_container";
         public static final String paginize_contrib_layout_toolbar="paginize_contrib_layout_toolbar";
         public static final String paginize_contrib_pb_loading="paginize_contrib_pb_loading";
+        public static final String paginize_contrib_semi_transparent_background="paginize_contrib_semi_transparent_background";
         public static final String paginize_contrib_stub_error_layout="paginize_contrib_stub_error_layout";
         public static final String paginize_contrib_stub_layout_toolbar="paginize_contrib_stub_layout_toolbar";
         public static final String paginize_contrib_stub_loading_layout="paginize_contrib_stub_loading_layout";
