@@ -186,7 +186,7 @@ public class SlideInMenuPage extends Page implements View.OnClickListener {
         Animation.RELATIVE_TO_PARENT, 1,
         Animation.RELATIVE_TO_PARENT, 0);
     translateAnim.setDuration(getAnimationDuration());
-    translateAnim.setInterpolator(new DecelerateInterpolator());
+    translateAnim.setInterpolator(new DecelerateInterpolator(1.5f));
 
     mMenuItemContainer.startAnimation(translateAnim);
 
@@ -203,7 +203,7 @@ public class SlideInMenuPage extends Page implements View.OnClickListener {
         Animation.RELATIVE_TO_PARENT, 0,
         Animation.RELATIVE_TO_PARENT, 1);
     anim.setDuration(getAnimationDuration());
-    anim.setInterpolator(new DecelerateInterpolator());
+    anim.setInterpolator(new DecelerateInterpolator(1.5f));
     mMenuItemContainer.startAnimation(anim);
 
     mViewSemiTransparentBackground.animate().alpha(0).setDuration(getAnimationDuration()).start();
