@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:padding="12dp"
+  >
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="This page demonstrates how easy to implement a TabsPage by inheriting PaginizeContrib's BaseTabsPage."
+    android:textColor="@color/primary_text"
+    />
+
+  <Button
+    android:id="@+id/btn_show_base_page"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Show BasePage"
+    android:layout_marginTop="12dp"
+    />
+</LinearLayout>

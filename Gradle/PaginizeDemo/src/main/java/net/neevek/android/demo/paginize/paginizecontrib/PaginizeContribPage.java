@@ -16,10 +16,9 @@ import net.neevek.android.lib.paginizecontrib.page.SlideInMenuPage;
 /**
  * Created by neevek on 14/01/2017.
  */
-@InsertPageLayout(value = R.layout.page_paginize_contrib_test, parent = R.id.paginize_contrib_layout_content_container)
+@InsertPageLayout(value = R.layout.page_paginize_contrib_test_base_page, parent = R.id.paginize_contrib_layout_content_container)
 public class PaginizeContribPage extends BasePage implements View.OnClickListener {
   @ListenerDefs({
-      @SetListeners(view = R.id.btn_show_base_page, listenerTypes = View.OnClickListener.class),
       @SetListeners(view = R.id.btn_show_option_menu_page, listenerTypes = View.OnClickListener.class),
       @SetListeners(view = R.id.btn_show_slide_in_menu_page, listenerTypes = View.OnClickListener.class),
   })
@@ -30,9 +29,9 @@ public class PaginizeContribPage extends BasePage implements View.OnClickListene
     setMenu(R.menu.menu_main);
     postDelayed(new Runnable() {
       public void run() {
-        showErrorView("Loading failed", null, true, "Retry");
+        showErrorView("This demonstrates use of showErrorView()", null, true, "Retry");
       }
-    }, 2000);
+    }, 1000);
   }
 
   @Override
@@ -42,15 +41,12 @@ public class PaginizeContribPage extends BasePage implements View.OnClickListene
       public void run() {
         showContentView();
       }
-    }, 2000);
+    }, 1000);
   }
 
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
-      case R.id.btn_show_base_page:
-        Toast.makeText(getContext(), "Stop here!", Toast.LENGTH_SHORT).show();
-        break;
       case R.id.btn_show_option_menu_page:
         new OptionMenuPage(getContext())
             .addOptionMenuItem("Option1")

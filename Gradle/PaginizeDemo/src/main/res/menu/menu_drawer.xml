@@ -3,7 +3,10 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <group
       android:checkableBehavior="single">
-
+        <item
+          android:id="@+id/mi_contrib_page"
+          android:title="PaginizeContrib Page"
+          />
         <item
           android:id="@+id/mi_main_tab_page"
           android:title="Main Tab Page"/>
@@ -20,10 +23,6 @@
         <item
           android:id="@+id/mi_custom_page"
           android:title="Custom Page"
-          />
-        <item
-          android:id="@+id/mi_contrib_page"
-          android:title="PaginizeContrib Page"
           />
     </group>
 </menu>

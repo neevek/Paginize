@@ -12,6 +12,9 @@
   <color name="icons">#FFFFFF</color>
   <color name="divider">#BDBDBD</color>
 
+  <color name="button_text_normal">#aaaaaa</color>
+  <color name="button_text_selected">#ffffff</color>
+
   <color name="window_background">#FFf</color>
 
   <drawable name="drawer_menu_item_pressed">#cdcdcd</drawable>

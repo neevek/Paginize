@@ -50,57 +50,51 @@
           />
 
         <Button
-          android:id="@+id/btn_swipeable_tab_page"
-          android:layout_width="wrap_content"
+          android:id="@+id/btn_contrib_page"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:minWidth="300dp"
-          android:text="Swipeable Tab Page"
+          android:text="PaginizeContrib Page"
+          android:textColor="@color/primary_text"
           android:layout_marginTop="10dp"
+          />
+
+        <Button
+          android:id="@+id/btn_swipeable_tab_page"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Swipeable Tab Page"
           android:textColor="@color/primary_text"
           />
 
         <Button
           android:id="@+id/btn_simple_tab_page"
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:minWidth="300dp"
           android:text="Simple Tab Page"
           android:textColor="@color/primary_text"
           />
 
         <Button
           android:id="@+id/btn_list_page"
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:minWidth="300dp"
           android:text="List Page"
           android:textColor="@color/primary_text"
           />
 
         <Button
           android:id="@+id/btn_cta_page"
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:minWidth="300dp"
           android:text="Custom Transition Animation Page"
           android:textColor="@color/primary_text"
           />
 
         <Button
           android:id="@+id/btn_custom_page"
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:minWidth="300dp"
           android:text="Custom Page"
-          android:textColor="@color/primary_text"
-          />
-
-        <Button
-          android:id="@+id/btn_contrib_page"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:minWidth="300dp"
-          android:text="PaginizeContrib Page"
           android:textColor="@color/primary_text"
           />
       </LinearLayout>
