@@ -15,10 +15,15 @@ Paginize is a light-weight application framework for Android. It was designed to
 
 Installation
 ============
+
 ```
-dependencies {
-  compile 'net.neevek.android:paginize:0.6.12'
-}
+compile 'net.neevek.android:paginize:0.6.13'
+```
+
+To to make your life easier, some useful implementations are provided, the following line is not required if you are not planning to use it. See the demo for details.
+
+```
+compile 'net.neevek.android:paginize-contrib:0.0.1'
 ```
 
 Documentation
