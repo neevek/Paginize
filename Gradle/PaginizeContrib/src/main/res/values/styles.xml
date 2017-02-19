@@ -4,8 +4,6 @@
   </style>
 
   <style name="Theme.PaginizeContrib.Button" parent="@style/Widget.AppCompat.Button.Small">
-    <item name="android:minWidth">0dp</item>
-    <item name="android:minHeight">0dp</item>
     <item name="android:paddingLeft">12dp</item>
     <item name="android:paddingRight">12dp</item>
     <item name="android:paddingTop">8dp</item>
