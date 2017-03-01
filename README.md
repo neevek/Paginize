@@ -20,7 +20,8 @@ Installation
 compile 'net.neevek.android:paginize:0.6.13'
 ```
 
-To to make your life easier, some useful implementations are provided, the following line is not required if you are not planning to use it. See the demo for details.
+To to make your life easier, some useful implementations(`BasePage`、`OptionMenuPage`, etc.) are provided, include the following dependency to use it.
+The following dependency is not required to use Paginize itself. See the demo for details.
 
 ```
 compile 'net.neevek.android:paginize-contrib:0.0.1'
