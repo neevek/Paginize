@@ -1,16 +1,19 @@
 package net.neevek.android.lib.paginizecontrib.util;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.MenuRes;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import net.neevek.android.lib.paginizecontrib.R;
+
+import androidx.annotation.MenuRes;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by neevek on 8/13/16.
  */
 public class ToolbarHelper {
+  @SuppressLint("ResourceType")
   public static void setupMenu(Toolbar toolbar,
                                @MenuRes int menuResId,
                                Toolbar.OnMenuItemClickListener listener) {

@@ -3,13 +3,14 @@ package net.neevek.android.lib.paginize;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Window;
 
 import net.neevek.android.lib.paginize.annotation.InjectPageAnimator;
 import net.neevek.android.lib.paginize.exception.InjectFailedException;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Copyright (c) 2015 neevek <i@neevek.net>

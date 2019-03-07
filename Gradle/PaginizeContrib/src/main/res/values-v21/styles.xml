@@ -2,6 +2,6 @@
 <resources>
   <style name="Theme.PaginizeContrib" parent="Base.Theme.PaginizeContrib">
     <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    <item name="android:statusBarColor">@android:color/transparent</item>
+    <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
   </style>
 </resources>

@@ -1,7 +1,6 @@
 package net.neevek.android.lib.paginizecontrib.page;
 
 import android.content.res.Configuration;
-import android.support.v4.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,8 @@ import net.neevek.android.lib.paginize.annotation.PageLayoutName;
 import net.neevek.android.lib.paginizecontrib.P;
 import net.neevek.android.lib.paginizecontrib.R;
 import net.neevek.android.lib.paginizecontrib.util.Util;
+
+import androidx.core.util.Pair;
 
 /**
  * Created by neevek on 08/01/2017.

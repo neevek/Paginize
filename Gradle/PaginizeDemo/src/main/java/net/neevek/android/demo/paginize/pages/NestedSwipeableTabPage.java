@@ -1,7 +1,8 @@
 package net.neevek.android.demo.paginize.pages;
 
-import android.support.design.widget.TabLayout;
 import android.util.Log;
+
+import com.google.android.material.tabs.TabLayout;
 
 import net.neevek.android.demo.paginize.R;
 import net.neevek.android.lib.paginize.ViewPagerInnerPage;

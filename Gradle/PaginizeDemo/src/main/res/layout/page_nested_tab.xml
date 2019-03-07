@@ -7,7 +7,7 @@
   android:orientation="vertical"
   >
 
-  <android.support.design.widget.TabLayout
+  <com.google.android.material.tabs.TabLayout
     android:id="@+id/layout_tab_container"
     android:layout_width="match_parent"
     android:layout_height="36dp"

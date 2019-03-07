@@ -8,13 +8,14 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.LinearLayout;
 
 import net.neevek.android.demo.paginize.R;
+
+import androidx.core.view.ViewCompat;
 
 /**
  * A custom LinearLayout that draws colorPrimaryDark for the status bar

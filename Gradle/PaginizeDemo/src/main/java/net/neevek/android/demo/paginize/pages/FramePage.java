@@ -3,9 +3,6 @@ package net.neevek.android.demo.paginize.pages;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.MenuRes;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
@@ -22,6 +19,10 @@ import net.neevek.android.lib.paginize.Page;
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.MenuRes;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by neevek on 8/6/16.

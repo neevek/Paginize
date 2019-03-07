@@ -3,7 +3,6 @@ package net.neevek.android.lib.paginizecontrib.page;
 import android.animation.ObjectAnimator;
 import android.content.res.Configuration;
 import android.os.Build;
-import android.support.v4.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import net.neevek.android.lib.paginize.annotation.PageLayoutName;
 import net.neevek.android.lib.paginizecontrib.P;
 import net.neevek.android.lib.paginizecontrib.R;
 import net.neevek.android.lib.paginizecontrib.util.Util;
+
+import androidx.core.util.Pair;
 
 /**
  * Created by neevek on 08/01/2017.
@@ -143,7 +144,7 @@ public class OptionMenuPage extends Page implements View.OnClickListener {
     button.setTextColor(getResources().getColor(R.color.paginize_contrib_primary_text));
     button.setTextSize(ITEM_TEXT_SIZE);
     button.setText(title);
-    button.setTag(new Pair<Integer, String>(mMenuItemContainer.getChildCount(), title));
+    button.setTag(new Pair<>(mMenuItemContainer.getChildCount(), title));
     button.setOnClickListener(this);
     return button;
   }

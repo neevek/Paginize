@@ -1,6 +1,5 @@
 package net.neevek.android.demo.paginize.pages;
 
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +11,8 @@ import net.neevek.android.lib.paginize.ViewPagerPage;
 import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutResId;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
+
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by neevek on 8/13/16.

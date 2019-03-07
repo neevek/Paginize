@@ -21,7 +21,7 @@
     <item name="colorControlNormal">@color/paginize_contrib_light_gray</item>
 
     <item name="android:windowBackground">@color/paginize_contrib_window_background</item>
-    <item name="android:windowActionModeOverlay">true</item>
+    <!--<item name="android:windowActionModeOverlay">true</item>-->
 
     <item name="android:buttonStyle">@style/Theme.PaginizeContrib.Button</item>
   </style>

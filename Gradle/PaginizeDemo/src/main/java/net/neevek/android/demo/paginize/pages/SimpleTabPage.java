@@ -1,9 +1,9 @@
 package net.neevek.android.demo.paginize.pages;
 
-import android.support.design.widget.TabLayout;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+
+import com.google.android.material.tabs.TabLayout;
 
 import net.neevek.android.demo.paginize.R;
 import net.neevek.android.demo.paginize.util.ToolbarHelper;
@@ -13,6 +13,8 @@ import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.annotation.InjectView;
 import net.neevek.android.lib.paginize.annotation.InnerPageContainerLayoutResId;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
+
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by neevek on 16/8/25.

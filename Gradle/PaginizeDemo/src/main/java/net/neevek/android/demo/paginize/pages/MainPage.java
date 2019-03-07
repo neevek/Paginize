@@ -1,12 +1,6 @@
 package net.neevek.android.demo.paginize.pages;
 
 import android.content.DialogInterface;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.navigation.NavigationView;
 
 import net.neevek.android.demo.paginize.R;
 import net.neevek.android.demo.paginize.paginizecontrib.PaginizeContribMainPage;
@@ -25,6 +21,12 @@ import net.neevek.android.lib.paginize.annotation.ListenerDefs;
 import net.neevek.android.lib.paginize.annotation.ListenerMarker;
 import net.neevek.android.lib.paginize.annotation.PageLayout;
 import net.neevek.android.lib.paginize.annotation.SetListeners;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 /**
  * Created by neevek on 3/16/14.

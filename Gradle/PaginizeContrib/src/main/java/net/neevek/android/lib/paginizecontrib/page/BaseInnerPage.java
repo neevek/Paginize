@@ -4,10 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Looper;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.MenuRes;
-import android.support.annotation.StringRes;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
@@ -26,6 +22,11 @@ import net.neevek.android.lib.paginize.annotation.PageLayoutName;
 import net.neevek.android.lib.paginizecontrib.P;
 import net.neevek.android.lib.paginizecontrib.R;
 import net.neevek.android.lib.paginizecontrib.util.ToolbarHelper;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.MenuRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by neevek on 07/01/2017.

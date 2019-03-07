@@ -1,14 +1,11 @@
 package net.neevek.android.lib.paginizecontrib.page;
 
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.MenuRes;
-import android.support.annotation.StringRes;
-import android.support.design.widget.TabLayout;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+
+import com.google.android.material.tabs.TabLayout;
 
 import net.neevek.android.lib.paginize.PageActivity;
 import net.neevek.android.lib.paginize.ViewPagerPage;
@@ -18,6 +15,11 @@ import net.neevek.android.lib.paginize.annotation.PageLayoutName;
 import net.neevek.android.lib.paginizecontrib.P;
 import net.neevek.android.lib.paginizecontrib.R;
 import net.neevek.android.lib.paginizecontrib.util.ToolbarHelper;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.MenuRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by neevek on 08/01/2017.

@@ -2,10 +2,6 @@ package net.neevek.android.demo.paginize.pages;
 
 import android.app.WallpaperManager;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +17,11 @@ import net.neevek.android.lib.paginize.annotation.PageLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by neevek on 3/16/14.
